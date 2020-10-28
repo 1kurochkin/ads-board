@@ -1,0 +1,19 @@
+.modalWindow {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, .7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalWindow__active {
+    display: flex;
+}
+
+.modalWindow__popupBox {
+    background-color: white;
+    padding: 30px 60px;
+}
