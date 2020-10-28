@@ -1,0 +1,23 @@
+.authorization-popupBox {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.authorization-popupBox__title {
+
+}
+
+.authorization-popupBox__inputs-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.authorization-popupBox__inputs-wrapper div:first-of-type{
+    margin-bottom: 10px;
+}
+
+.authorization-popupBox__btn {
+    width: 50%;
+}
