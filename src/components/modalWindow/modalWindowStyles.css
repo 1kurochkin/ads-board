@@ -1,16 +1,21 @@
 .modalWindow {
-    position: absolute;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
     width: 100%;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, .7);
-    display: none;
-    justify-content: center;
+    height: 100%;
+    background-color: rgba(0,0,11, .6);
     align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
 }
 
 .modalWindow__active {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
 }
 
 .modalWindow__popupBox {
