@@ -1,0 +1,35 @@
+.select {
+    position: relative;
+}
+
+.select__current {
+}
+
+.select__current-input {
+    padding-right: 25px;
+}
+
+.select__current-arrow {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+}
+
+.select__items {
+    /*border: 1px solid grey;*/
+    position: absolute;
+    z-index: 999;
+    max-height: 0;
+    width: 100%;
+    overflow-y: hidden;
+    background-color: #FFFFFF;
+    transition: all 0.2s ease-out;
+    border: 1px solid grey;
+    border-top: unset;
+}
+
+.select__items-active {
+    max-height: 100vh;
+    overflow-y: visible;
+}
