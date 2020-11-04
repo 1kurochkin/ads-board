@@ -8,8 +8,7 @@ const Header = (props: any) => {
 
   const linkConfigs = [
       {path: "/housing", label: "Недвижимость"},
-      {path: "/job", label: "Работа"},
-      {path: "/trading", label: "Купить или Продать"},
+      {path: "/job", label: "Работа"}
   ]
 
   return (
