@@ -9,6 +9,7 @@ import {
 import {getIsCorrectAuthDataSelector, getIsRegistrationSelector} from "../../../redux/reducers/authorizationState/authorizationStateSelectors";
 import {getIsSendingDataSelector} from "../../../redux/reducers/mainState/mainStateSelectors";
 import { AuthorizationData } from '../../../api/testAPI';
+import Button from "../../button/button";
 
 type loginOrPassOrNameTypes = "password" | "login" | "name" | string
 
@@ -152,13 +153,6 @@ const AuthorizationPopupBox = (props: PropsType) => {
     }
 
     //Функция возращает кнопку для отображения в зависимости от условия
-    const getBtnByIsExistUserForSend = () => !isSendingData ?
-        <div onClick={onClickHandler} className="authorization-popupBox__btn btn">
-            {!isRegistration ? "Войти" : "Зарегестрироваться"}
-        </div> : <div className="authorization-popupBox__btn btn">Отправка...</div>
-
-
-    //Функция возращает кнопку для отображения в зависимости от условия
     const getBtnByIsExistUserForSwitch = () => {
         return <span onClick={() => setIsRegistration(!isRegistration)} className={"authorization-popupBox__reg-btn"}>
             {isRegistration ? "Войти" : "Зарегестрироваться" }
@@ -179,7 +173,8 @@ const AuthorizationPopupBox = (props: PropsType) => {
                 }) }
             </div>
             {!isCorrectAuthData && !isRegistration && <h4>Введённые данные не верны</h4>}
-            {getBtnByIsExistUserForSend()}
+            <Button onClickHandler={onClickHandler} label={!isRegistration ? "Войти" : "Зарегестрироваться"}
+                    isDisabled={isSendingData} className={"authorization-popupBox__btn"}/>
             {getBtnByIsExistUserForSwitch()}
         </div>
     );
