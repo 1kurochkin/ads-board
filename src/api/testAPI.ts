@@ -51,15 +51,21 @@ export class testAPI {
     }
 
     // ------SEARCH-BOX-----//
-    static getSubwayStations = (data: AuthorizationData): Promise<Response> => {
-        console.log(data, "getSubwayStations")
+    static getSubwayStations = (): Promise<Response> => {
+        console.log("getSubwayStations")
         return fetch(`${testAPI.baseUrl}subwayStations.json`)
+    }
+
+    static getAnnouncementsByFilters = (page: number, name?: string, category?: string| number, subway?: string| number): Promise<Response> => {
+        const path = `getAnnouncementsByFilters?page=${page}&category=${category}&name=${name}&subway=${subway}`
+        console.log(page, category, name, subway, "getAnnouncementsByFilters", path)
+        return fetch(`${testAPI.baseUrl}announcements.json`)
     }
 
     //---REQUEST-FOR-SEARCH-BOX/FEED-PAGE/HOUSING/JOB/TRADING---//???
     static getAnnouncementsByCategoryAndName = (page: number, name: string, category: GetAnnouncementsCategoryType): Promise<Response> => {
-        console.log(page, category, name, "getAnnouncementsByCategoryAndName")
         const path = `getAnnouncementsByCategoryAndName?page=${page}&category=${category}&name=${name}`
+        console.log(page, category, name, "getAnnouncementsByCategoryAndName", path)
         return fetch(`${testAPI.baseUrl}announcements.json`)
     }
 
