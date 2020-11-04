@@ -1,4 +1,3 @@
-import {LOCATION_CHANGE} from "connected-react-router";
 import {MainStateActionTypes} from "./mainStateActionCreators";
 
 export const SET_IS_SENDING_DATA = "SET_IS_SENDING_DATA"
