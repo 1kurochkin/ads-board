@@ -8,6 +8,7 @@ const Select = (props: any) => {
         selectItems = [],
         placeHolder,
         onChangeHandler,
+        onChangeHandlerSelectItem,
         value,
     } = props
 
@@ -16,14 +17,14 @@ const Select = (props: any) => {
     const outsideClickHandler = () => isActive && setIsActive(false)
     useOutsideClick(ref, outsideClickHandler)
 
-    const toggleIsActive = () => {
-        setIsActive(prevIsActive => !prevIsActive)
+    const toggleIsActive: (boolean?: any) => void = (boolean:boolean | null = null) => {
+        setIsActive(prevIsActive => boolean !== null ? boolean : !prevIsActive)
     }
 
     return (
         <div ref={ref} className={"select"}>
             <div onClick={toggleIsActive} className="select__current">
-                <input onChange={onChangeHandler}
+                <input readOnly={true} onChange={onChangeHandler}
                        placeholder={placeHolder}
                        className={"select__current-input"}
                        value={value} type="text"/>
@@ -31,7 +32,7 @@ const Select = (props: any) => {
             </div>
             <div className={`select__items ${isActive && "select__items-active"}`}>
                 {selectItems.map((selectItem: any) =>
-                    <SelectItem {...selectItem} onChangeHandler={() => console.log("CHANGE")}/>)}
+                    <SelectItem {...selectItem} onChangeHandler={(event:any) => onChangeHandlerSelectItem(selectItem, toggleIsActive)}/>)}
             </div>
         </div>
     );
