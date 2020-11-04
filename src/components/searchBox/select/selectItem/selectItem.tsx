@@ -15,7 +15,7 @@ const SelectItem = (props: PropsType) => {
     return (
         <div onClick={onChangeHandler} className={`selectItem ${className}`}>
             <div className="selectItem__label">{label}</div>
-            <input checked={isActive} type="radio" className="selectItem__checkBox"/>
+            {/*<input checked={isActive} type="radio" className="selectItem__checkBox"/>*/}
         </div>
     );
 }
