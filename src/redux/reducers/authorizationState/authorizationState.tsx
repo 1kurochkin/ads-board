@@ -1,7 +1,6 @@
-import {LOCATION_CHANGE} from "connected-react-router";
 import {AuthorizationStateActionTypes} from "./authorizationStateActionCreators";
 
-export const SET_IS_EXIST_USER = "SET_IS_EXIST_USER"
+export const SET_IS_REGISTRATION = "SET_IS_REGISTRATION"
 export const SET_IS_CORRECT_AUTH_DATA = "SET_IS_CORRECT_AUTH_DATA"
 export const SET_IS_AUTH = "SET_IS_AUTH"
 
@@ -10,7 +9,7 @@ const setItemToLocalStorage = (feild:string, value:any) => localStorage.setItem(
 
 type initialStateType = typeof initialState
 const initialState = {
-    isExistUser: true,
+    isRegistration: false,
     isCorrectAuthData: true,
     isAuth: () => getItemFromLocalStorage("isAuth") !== null
 }
@@ -20,9 +19,9 @@ export const authorizationStateReducer = (state = initialState, action : Authori
     const { value } = payload || {}
 
     switch (type) {
-        case SET_IS_EXIST_USER :
-            console.log("SET_IS_EXIST_USER", value)
-            return {...state, isExistUser: value}
+        case SET_IS_REGISTRATION :
+            console.log("SET_IS_REGISTRATION", value)
+            return {...state, isRegistration: value}
         case SET_IS_CORRECT_AUTH_DATA :
             console.log("SET_IS_CORRECT_AUTH_DATA", value)
             return {...state, isCorrectAuthData: value}

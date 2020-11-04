@@ -5,7 +5,8 @@
 }
 
 .authorization-popupBox__title {
-
+    font-size: 25px;
+    margin-bottom: 15px;
 }
 
 .authorization-popupBox__inputs-wrapper {
@@ -14,10 +15,12 @@
     margin-bottom: 30px;
 }
 
-.authorization-popupBox__inputs-wrapper div:first-of-type{
+.authorization-popupBox__inputs-wrapper div{
     margin-bottom: 10px;
 }
 
-.authorization-popupBox__btn {
-    width: 50%;
+.authorization-popupBox__reg-btn {
+    margin-top: 10px;
+    color: blue;
+    text-decoration: underline;
 }

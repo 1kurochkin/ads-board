@@ -1,9 +1,9 @@
-import {SET_IS_AUTH, SET_IS_CORRECT_AUTH_DATA, SET_IS_EXIST_USER} from "./authorizationState";
+import {SET_IS_AUTH, SET_IS_CORRECT_AUTH_DATA, SET_IS_REGISTRATION} from "./authorizationState";
 
-export type AuthorizationStateActionTypes  = SetIsExistUserACType | SetIsAuthACType
+export type AuthorizationStateActionTypes  = SetIsRegistrationACType | SetIsAuthACType | SetIsCorrectAuthDataACType
 
-export type SetIsExistUserACType = {
-    type: typeof SET_IS_EXIST_USER
+export type SetIsRegistrationACType = {
+    type: typeof SET_IS_REGISTRATION
     payload : { value: boolean }
 }
 export type SetIsAuthACType = {
@@ -15,7 +15,6 @@ export type SetIsCorrectAuthDataACType = {
     payload : { value: boolean }
 }
 
-
-export const setIsExistUserAC = (value:boolean):SetIsExistUserACType => ({ type: SET_IS_EXIST_USER, payload: {value} })
+export const setIsRegistrationAC = (value:boolean):SetIsRegistrationACType => ({ type: SET_IS_REGISTRATION, payload: {value} })
 export const setIsCorrectAuthDataAC = (value:boolean):SetIsCorrectAuthDataACType => ({ type: SET_IS_CORRECT_AUTH_DATA, payload: {value} })
 export const setIsAuthAC = (value:boolean) => ({ type: SET_IS_AUTH, payload: {value} })
