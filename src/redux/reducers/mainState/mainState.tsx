@@ -1,5 +1,9 @@
 import {MainStateActionTypes} from "./mainStateActionCreators";
 
+export const getItemFromLocalStorage = (feild:string) => localStorage.getItem(feild)
+export const setItemToLocalStorage = (feild:string, value:any) => localStorage.setItem(feild, value)
+export const clearLocalStorage = () => localStorage.clear()
+
 export const SET_IS_SENDING_DATA = "SET_IS_SENDING_DATA"
 
 type initialStateType = typeof initialState
