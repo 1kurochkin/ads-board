@@ -1,0 +1,29 @@
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 40px;
+    border-top: 2px solid black;
+}
+
+.footer__navigation-wrapper {
+    display: flex;
+    margin-left: 50px;
+}
+
+.footer__navigation-link {
+    font-weight: bold;
+    font-size: 16px;
+    border: 1px solid grey;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.footer__navigation-link:hover {
+    background-color: beige;
+}
+
+.footer__navigation-link:not(:first-of-type) {
+    margin-left: 10px;
+}
