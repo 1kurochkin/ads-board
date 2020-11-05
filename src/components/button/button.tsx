@@ -2,7 +2,7 @@ import React from 'react';
 import "./buttonStyles.css"
 
 type ButtonPropsType = {
-    onClickHandler: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void)
+    onClickHandler?: ((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void)
     label: string
     isDisabled?: boolean
     className?: string
