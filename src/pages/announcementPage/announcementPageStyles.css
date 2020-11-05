@@ -1,0 +1,27 @@
+.announcementPage {
+
+}
+.announcementPage__container {}
+.announcementPage__arrowBack-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.announcementPage__photoAndInfo-wrapper {
+    display: flex;
+}
+
+.announcementPage__photo-slider {
+    width: 630px;
+    height: 477px;
+}
+.announcementPage__creationDate {}
+.announcementPage__name {}
+.announcementPage__info-wrapper {}
+.announcementPage__info-inner-wrapper {}
+.announcementPage__info-price {}
+.announcementPage__info-location {}
+.announcementPage__info-inner-wrapper {}
+.announcementPage__info-name {}
+.announcementPage__info-phone {}
+.announcementPage__description {}
