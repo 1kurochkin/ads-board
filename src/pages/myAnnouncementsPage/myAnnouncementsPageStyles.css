@@ -1,0 +1,19 @@
+.myAnnouncements__item {
+    display: flex;
+    justify-content: space-around;
+}
+
+.myAnnouncements__item .btn {
+    align-self: center;
+}
+
+.myAnnouncements__btn-up {
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+    opacity: 0.4;
+}
+
+.myAnnouncements__btn-up:hover {
+    opacity: 1;
+}
