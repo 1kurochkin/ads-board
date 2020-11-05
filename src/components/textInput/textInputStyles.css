@@ -1,3 +1,13 @@
+.textInput {
+    display: flex;
+    flex-direction: column;
+}
+
+.textInput__alert label {
+    color: red;
+    font-weight: bold;
+}
+
 .textInput__alert input {
     border: 1px solid red;
 }
