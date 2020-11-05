@@ -1,4 +1,6 @@
 // ------AUTHORIZATION-TYPES-----//
+import {SettingsFieldType} from "../redux/reducers/settingsState/settingsState";
+
 export type AuthorizationData = { login: string, password: string }
 export type RegistrationData = { name: string,  login: string, password: string }
 
@@ -47,7 +49,7 @@ export class testAPI {
     static getLastAnnouncements = (): Promise<Response> => {
         console.log("getLastAnnouncements")
         const path = `getMyAnnouncements`
-        return fetch(`${testAPI.baseUrl}announcements.json`)
+        return fetch(`${testAPI.baseUrl}lastAnnouncements.json`)
     }
 
     // ------SEARCH-BOX-----//
@@ -69,10 +71,10 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}announcements.json`)
     }
 
-    // ------GET-ANNOUNCEMENT-BY-ID----//
-    static getAnnouncementById = (id: number): Promise<Response> => {
-        console.log("getAnnouncementById")
-        const path = `getAnnouncementById/${id}`
+    // ------GET-ANNOUNCEMENT-BY-CATEGORY-AND-ID----//
+    static getAnnouncementByCategoryAndId = (category: string, id: number): Promise<Response> => {
+        console.log("getAnnouncementByCategoryAndId", category, id)
+        const path = `getAnnouncementByCategoryAndId/${category}/${id}`
         return fetch(`${testAPI.baseUrl}announcementById.json`)
     }
 
@@ -83,21 +85,32 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}announcements.json`)
     }
 
-    // ------FAVORITE-PAGE---//
-    static getFavoriteAnnouncements = (page: number): Promise<Response> => {
-        console.log("getFavoriteAnnouncements")
-        const path = `getFavoriteAnnouncements?page=${page}`
-        return fetch(`${testAPI.baseUrl}announcements.json`)
-    }
+    // // ------FAVORITE-PAGE---//
+    // static getFavoriteAnnouncements = (page: number): Promise<Response> => {
+    //     console.log("getFavoriteAnnouncements")
+    //     const path = `getFavoriteAnnouncements?page=${page}`
+    //     return fetch(`${testAPI.baseUrl}announcements.json`)
+    // }
 
-    // ------PUT-ADD-OR-DELETE-LIKE----//
-    static putAddOrDeleteLike = (id: number): Promise<Response> => {
-        console.log("putAddOrDeleteLike")
-        const path = `putAddOrDeleteLike/${id}`
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
-    }
+    // // ------PUT-ADD-OR-DELETE-LIKE----//
+    // static putAddOrDeleteLike = (id: number): Promise<Response> => {
+    //     console.log("putAddOrDeleteLike")
+    //     const path = `putAddOrDeleteLike/${id}`
+    //     return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+    // }
 
     // ------SETTINGS-PAGE---//
+
+    static postSettingsByField = (data: any, field: SettingsFieldType): Promise<Response> => {
+        console.log(data, "postSettingsByField")
+        switch (field) {
+            case "avatar": return testAPI.postSettingsAvatar(data)
+            case "name": return testAPI.postSettingsName(data)
+            case "phone": return testAPI.postSettingsPhone(data)
+            case "login": return testAPI.postSettingsLogin(data)
+            default: return testAPI.postSettingsAvatar(data)
+        }
+    }
     static postSettingsAvatar = (data: PostSettingsAvatarData): Promise<Response> => {
         console.log(data, "postSettingsAvatar")
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
@@ -108,8 +121,8 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
 
-    static postSettingsEmail = (data: PostSettingsEmailData): Promise<Response> => {
-        console.log(data, "postSettingsEmail")
+    static postSettingsLogin = (data: PostSettingsEmailData): Promise<Response> => {
+        console.log(data, "postSettingsLogin")
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
 
@@ -118,8 +131,24 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
 
-    static postSettingsNewPassword = (data: PostSettingsNewPasswordData): Promise<Response> => {
-        console.log(data, "postSettingsNewPassword")
+    static postLogout = (): Promise<Response> => {
+        console.log("postLogout")
+        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+    }
+
+    static postDelete = (): Promise<Response> => {
+        console.log("postDelete")
+        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+    }
+
+    // static postSettingsNewPassword = (data: PostSettingsNewPasswordData): Promise<Response> => {
+    //     console.log(data, "postSettingsNewPassword")
+    //     return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+    // }
+
+    // ------MY-ANNOUNCEMENTS-PAGE---//
+    static postDeleteAnnouncement = (id:number): Promise<Response> => {
+        console.log(id, "postDeleteAnnouncement")
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
 
@@ -129,10 +158,10 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
 
-    // ------POST-MAIL-TO-SUPPORT---//
-    static postMailToSupport = (data: PostMailToSupportDataTypes): Promise<Response> => {
-        console.log(data, "postMailToSupport")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
-    }
+    // // ------POST-MAIL-TO-SUPPORT---//
+    // static postMailToSupport = (data: PostMailToSupportDataTypes): Promise<Response> => {
+    //     console.log(data, "postMailToSupport")
+    //     return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+    // }
 
 }

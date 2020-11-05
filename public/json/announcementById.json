@@ -1,18 +1,17 @@
 {
   "photos": [
     "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
-    "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
-    "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
-    "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg"
+    "https://19.img.avito.st/640x480/9829309419.jpg",
+    "https://03.img.avito.st/640x480/9829309403.jpg",
+    "https://18.img.avito.st/640x480/9829309418.jpg"
   ],
   "name": "Mercedes w240",
   "price": 240,
   "description" : "Оленька, девочка моя, я тебя обожаю, ты моя самая любимая. Прости меня дурака, если я иногда был груб с тобой. Целую в носик свою малышку",
-  "subwayStations": ["Шоссе Энтузиастов", "МЦК Шоссе Энтузиастов"],
+  "subwayStation": "Шоссе Энтузиастов",
   "contacts" : {
     "user": "Дадахон Абдулазизович",
     "phone": "+79253995778"
   },
-  "creationDate": "06.07.2020",
-  "hasLike": true
+  "creationDate": "06.07.2020"
 }
