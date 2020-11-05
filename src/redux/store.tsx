@@ -7,12 +7,18 @@ import { createBrowserHistory } from 'history'
 import {mainStateReducer} from "./reducers/mainState/mainState";
 import { authorizationStateReducer } from "./reducers/authorizationState/authorizationState";
 import {searchBoxStateReducer} from "./reducers/searchBoxState/searchBoxState";
+import {feedStateReducer} from "./reducers/feedState/feedState";
+import { settingsStateReducer } from "./reducers/settingsState/settingsState";
+import {announcementStateReducer} from "./reducers/announcementState/announcementState";
+import {myAnnouncementsStateReducer} from "./reducers/myAnnouncementState/myAnnouncementState";
+
 
 export const history = createBrowserHistory()
 
 const reducers = () => combineReducers({
     router: connectRouter(history),
     mainState: mainStateReducer,
+    feedState: feedStateReducer,
     searchBoxState: searchBoxStateReducer,
     authorizationState: authorizationStateReducer
 })
