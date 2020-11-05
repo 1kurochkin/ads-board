@@ -1,0 +1,27 @@
+.feedPage {
+
+}
+.feedPage__container {
+    padding: 30px 0;
+}
+
+.feedPage__searchBox {
+    margin-bottom: 50px ;
+}
+
+.feedPage__lastAnnouncements {
+    padding: 0 40px;
+
+}
+.feedPage__lastAnnouncements-title {
+    margin-bottom: 30px;
+}
+.feedPage__lastAnnouncements-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.feedPage__lastAnnouncements-content .announcement {
+    margin-bottom: 25px;
+}
