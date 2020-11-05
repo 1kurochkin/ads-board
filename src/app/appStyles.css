@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     border: none;
-    font-size: 16px;
 }
 
 h1, h2, h3, h4, span {
@@ -25,8 +24,16 @@ a {
     text-decoration: unset;
 }
 
+.fullHeightContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
 .container {
-    width: 1200px;
+    height: 100%;
+    width: 980px;
     margin: 0 auto;
     border-right: 1px solid black;
     border-left: 1px solid black;
