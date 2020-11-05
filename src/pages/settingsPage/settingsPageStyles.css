@@ -1,0 +1,45 @@
+
+.settingsPage {
+
+}
+
+.settingsPage__container {
+    display: flex;
+    justify-content: space-around;
+    width: 800px;
+}
+
+.settingsPage__settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.settingsPage__setting {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.settingsPage__setting .btn {
+    margin-left: 20px;
+}
+
+.settingsPage__setting-avatar {
+    cursor: pointer;
+    height: 204px;
+    width: 204px;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.settingsPage__setting-avatar-file {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+.settingsPage__logouOrDel-wrapper .btn {
+    margin-bottom: 20px;
+}
