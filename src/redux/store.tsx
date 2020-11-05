@@ -20,6 +20,9 @@ const reducers = () => combineReducers({
     mainState: mainStateReducer,
     feedState: feedStateReducer,
     searchBoxState: searchBoxStateReducer,
+    announcementState: announcementStateReducer,
+    myAnnouncementsState: myAnnouncementsStateReducer,
+    settingsState: settingsStateReducer,
     authorizationState: authorizationStateReducer
 })
 
