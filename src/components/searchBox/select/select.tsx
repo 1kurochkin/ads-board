@@ -3,11 +3,15 @@ import "./selectStyles.css"
 import SelectItem from "./selectItem/selectItem";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 
+export const initialStateSubway = {id: 0, label: "Станция метро"}
+export const initialStateCategory = {id: 0, label: "Выбор категории"}
+
 const Select = (props: any) => {
     const {
         selectItems = [],
         placeHolder,
         onChangeHandler,
+        onBlurHandler = null,
         onChangeHandlerSelectItem,
         value,
     } = props
@@ -24,7 +28,7 @@ const Select = (props: any) => {
     return (
         <div ref={ref} className={"select"}>
             <div onClick={toggleIsActive} className="select__current">
-                <input readOnly={true} onChange={onChangeHandler}
+                <input onBlur={onBlurHandler} readOnly={true} onChange={onChangeHandler}
                        placeholder={placeHolder}
                        className={"select__current-input"}
                        value={value} type="text"/>
