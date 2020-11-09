@@ -1,0 +1,10 @@
+.btn-up {
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+    opacity: 0.4;
+}
+
+.btn-up:hover {
+    opacity: 1;
+}
