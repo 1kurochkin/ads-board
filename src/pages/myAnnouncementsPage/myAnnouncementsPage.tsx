@@ -14,7 +14,7 @@ import Announcement from "../../components/announcement/announcement";
 import useInfinityScroll from "../../hooks/useInfinityScroll";
 import {setCurrentPageMyAnnouncementReducerAC} from "../../redux/reducers/myAnnouncementState/myAnnouncementStateActionCreators";
 import Button from "../../components/button/button";
-
+import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
 
 const MyAnnouncementsPage = (props: any) => {
 
@@ -64,4 +64,4 @@ const MyAnnouncementsPage = (props: any) => {
     );
 }
 
-export default MyAnnouncementsPage;
+export default withAuthRedirectHoc(MyAnnouncementsPage);
