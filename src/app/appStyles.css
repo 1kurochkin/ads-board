@@ -24,6 +24,10 @@ a {
     text-decoration: unset;
 }
 
+.navLink__active {
+    color: orange;
+}
+
 .fullHeightContent {
     display: flex;
     flex-direction: column;
@@ -32,9 +36,23 @@ a {
 }
 
 .container {
-    height: 100%;
+    flex: 1;
     width: 980px;
     margin: 0 auto;
     border-right: 1px solid black;
     border-left: 1px solid black;
+}
+
+.slider-container {
+    flex: 1;
+    display: flex;
+}
+
+.slider-container .slider-container__slider {
+    width: 20%;
+    border-right: 1px solid black;
+}
+.slider-container .slider-container__content {
+    width: 60%;
+    border-right: 1px solid black;
 }
