@@ -1,33 +1,28 @@
 // ------AUTHORIZATION-TYPES-----//
 import {SettingsFieldType} from "../redux/reducers/settingsState/settingsState";
 
-export type AuthorizationData = { login: string, password: string }
+export type AuthorizationData = { login: string,  password: string }
 export type RegistrationData = { name: string,  login: string, password: string }
 
 // ------CREATE-ANNOUNCEMENT-PAGE---//?
 export type NewAnnouncementData = {
-    categoryId: number,
+    category: number,
     name: string,
     description: string
     photos?: Array<string>,
     price: number,
-    subwayStations: Array<string>,
-    sellerPhone: string
+    subway: string,
+    phone: string
 }
 
-// ------SEARCH-BOX-TYPES-----//???
-export type GetAnnouncementsCategoryType = "all" |  "housing" | "job" | "trading"
+// ------SEARCH-BOX-TYPES-----//
+export type GetAnnouncementsCategoryType = "announcements" |  "housing" | "apartment" | "bunk" | "room" | "job" | "vacancies" | string
 
 // ------SETTINGS-TYPES---//
 export type PostSettingsAvatarData = { avatar: string }
 export type PostSettingsNameData = { name: string }
 export type PostSettingsEmailData = { email: string }
 export type PostSettingsPhoneData = { phone: string }
-export type PostSettingsNewPasswordData = { oldPassword: string, newPassword: string }
-
-// ------POST-MAIL-TO-SUPPORT-TYPES----//
-export type PostMailToSupportDataTypes = { mail: string }
-
 
 export class testAPI {
 
@@ -52,27 +47,33 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}lastAnnouncements.json`)
     }
 
+    // ------GET-USER-INFO-----//
+    static getUserInfo = (): Promise<Response> => {
+        console.log("getUserInfo")
+        return fetch(`${testAPI.baseUrl}userData.json`)
+    }
+
     // ------SEARCH-BOX-----//
     static getSubwayStations = (): Promise<Response> => {
         console.log("getSubwayStations")
         return fetch(`${testAPI.baseUrl}subwayStations.json`)
     }
 
-    static getAnnouncementsByFilters = (page: number, name?: string, category?: string| number, subway?: string| number): Promise<Response> => {
+    static getAnnouncementsByFilters = (page: number, name?: string, category?: string| number, subway?: string | number): Promise<Response> => {
         const path = `getAnnouncementsByFilters?page=${page}&category=${category}&name=${name}&subway=${subway}`
         console.log(page, category, name, subway, "getAnnouncementsByFilters", path)
-        return fetch(`${testAPI.baseUrl}announcements.json`)
+        return fetch(`${testAPI.baseUrl}announcementsByFilter.json`)
     }
 
-    //---REQUEST-FOR-SEARCH-BOX/FEED-PAGE/HOUSING/JOB/TRADING---//???
-    static getAnnouncementsByCategoryAndName = (page: number, name: string, category: GetAnnouncementsCategoryType): Promise<Response> => {
-        const path = `getAnnouncementsByCategoryAndName?page=${page}&category=${category}&name=${name}`
-        console.log(page, category, name, "getAnnouncementsByCategoryAndName", path)
+    //---REQUEST-FOR-SEARCH-BOX/FEED-PAGE/HOUSING/JOB/TRADING---//
+    static getAnnouncementsList = (page: number, category: GetAnnouncementsCategoryType): Promise<Response> => {
+        const path = `getAnnouncementsByCategoryAndName?page=${page}&category=${category}`
+        console.log(page, category, "getAnnouncementsByCategoryAndName", path)
         return fetch(`${testAPI.baseUrl}announcements.json`)
     }
 
     // ------GET-ANNOUNCEMENT-BY-CATEGORY-AND-ID----//
-    static getAnnouncementByCategoryAndId = (category: string, id: number): Promise<Response> => {
+    static getAnnouncementByCategoryAndId = (category: GetAnnouncementsCategoryType, id: number): Promise<Response> => {
         console.log("getAnnouncementByCategoryAndId", category, id)
         const path = `getAnnouncementByCategoryAndId/${category}/${id}`
         return fetch(`${testAPI.baseUrl}announcementById.json`)
@@ -85,19 +86,11 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}announcements.json`)
     }
 
-    // // ------FAVORITE-PAGE---//
-    // static getFavoriteAnnouncements = (page: number): Promise<Response> => {
-    //     console.log("getFavoriteAnnouncements")
-    //     const path = `getFavoriteAnnouncements?page=${page}`
-    //     return fetch(`${testAPI.baseUrl}announcements.json`)
-    // }
+    static postDeleteAnnouncement = (id:number): Promise<Response> => {
+        console.log(id, "postDeleteAnnouncement")
+        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+    }
 
-    // // ------PUT-ADD-OR-DELETE-LIKE----//
-    // static putAddOrDeleteLike = (id: number): Promise<Response> => {
-    //     console.log("putAddOrDeleteLike")
-    //     const path = `putAddOrDeleteLike/${id}`
-    //     return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
-    // }
 
     // ------SETTINGS-PAGE---//
 
@@ -141,27 +134,9 @@ export class testAPI {
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
 
-    // static postSettingsNewPassword = (data: PostSettingsNewPasswordData): Promise<Response> => {
-    //     console.log(data, "postSettingsNewPassword")
-    //     return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
-    // }
-
-    // ------MY-ANNOUNCEMENTS-PAGE---//
-    static postDeleteAnnouncement = (id:number): Promise<Response> => {
-        console.log(id, "postDeleteAnnouncement")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
-    }
-
     // ------CREATE-ANNOUNCEMENT-PAGE---//
     static postNewAnnouncement = (data: NewAnnouncementData): Promise<Response> => {
         console.log(data, "postNewAnnouncement")
         return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
     }
-
-    // // ------POST-MAIL-TO-SUPPORT---//
-    // static postMailToSupport = (data: PostMailToSupportDataTypes): Promise<Response> => {
-    //     console.log(data, "postMailToSupport")
-    //     return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
-    // }
-
 }
