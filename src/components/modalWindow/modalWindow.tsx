@@ -3,6 +3,7 @@ import "./modalWindowStyles.css"
 import useOutsideClick from '../../hooks/useOutsideClick';
 
 type propsTypes = {
+    alertCloseHandler?: Function
     isActiveFromProps?: boolean
     children?: any
     withOpenBtn?: boolean
@@ -11,17 +12,21 @@ type propsTypes = {
 
 const ModalWindow = (props: propsTypes) => {
 
-    const {isActiveFromProps, modal, withOpenBtn = false, children} = props
+    const {isActiveFromProps, modal, withOpenBtn = false, children, alertCloseHandler = () => null} = props
     const ref: Ref<any> = useRef(null)
 
     const [isActive, setIsActive] = useState(false)
 
     useEffect(() => {
       isActiveFromProps && setIsActive(true)
-    }, [])
+    }, [isActiveFromProps])
 
     const outsideClickHandler = () => {
-      isActive && setIsActive(false)
+      isActive && closeModalWindow()
+    }
+    const closeModalWindow = (withAlertClose = true) => {
+        setIsActive(false)
+        withAlertClose && alertCloseHandler()
     }
 
     useOutsideClick(ref, outsideClickHandler)
@@ -30,7 +35,7 @@ const ModalWindow = (props: propsTypes) => {
         <>
             <div className={`modalWindow ${isActive && "modalWindow__active"} `}>
                 <div ref={ref} className="modalWindow__popupBox">
-                    {React.cloneElement(modal, {closeModalWindow: () => setIsActive(false)})}
+                    {React.cloneElement(modal, {closeModalWindow})}
                 </div>
             </div>
             { withOpenBtn && children(() => setIsActive(true)) }

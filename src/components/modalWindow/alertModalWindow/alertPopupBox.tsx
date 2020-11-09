@@ -3,13 +3,13 @@ import "./alertPopupBoxStyles.css"
 import Button from "../../button/button";
 
 export type AlertPopupBoxType = {
-    closeModalWindow?: () => void
+    closeModalWindow?: (boolean:boolean | any) => void
     btnOneConfiguration : {
         btnOneClassName? : string
         btnOneLabel : string
     }
     btnTwoConfiguration : {
-        handler?: Function
+        btnTwoHandler?: Function
         btnTwoLabel : string
         btnTwoClassName? : string
     }
@@ -23,12 +23,12 @@ const AlertPopupBox = (props: AlertPopupBoxType) => {
         closeModalWindow = () => null,
         alertText,
         btnOneConfiguration : {btnOneLabel},
-        btnTwoConfiguration : {handler = () => null, btnTwoLabel}
+        btnTwoConfiguration : {btnTwoHandler = () => null, btnTwoLabel}
     } = props
 
     const onClickBtnTwoHandler = () => {
-        handler()
-        closeModalWindow()
+        btnTwoHandler()
+        closeModalWindow(false)
     }
 
     return (
