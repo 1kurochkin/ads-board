@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import "./settingsPageStyles.css"
 import Header from "../../components/header/header";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,46 +8,40 @@ import {SettingsFieldType} from '../../redux/reducers/settingsState/settingsStat
 import TextInput from "../../components/textInput/textInput";
 import Button from "../../components/button/button";
 import Image from "../../components/image/image";
-import {
-    getAvatarSelector,
-    getLoginSelector,
-    getNameSelector,
-    getPhoneSelector
-} from '../../redux/reducers/settingsState/settingsStateSelectors';
+import {getSettingsFieldValueByFieldSelector} from '../../redux/reducers/settingsState/settingsStateSelectors';
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
+import {setIsValidFormReducerAC, seValueFormReducerAC} from "../../redux/reducers/formState/formStateActionCreators";
+import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState/formStateSelectors";
+import withAuthRedirectHoc from '../../hocs/withAuthRedirectHoc';
 
 const SettingsPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
-    const avatarRedux = useSelector(getAvatarSelector)
-    const nameRedux = useSelector(getNameSelector)
-    const phoneRedux = useSelector(getPhoneSelector)
-    const loginRedux = useSelector(getLoginSelector)
+    const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "settings"))
+    const {avatar, name, phone, login,} = formState
 
-    //-----LOCAL-STATE-----//
-    const [state, setLogin] =
-        useState({
-            avatar: {value: avatarRedux, isValid: true},
-            name: {value: nameRedux, isValid: true},
-            phone: {value: phoneRedux, isValid: true},
-            login: {value: loginRedux, isValid: true}
-        })
+    const settingsState = useSelector( (state) => ({
+        avatar: getSettingsFieldValueByFieldSelector(state, "avatar"),
+        name: getSettingsFieldValueByFieldSelector(state, "name"),
+        phone: getSettingsFieldValueByFieldSelector(state, "phone"),
+        login: getSettingsFieldValueByFieldSelector(state, "login")
+    }) )
+    const settingsStateEntries = Object.entries(settingsState)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
     const postSettingByField = useCallback((data, field) => dispatch(postSettingByFieldThunk(data, field)), [dispatch])
     const logoutUser = useCallback(() => dispatch(postLogoutOrDeleteUser("logout")), [dispatch])
     const deleteUser = useCallback(() => dispatch(postLogoutOrDeleteUser("delete")), [dispatch])
+    const seValueFormReducer = useCallback((value, field) => dispatch(seValueFormReducerAC(value, field, "settings")), [dispatch])
+    const setIsValidFormReducer = useCallback((field) => dispatch(setIsValidFormReducerAC(field, "settings")), [dispatch])
 
-    //Функция - setter, для установки состояния value.
-    const setStateValue = (value: string | ArrayBuffer | null, field: SettingsFieldType) => {
-        console.log("setStateValue", value, field)
-        setLogin((prevState: any) => {
-            const prevFieldState = prevState[field]
-            return {...prevState, [field]: {...prevFieldState, value}}
-        })
-    }
+    //------DID-MOUNT-LIFE-CYCLE-----//
+    useEffect(() => {
+        settingsStateEntries.forEach( ([key, value]) => seValueFormReducer(value, key) )
+    }, [])
 
+    //TODO Создать компонент ImagePicker
     const onChangeFileHandler = (event: any) => {
         const file = event.target.files[0]
         const {name = `uploadUserImg${Date.now()}`} = file
@@ -56,73 +50,32 @@ const SettingsPage = (props: any) => {
         reader.onload = () => {
             const {result} = reader
             const postData = {photo: result, name}
-            setStateValue(result, "avatar")
+            seValueFormReducer(result, "avatar")
             postSettingByField(postData, "avatar")
         }
 
         reader.readAsDataURL(file)
     }
 
-
-    //Функция - setter, для установки состояния isValid.
-    const setStateIsValid = (isValid: boolean, field: SettingsFieldType) => {
-        console.log("setStateIsValid", isValid, field)
-        setLogin((prevState: any) => {
-            const prevFieldState = prevState[field]
-            return {...prevState, [field]: {...prevFieldState, isValid}}
-        })
-    }
-
-    //Функция для проверки валидности значения ввёдного в инпут.
-    const checkIsValid = (value: string, field: SettingsFieldType) => {
-        console.log("checkIsValid", value, field)
-        switch (field) {
-            case "avatar":
-                return true
-            case "name":
-                return !!value.length
-            case "login":
-                return !!value.length
-            case "phone":
-                return !!value.length
-            case "password":
-                return !!value.length
-            case "currentPassword":
-                return !!value.length
-            default:
-                return true
-        }
-    }
-
     //Функция - обработчик события изменеия в инпуте. Проверка на валидность значения в инпуте.
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>, field: SettingsFieldType) => {
         console.log("onChangeHandler", field)
-        // @ts-ignore
-        const {isValid}: any = state[field]
         const {currentTarget: {value}} = event
-        !isValid && checkIsValid(value, field) && setStateIsValid(true, field)
-        setStateValue(value, field)
-    }
-
-    //Функция - обработчик события блур. Проверка на валидность значения в инпуте,
-    // а так-же, если блур в поле логин, то отправка запроса на существование пользователя
-    const onBlurHandler = (event: FocusEvent, field: SettingsFieldType) => {
-        console.log("onBlurHandler", field)
-        // @ts-ignore
-        const {value} = state[field]
-        const isValid = checkIsValid(value, field)
-        setStateIsValid(isValid, field)
+        seValueFormReducer(value, field)
     }
 
     //Функция - обработчик события клик по кнопке отправить или зарегестрироваться
     const onClickHandler = (field: SettingsFieldType) => {
         // @ts-ignore
-        const {isValid, value} = state[field]
+        const {isValid, value} = formState[field]
+        // @ts-ignore
+        const valueFromSettingsState = settingsState[field]
         console.log("onClickHandler", isValid)
         const postData = {[field] : value}
-        isValid && postSettingByField(postData, field)
+        isValid && value !== valueFromSettingsState && postSettingByField(postData, field)
     }
 
+    //TODO Вынести конфиги для всех инпутов в formState!!
     //Функция возращает массив с конфигурацией для полей ввода
     const getInputsConfig = () => {
         return [
@@ -150,8 +103,6 @@ const SettingsPage = (props: any) => {
         ]
     }
 
-    const {avatar, name, phone, login} = state
-
     return (
         <div className={"settingsPage fullHeightContent"}>
             <Header/>
@@ -166,12 +117,12 @@ const SettingsPage = (props: any) => {
                     <div className="settingsPage__logouOrDel-wrapper">
                         <AlertModalWindow openBtnElement={<Button label={"Выйти из аккаунта"}/>}
                                           btnOneConfiguration={{btnOneLabel: "Нет"}}
-                                          btnTwoConfiguration={{btnTwoLabel: "Да", handler:logoutUser }}
+                                          btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:logoutUser }}
                                           alertText={"Выйти из аккаунта?"}/>
 
                         <AlertModalWindow openBtnElement={<Button label={"Удалить аккаунт"}/>}
                                           btnOneConfiguration={{btnOneLabel: "Нет"}}
-                                          btnTwoConfiguration={{btnTwoLabel: "Да", handler:deleteUser }}
+                                          btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:deleteUser }}
                                           alertText={"Удалить аккаунт?"}/>
                     </div>
 
@@ -182,7 +133,7 @@ const SettingsPage = (props: any) => {
                         return (
                             <div className="settingsPage__setting">
                             <TextInput key={field} {...restConfig}
-                                       onBlurHandler={(event: FocusEvent) => onBlurHandler(event, field)}
+                                       onBlurHandler={() => setIsValidFormReducer(field)}
                                        onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
                                 <Button onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
                             </div>
@@ -195,4 +146,4 @@ const SettingsPage = (props: any) => {
     );
 }
 
-export default SettingsPage;
+export default withAuthRedirectHoc(SettingsPage);
