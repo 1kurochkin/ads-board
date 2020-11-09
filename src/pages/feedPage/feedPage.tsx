@@ -1,21 +1,13 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import "./feedPageStyles.css"
 import Header from "../../components/header/header";
 import SearchBox from "../../components/searchBox/searchBox";
 import {useDispatch, useSelector} from "react-redux";
+import {getLastAnnouncementsThunk} from "../../redux/thunks/thunks";
 import {
-    floatingSubCategoriesSelector, getCategoriesDataSelector, getIsFetchingSelector,
-    getSubwayStationsDataSelector
-} from "../../redux/reducers/searchBoxState/searchBoxStateSelectors";
-import {
-    getAnnouncementsByFiltersThunk,
-    getLastAnnouncementsThunk,
-    getSubwayStationsThunk
-} from "../../redux/thunks/thunks";
-import {
-    getLastAnnouncementsSelector,
     getDescriptionSalamRuSelector,
-    getIsFetchingFeedReducerSelector
+    getIsFetchingFeedReducerSelector,
+    getLastAnnouncementsSelector
 } from "../../redux/reducers/feedState/feedStateSelectors";
 import Announcement from "../../components/announcement/announcement";
 import Footer from "../../components/footer/footer";
