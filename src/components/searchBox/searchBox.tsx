@@ -1,46 +1,57 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import "./searchBoxStyles.css";
 import Select from "./select/select";
 import {useDispatch, useSelector} from "react-redux";
-import {getAnnouncementsByFiltersThunk, getSubwayStationsThunk} from "../../redux/thunks/thunks";
-import {
-    floatingSubCategoriesSelector,
-    getCategoriesDataSelector,
-    getIsFetchingSelector,
-    getSubwayStationsDataSelector
-} from "../../redux/reducers/searchBoxState/searchBoxStateSelectors";
+import {getAnnouncementsByFiltersThunk} from "../../redux/thunks/thunks";
 import Button from "../button/button";
+import {
+    getCategoriesDataSelector,
+    getSubwayStationsDataSelector
+} from "../../redux/reducers/mainState/mainStateSelectors";
+import {
+    getIsFetchingSearchReducerSelector,
+    getSearchConfigCategorySelector,
+    getSearchConfigSearchValueSelector,
+    getSearchConfigSubwayStationsSelector
+} from "../../redux/reducers/searchBoxState/searchBoxStateSelectors";
+import {useHistory} from 'react-router-dom';
+import {
+    resetToInitialStateSearchReducerAC,
+    setSearchConfigCategoryAC,
+    setSearchConfigSearchValueAC,
+    setSearchConfigSubwayStationsAC
+} from '../../redux/reducers/searchBoxState/searchBoxStateActionCreators';
 
 const SearchBox = (props: any) => {
 
-    const initialStateSubway = {id: "", label: "Станция метро"}
-    const initialStateCategory = {id: "", label: "Выбор категории"}
-
     const {placeHolder} = props
 
+    //------USE-HISTORY-----//
+    const history = useHistory()
+
     //------MAP-STATE-TO-PROPS-----//
-    const {subwayStationsData, categoriesData, isFetching} = useSelector((state) => ({
-        subwayStationsData: getSubwayStationsDataSelector(state),
-        categoriesData: floatingSubCategoriesSelector(getCategoriesDataSelector(state)),
-        isFetching: getIsFetchingSelector(state),
-    }) )
+    const subwayStationsData = useSelector(getSubwayStationsDataSelector)
+    const categoriesData = useSelector(getCategoriesDataSelector)
+    const isFetching = useSelector(getIsFetchingSearchReducerSelector)
+    const searchConfigCategory = useSelector(getSearchConfigCategorySelector)
+    const searchConfigSubwayStation = useSelector(getSearchConfigSubwayStationsSelector)
+    const searchConfigSearchValue = useSelector(getSearchConfigSearchValueSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
-    const getSubwayStations = useCallback(() => dispatch(getSubwayStationsThunk()), [dispatch])
-    const getAnnouncementsByFilters = useCallback((name, category, subway) => dispatch(getAnnouncementsByFiltersThunk(name, category, subway)), [dispatch])
+    const getAnnouncementsByFilters = useCallback(() => dispatch(getAnnouncementsByFiltersThunk()), [dispatch])
+    const resetToInitialStateSearchReducer = useCallback(() => dispatch(resetToInitialStateSearchReducerAC()), [dispatch])
+    const setSearchConfigCategory = useCallback((category) => dispatch(setSearchConfigCategoryAC(category)), [dispatch])
+    const setSearchConfigSubwayStation = useCallback((station) => dispatch(setSearchConfigSubwayStationsAC(station)), [dispatch])
+    const setSearchConfigSearchValue = useCallback((value) => dispatch(setSearchConfigSearchValueAC(value)), [dispatch])
 
-    const [searchValue, setSearchValue] = useState("")
-    const [{id: subwayId, label: subwayLabel}, setCurrentSubwayStation] = useState(initialStateSubway)
-    const [{id: categoryId, label: categoryLabel}, setCurrentCategory] = useState(initialStateCategory)
+    //-----LOCAL-STATE-----//
+    const [searchValue, setSearchValue] = useState(searchConfigSearchValue)
 
-    useEffect(() => {
-        getSubwayStations()
-    }, [])
 
     const selectItemOnChangeHandler = (field: "category" | "subway", selectItem: any, setIsActiveSelect:Function) => {
-        field === "category" && setCurrentCategory(selectItem)
-        field === "subway" && setCurrentSubwayStation(selectItem)
+        field === "category" && setSearchConfigCategory(selectItem)
+        field === "subway" && setSearchConfigSubwayStation(selectItem)
         setIsActiveSelect(false)
     }
 
@@ -49,27 +60,26 @@ const SearchBox = (props: any) => {
         setSearchValue(value)
     }
 
-    const onClickSearchBtnHandler = () => getAnnouncementsByFilters(searchValue, subwayId, categoryId)
-
-    const onClickResetBtnHandler = () => {
+    const onClickFindBtnHandler = () => {
+        getAnnouncementsByFilters()
+        resetToInitialStateSearchReducer()
         setSearchValue("")
-        setCurrentSubwayStation(initialStateSubway)
-        setCurrentCategory(initialStateCategory)
+        history.push(searchConfigCategory.category)
     }
 
   return (
       <div className="searchBox">
-          <Select onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)} value={subwayLabel} selectItems={subwayStationsData} placeHolder={"Выбор категории"}/>
+          <Select onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)} value={searchConfigSubwayStation.label} selectItems={subwayStationsData} placeHolder={"Выбор категории"}/>
           <div className="searchBox__search">
-              <input onChange={searchOnChangeHandler}
+              <input onBlur={({target: {value}}) => setSearchConfigSearchValue(value)} onChange={searchOnChangeHandler}
                      className={"searchBox__search-input"}
                      value={searchValue} type="text"
                      placeholder={placeHolder}/>
               <div onClick={() => setSearchValue("")} className={"searchBox__search-clear"}>&#10006;</div>
           </div>
-          <Select onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)} value={categoryLabel} selectItems={categoriesData} placeHolder={"Метро"}/>
-          <Button onClickHandler={onClickSearchBtnHandler} label={"Найти"} isDisabled={isFetching}/>
-          <Button onClickHandler={onClickResetBtnHandler} label={"Очистить"} isDisabled={false}/>
+          <Select onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)} value={searchConfigCategory.label} selectItems={categoriesData} placeHolder={"Метро"}/>
+          <Button onClickHandler={onClickFindBtnHandler} label={"Найти"} isDisabled={isFetching}/>
+          <Button onClickHandler={resetToInitialStateSearchReducer} label={"Очистить"} isDisabled={false}/>
       </div>
   );
 }
