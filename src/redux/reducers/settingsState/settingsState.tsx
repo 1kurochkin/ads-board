@@ -1,11 +1,11 @@
 import {getItemFromLocalStorage, setItemToLocalStorage} from "../mainState/mainState";
-
+import defaultAvatar from "../../../pictures/defaultAvatar.jpg"
 export const SET_SETTINGS_IN_LOCAL_STORAGE_BY_FIELD = "SET_SETTINGS_IN_LOCAL_STORAGE_BY_FIELD"
 export const SET_IS_FETCHING_SETTINGS_REDUCER = "SET_IS_FETCHING_SETTINGS_REDUCER"
 
 type initialStateType = typeof initialState
 const initialState = {
-    avatar: () => getItemFromLocalStorage("avatar") || "https://yt3.ggpht.com/a/AATXAJyd2Oyiu7ha6KV-Qbsk4l6X5enCWPS-TOv3Dw=s900-c-k-c0xffffffff-no-rj-mo",
+    avatar: () => getItemFromLocalStorage("avatar") || defaultAvatar,
     name: () => getItemFromLocalStorage("name") || "",
     phone: () => getItemFromLocalStorage("phone") || "",
     login: () => getItemFromLocalStorage("login") || "",
