@@ -1,0 +1,45 @@
+.createAnnouncement__title-error {
+    color: red;
+}
+
+.createAnnouncement {}
+.createAnnouncement__container {}
+.createAnnouncement__category {
+    display: flex;
+}
+.createAnnouncement__category-title {
+    margin-right: 50px;
+}
+.createAnnouncement__params {}
+.createAnnouncement__params-title {}
+
+.createAnnouncement__params-photos {
+    align-items: center;
+    display: flex;
+}
+
+.createAnnouncement__params-photos-label {
+    display: flex;
+}
+
+.createAnnouncement__params-photos-files {
+    display: flex;
+}
+.createAnnouncement__params-photos-files-file {
+    width: 97px;
+    height: 73px;
+}
+.createAnnouncement__params-photos-files-load{
+    width: 97px;
+    height: 73px;
+}
+
+.createAnnouncement__location {
+    display: flex;
+}
+.createAnnouncement__location-title {
+    margin-right: 50px;
+}
+.createAnnouncement__contacts {}
+.createAnnouncement__contacts-title {}
+.createAnnouncement__input {}
