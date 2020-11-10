@@ -22,6 +22,7 @@ import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState
 import {prepareFormStateByPageForSend} from "../../redux/reducers/formState/formState";
 import {getSettingsFieldValueByFieldSelector} from "../../redux/reducers/settingsState/settingsStateSelectors";
 import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
+import ImagePicker from "../../components/imagePicker/imagePicker";
 
 type CreateAnnouncementFieldsType =
     "photos"
@@ -78,21 +79,9 @@ const CreateAnnouncement = (props: any) => {
         setIsActiveSelect(false)
     }
 
-    const onChangeFileHandler = (event: any) => {
-        const file = event.target.files[0]
-        if(file) {
-            const {name = `uploadUserImg${Date.now()}`} = file
-            const reader = new FileReader();
-
-            reader.onload = () => {
-                const {result} = reader
-                const value = photos.value.concat({photo: result, name})
-                seValueFormReducer(value, "photos")
-            }
-
-            reader.readAsDataURL(file)
-        }
-
+    const onLoadImageHandler = (image: any, imageName: string) => {
+        const value = photos.value.concat({photo: image, name: imageName})
+        seValueFormReducer(value, "photos")
     }
 
     //Функция - обработчик события изменеия в инпуте. Проверка на валидность значения в инпуте.
@@ -101,37 +90,6 @@ const CreateAnnouncement = (props: any) => {
         const {currentTarget: {value}} = event
         seValueFormReducer(value, field)
     }
-
-    //Функция - обработчик события блур. Проверка на валидность значения в инпуте,
-    // а так-же, если блур в поле логин, то отправка запроса на существование пользователя
-    // const onBlurHandler = (event: FocusEvent, field: CreateAnnouncementFieldsType) => {
-    //     console.log("onBlurHandler", field)
-    //     setIsValidFormReducer(field)
-    // }
-
-    //Функция для проверки готовности отправки запроса на сервер.
-    // const checkIsReadyToSend = () => {
-    //     console.log("checkIsReadyToSend")
-    //     const stateEntries = Object.entries(state)
-    //     const isValidsArray = stateEntries.map(([field, {value}]) => {
-    //         const isValid = checkIsValid(value, field)
-    //         // console.log(field, isValid, value, "checkIsReadyToSend MAP")
-    //         !isValid && setStateIsValid(false, field)
-    //         return isValid
-    //     })
-    //     // @ts-ignore
-    //     return !isValidsArray.includes(false)
-    // }
-
-    //Функция - обработчик события клик по кнопке отправить или зарегестрироваться
-    // const onClickHandler = () => {
-        // console.log("onClickHandler", checkIsReadyToSend())
-        // if(checkIsReadyToSend()) {
-        //     const postData:NewAnnouncementData = prepareStateForPost()
-        //     postNewAnnouncement(postData)
-        //     console.log("SEND!!!!!!!!!!!!!!!!!!!!", postData)
-        // }
-    // }
 
     //Функция возращает массив с конфигурацией для полей ввода
     const getInputsParamsConfig = () => {
@@ -191,9 +149,8 @@ const CreateAnnouncement = (props: any) => {
                         </div>
                         <div className="createAnnouncement__params-photos-files">
                             {photos.value.map( ({photo}: any) => <Image className={"createAnnouncement__params-photos-files-file"} photo={photo}/> )}
-                            {photos.value.length < 5 && <input multiple={false} accept="image/png, image/jpeg" onChange={onChangeFileHandler}
-                                    type="file"
-                                    className="createAnnouncement__params-photos-files-load"/>}
+                            {photos.value.length < 5 &&
+                            <ImagePicker className={"createAnnouncement__params-photos-files-load"} onLoadHandler={onLoadImageHandler}/>}
                         </div>
                     </div>
                 </div>
