@@ -13,6 +13,7 @@ import AlertModalWindow from "../../components/modalWindow/alertModalWindow/aler
 import {setIsValidFormReducerAC, seValueFormReducerAC} from "../../redux/reducers/formState/formStateActionCreators";
 import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState/formStateSelectors";
 import withAuthRedirectHoc from '../../hocs/withAuthRedirectHoc';
+import ImagePicker from "../../components/imagePicker/imagePicker";
 
 const SettingsPage = (props: any) => {
 
@@ -41,20 +42,10 @@ const SettingsPage = (props: any) => {
         settingsStateEntries.forEach( ([key, value]) => seValueFormReducer(value, key) )
     }, [])
 
-    //TODO Создать компонент ImagePicker
-    const onChangeFileHandler = (event: any) => {
-        const file = event.target.files[0]
-        const {name = `uploadUserImg${Date.now()}`} = file
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            const {result} = reader
-            const postData = {photo: result, name}
-            seValueFormReducer(result, "avatar")
-            postSettingByField(postData, "avatar")
-        }
-
-        reader.readAsDataURL(file)
+    const onLoadImageHandler = (image: any, imageName: string) => {
+        const postData = {photo: image, name: imageName}
+        seValueFormReducer(image, "avatar")
+        postSettingByField(postData, "avatar")
     }
 
     //Функция - обработчик события изменеия в инпуте. Проверка на валидность значения в инпуте.
@@ -111,7 +102,7 @@ const SettingsPage = (props: any) => {
 
                     <div className="settingsPage__setting-avatar">
                         <Image photo={avatar.value}/>
-                        <input onChange={onChangeFileHandler} type="file" className="settingsPage__setting-avatar-file"/>
+                        <ImagePicker onLoadHandler={onLoadImageHandler}/>
                     </div>
 
                     <div className="settingsPage__logouOrDel-wrapper">
