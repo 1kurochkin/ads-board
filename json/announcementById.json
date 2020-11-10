@@ -1,0 +1,17 @@
+{
+  "photos": [
+    "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+    "https://19.img.avito.st/640x480/9829309419.jpg",
+    "https://03.img.avito.st/640x480/9829309403.jpg",
+    "https://18.img.avito.st/640x480/9829309418.jpg"
+  ],
+  "name": "Mercedes w240",
+  "price": 240,
+  "description" : "Lorem ipsum dolor sit amet,consectetur adipisicing elit.Impedit minima perferendis tenetur?Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.Dignissimos fuga, quas quasi quisquam saepe sint.",
+  "subwayStation": "Шоссе Энтузиастов",
+  "contacts" : {
+    "user": "Дадахон Абдулазизович",
+    "phone": "+79253995778"
+  },
+  "creationDate": "06.07.2020"
+}

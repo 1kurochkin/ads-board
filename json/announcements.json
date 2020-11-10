@@ -1,0 +1,105 @@
+{
+  "totalNumOfPages": 1,
+  "announcements": [
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 0,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 1,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 2,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 3,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 4,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 5,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 6,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 7,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 8,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    },
+    {
+      "photo": "https://mensblock.ru/wp-content/uploads/2018/04/e46cc394a3d5a74505fe6745bdb397b1.jpg",
+      "name": "Mercedes w240",
+      "price": 240,
+      "id": 9,
+      "category": "housing",
+      "subwayStations": "Шоссе Энтузиастов",
+      "creationDate": "06.07.2020",
+      "hasLike": false
+    }
+  ]
+}
