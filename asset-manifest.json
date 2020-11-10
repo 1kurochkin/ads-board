@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/ads-board/static/css/main.552ba9d0.chunk.css",
-    "main.js": "/ads-board/static/js/main.3dd5e765.chunk.js",
-    "main.js.map": "/ads-board/static/js/main.3dd5e765.chunk.js.map",
+    "main.js": "/ads-board/static/js/main.e79e8557.chunk.js",
+    "main.js.map": "/ads-board/static/js/main.e79e8557.chunk.js.map",
     "runtime-main.js": "/ads-board/static/js/runtime-main.a68f9f92.js",
     "runtime-main.js.map": "/ads-board/static/js/runtime-main.a68f9f92.js.map",
     "static/js/2.7953e484.chunk.js": "/ads-board/static/js/2.7953e484.chunk.js",
     "static/js/2.7953e484.chunk.js.map": "/ads-board/static/js/2.7953e484.chunk.js.map",
     "index.html": "/ads-board/index.html",
-    "precache-manifest.a20fcd99012db8a2f150124fa2f15aef.js": "/ads-board/precache-manifest.a20fcd99012db8a2f150124fa2f15aef.js",
+    "precache-manifest.df8403d242c06b52e37220bf87a88bf8.js": "/ads-board/precache-manifest.df8403d242c06b52e37220bf87a88bf8.js",
     "service-worker.js": "/ads-board/service-worker.js",
     "static/css/main.552ba9d0.chunk.css.map": "/ads-board/static/css/main.552ba9d0.chunk.css.map",
     "static/js/2.7953e484.chunk.js.LICENSE.txt": "/ads-board/static/js/2.7953e484.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.a68f9f92.js",
     "static/js/2.7953e484.chunk.js",
     "static/css/main.552ba9d0.chunk.css",
-    "static/js/main.3dd5e765.chunk.js"
+    "static/js/main.e79e8557.chunk.js"
   ]
 }
