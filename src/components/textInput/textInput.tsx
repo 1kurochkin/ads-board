@@ -28,8 +28,11 @@ const TextInput = (props: propsTypes) => {
   return (
         <div className={`textInput ${!isValid ? "textInput__alert" : null} ${className}`}>
           <label>{label}</label>
-          <input key={key} onBlur={(event) => onBlurHandler(event)} value={value} type={inputType} placeholder={placeholder}
-                 onChange={(event) => onChangeHandler(event)} />
+          {inputType === "textArea" ?
+              <textarea style={{resize: "none"}} rows={6} className={"form-control"} onChange={(event) => onChangeHandler(event)} placeholder={placeholder}
+                        onBlur={(event) => onBlurHandler(event)} value={value}/> :
+              <input className={"form-control"} key={key} onBlur={(event) => onBlurHandler(event)} value={value} type={inputType} placeholder={placeholder}
+                     onChange={(event) => onChangeHandler(event)} />}
         </div>
   );
 }
