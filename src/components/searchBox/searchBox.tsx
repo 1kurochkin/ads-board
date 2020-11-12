@@ -21,6 +21,7 @@ import {
     setSearchConfigSearchValueAC,
     setSearchConfigSubwayStationsAC
 } from '../../redux/reducers/searchBoxState/searchBoxStateActionCreators';
+import {GET_PATH_SEARCH} from "../../app/App";
 
 const SearchBox = (props: any) => {
 
@@ -64,7 +65,7 @@ const SearchBox = (props: any) => {
     const onClickFindBtnHandler = () => {
         getAnnouncementsByFilters()
         resetToInitialStateSearchReducer()
-        history.push(searchConfigCategory.category)
+        history.push(GET_PATH_SEARCH(searchConfigCategory.category))
     }
 
   return (
