@@ -31,12 +31,16 @@ function Slider(props: SliderPropsTypes) {
 
     return (
         <div className={`slider ${className}`}>
-            {React.Children.map(children, child =>
+                {React.Children.map(children, child =>
                     <div style={transformStyle} className={`slider__page`}>
                         { React.cloneElement(child) }
                     </div>)}
-            {!isFirstSlide() && <div onClick={() => changeSlide("prev")} className="slider__btn slider__btn-prev"/>}
-            {!isLastSlide() && <div onClick={() => changeSlide("next")} className="slider__btn slider__btn-next"/>}
+            {!isFirstSlide() && <div onClick={() => changeSlide("prev")} className="carousel-control carousel-control-prev">
+                <span className="carousel-control-prev-icon"/>
+            </div>}
+            {!isLastSlide() && <div onClick={() => changeSlide("next")} className="carousel-control carousel-control-next">
+                <span className="carousel-control-next-icon"/>
+            </div>}
         </div>
     )
 }

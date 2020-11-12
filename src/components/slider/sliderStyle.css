@@ -12,17 +12,7 @@
   min-width: 100%;
 }
 
-.slider__btn {
-  position: absolute;
-  width: 10%;
-  height: 100%;
-
-  background-color: blue;
-}
-
-.slider__btn-prev {
-  left: 0;
-}
-.slider__btn-next {
-  right: 0;
+.carousel-control:hover {
+    transition: all 0.3s;
+    background-color: rgba(0, 0, 0, 0.4);
 }
