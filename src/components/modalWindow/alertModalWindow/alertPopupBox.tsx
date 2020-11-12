@@ -34,8 +34,11 @@ const AlertPopupBox = (props: AlertPopupBoxType) => {
     return (
         <div className="alertPopupBox">
             <h2 className={"alertPopupBox__title"}>{alertText}</h2>
-            <Button onClickHandler={closeModalWindow} label={btnOneLabel}/>
-            <Button onClickHandler={onClickBtnTwoHandler} label={btnTwoLabel}/>
+            <hr className={"my-4"}/>
+            <div className="d-flex justify-content-between">
+                <Button className={"btn-success col-lg-5"} onClickHandler={closeModalWindow} label={btnOneLabel}/>
+                <Button className={"btn-danger col-lg-5"} onClickHandler={onClickBtnTwoHandler} label={btnTwoLabel}/>
+            </div>
         </div>
     );
 }
