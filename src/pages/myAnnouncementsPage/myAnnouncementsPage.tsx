@@ -50,11 +50,12 @@ const MyAnnouncementsPage = (props: any) => {
     return (
         <div className={"myAnnouncements fullHeightContent"}>
             <Header/>
-            <div className="myAnnouncements__container container">
+            <div className="myAnnouncements__container container-lg pt-5 pb-5">
+                <h2 className="display-5 jumbotron p-2">Мои объявления</h2>
                 {myAnnouncements.map( ({id, ...restMyAnnouncement}: any) =>
-                    <div key={id} className="myAnnouncements__item">
-                        <Announcement id={id} {...restMyAnnouncement}/>
-                        <Button isDisabled={isFetching} onClickHandler={() => postDeleteAnnouncement(id)}
+                    <div key={id} className="d-flex mb-3">
+                        <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>
+                        <Button className={"btn-danger align-self-stretch mb-3 align-items-center d-flex font-weight-bold"} isDisabled={isFetching} onClickHandler={() => postDeleteAnnouncement(id)}
                                 label={"Удалить объявление"}/>
                     </div>) }
                 {myAnnouncements.length > 5 && <Button className={"myAnnouncements__btn-up"} onClickHandler={onClickBtnUpHandler} label={"Наверх"}/>}
