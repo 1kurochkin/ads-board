@@ -9,11 +9,12 @@ const ContactsPage = (props: any) => {
     return (
         <div className={"contactsPage fullHeightContent"}>
             <Header/>
-            <div className="contactsPage__container container">
-                <div className="contactsPage__contacts">
-                    <h2 className="contactsPage__contacts-title">Уважаемые пользователи!</h2>
-                    <p className="contactsPage__contactsPage-content">
-                        Lorem ipsum dolor sit amet,
+
+            <div className="contactsPage__container container-lg pb-5 pt-5 text-center">
+                <div className="jumbotron p-4">
+                    <h1 className="display-5">Уважаемые пользователи!</h1>
+                    <hr className="my-4"/>
+                    <p className="lead">Lorem ipsum dolor sit amet,
                         consectetur adipisicing elit.
                         Impedit minima perferendis tenetur?
                         Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.
