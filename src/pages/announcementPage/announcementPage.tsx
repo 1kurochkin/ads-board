@@ -13,7 +13,6 @@ import Button from "../../components/button/button";
 import Slider from "../../components/slider/slider";
 import Image from "../../components/image/image";
 
-
 const AnnouncementPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
@@ -48,36 +47,33 @@ const AnnouncementPage = (props: any) => {
     return (
         <div className={"announcementPage fullHeightContent"}>
             <Header/>
-            <div className="announcementPage__container container">
-                <div className="announcementPage__arrowBack-wrapper">
-                    <Button onClickHandler={goBack} label={"Назад"}/>
-                    <div className="announcementPage__creationDate">{creationDate}</div>
-                </div>
-            <div className="announcementPage__photoAndInfo-wrapper">
-                <div className="announcementPage__photo-slider">
+            <Button className={"arrowBack"} onClickHandler={goBack} label={"Назад"}/>
+            <div className="announcementPage__container container-lg pt-5 pb-5">
+                <h2 className="announcementPage__name text-left m-0">{name}</h2>
+                <hr className="my-4"/>
+            <div className="announcementPage__photoAndInfo-wrapper mb-5">
+                <div className="announcementPage__photo-slider float-left">
                     <Slider>
                         {photos.map( (photo:string) => <Image photo={photo}/> ) }
                     </Slider>
                 </div>
 
-                <div className="announcementPage__info-wrapper">
-                    <h1 className="announcementPage__name">{name}</h1>
-                    <div className="announcementPage__info-inner-wrapper">
-                        <div className="announcementPage__info-price">{price}</div>
-                        <div className="announcementPage__info-location">{subwayStation}</div>
+                <div className="announcementPage__info-wrapper ml-5 col-lg-5 p-0">
+                    <h3 className="announcementPage__info-price bg-warning p-2 m-0 text-left">{`Цена: ${price} руб.`}</h3>
+                    <hr className="my-4"/>
+                    <h5 className="announcementPage__info-location text-left alert alert-warning">{`Метро: ${subwayStation}`}</h5>
+                    <hr className="my-4"/>
+                    <div className="announcementPage__info-inner-wrapper alert alert-success">
+                        <h5 className="announcementPage__info-name text-left">Продавец: {user}</h5>
+                        <h5 className="announcementPage__info-name text-left">Телефон: {phone}</h5>
                     </div>
-
-                    <div className="announcementPage__info-inner-wrapper">
-                        <h3 className="announcementPage__info-name">{user}</h3>
-                        <div className="announcementPage__info-phone">{phone}</div>
-                    </div>
-
+                    <hr className="my-4"/>
+                    <h5 className="announcementPage__creationDate alert alert-dark">Дата создания объявления: {creationDate}</h5>
                 </div>
-
             </div>
-
-                <div className="announcementPage__description">
-                    {description}
+                <div className="announcementPage__description alert alert-primary">
+                    <h5 className={"text-left"}>Описание:</h5>
+                    <p>{description}</p>
                 </div>
 
             </div>
