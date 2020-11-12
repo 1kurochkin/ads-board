@@ -34,29 +34,40 @@ const FeedPage = (props: any) => {
     return (
         <div className={"feedPage"}>
             <Header/>
-            <div className="feedPage__container container">
+            <div className="feedPage__container container-lg">
                 <div className="feedPage__searchBox">
                     <SearchBox placeHolder={"Поиск по объявлениям"}/>
                 </div>
                 {/*<div className="feedPage__category-cards">*/}
                 {/*    */}
                 {/*</div>*/}
-                <div className="feedPage__lastAnnouncements">
-                    <h2 className="feedPage__lastAnnouncements-title">Последние объявления</h2>
-                    <div className="feedPage__lastAnnouncements-content">
+                <div className="feedPage__lastAnnouncements mb-5">
+                        <h2 className="display-5 jumbotron p-2">Последние объявления</h2>
+                    {/*<h2 className="feedPage__lastAnnouncements-title">Последние объявления</h2>*/}
+                    <div className="row justify-content-center">
                         {lastAnnouncements.map((lastAnnouncement: any) => <Announcement {...lastAnnouncement}/>)}
                     </div>
                 </div>
-                <div className="feedPage__descriptionSalamRu">
-                    <h2 className="feedPage__descriptionSalamRu-title">О проекте</h2>
-                    <p className="feedPage__descriptionSalamRu-description">
-                        Lorem ipsum dolor sit amet,
-                        consectetur adipisicing elit.
-                        Impedit minima perferendis tenetur?
-                        Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.
-                        Dignissimos fuga, quas quasi quisquam saepe sint.
-                    </p>
+                <div className="jumbotron p-4">
+                    <h1 className="display-5">О проекте</h1>
+                    <hr className="my-4"/>
+                        <p className="lead">Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit.
+                            Impedit minima perferendis tenetur?
+                            Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.
+                            Dignissimos fuga, quas quasi quisquam saepe sint.
+                        </p>
                 </div>
+                {/*<div className="feedPage__descriptionSalamRu">*/}
+                {/*    <h2 className="feedPage__descriptionSalamRu-title">О проекте</h2>*/}
+                {/*    <p className="feedPage__descriptionSalamRu-description">*/}
+                {/*        Lorem ipsum dolor sit amet,*/}
+                {/*        consectetur adipisicing elit.*/}
+                {/*        Impedit minima perferendis tenetur?*/}
+                {/*        Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.*/}
+                {/*        Dignissimos fuga, quas quasi quisquam saepe sint.*/}
+                {/*    </p>*/}
+                {/*</div>*/}
             </div>
             <Footer/>
         </div>
