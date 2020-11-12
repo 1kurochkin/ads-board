@@ -20,10 +20,15 @@ const ImagePicker = (props: ImagePickerPropsType) => {
             onLoadHandler(result, name)
         }
 
-        reader.readAsDataURL(file)
+        file && reader.readAsDataURL(file)
     }
 
-  return <input onChange={onChangeFileHandler} type="file" className={`imagePicker ${className}`}/>
+  return <div className={`h-100 w-100 ${className}`}>
+      <input onChange={onChangeFileHandler} type="file" className={`imagePicker`}/>
+      <div className="h-100 w-100 d-flex justify-content-center align-items-center border border-dark alert-dark">
+         <h2 className={"display-4"}>+</h2>
+      </div>
+  </div>
 }
 
 export default ImagePicker;
