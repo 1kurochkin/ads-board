@@ -2,6 +2,7 @@ import React from 'react';
 import "./announcementStyles.css"
 import {NavLink} from "react-router-dom";
 import Image from "../image/image";
+import {GET_PATH_SEARCH} from "../../app/App";
 
 type AnnouncementPropsType = {
     photo: string
@@ -22,7 +23,7 @@ const Announcement = (props: AnnouncementPropsType) => {
 
   return (
       <div className={`border text-center text-white border-dark mb-3 mr-3 p-0 ${className}`}>
-              <NavLink to={`${category}/${id}`}>
+              <NavLink to={`${GET_PATH_SEARCH(category)}/${id}`}>
           <div className="card-header p-0">
                   <Image photo={photo}/>
           </div>
