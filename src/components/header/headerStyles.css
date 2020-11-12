@@ -1,41 +1,41 @@
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 40px;
-    border-bottom: 2px solid black;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*padding: 10px 40px;*/
+    /*border-bottom: 2px solid black;*/
 }
 .header__inner-wrapper {
     display: flex;
 
 }
 .header__navigation-wrapper {
-    display: flex;
-    margin-left: 50px;
+    /*display: flex;*/
+    /*margin-left: 50px;*/
 }
 
 .header__navigation-link {
-    font-weight: bold;
-    font-size: 16px;
-    border: 1px solid grey;
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
+    /*font-weight: bold;*/
+    /*font-size: 16px;*/
+    /*border: 1px solid grey;*/
+    /*padding: 5px 10px;*/
+    /*display: flex;*/
+    /*align-items: center;*/
 }
 
 .header__authMenu {
-    position: relative;
-    display: flex;
-    align-items: center;
+    /*position: relative;*/
+    /*display: flex;*/
+    /*align-items: center;*/
     /*overflow: hidden;*/
 }
 .header__authMenu-name {
-    position: relative;
+    /*position: relative;*/
 }
 
 .header__authMenu-name:before {
-    content: "↓";
-    margin-right: 5px;
+    /*content: "↓";*/
+    /*margin-right: 5px;*/
     /*position: absolute;*/
     /*right: -5px;*/
 }
@@ -99,7 +99,7 @@
 }
 
 .header__navigation-link:hover {
-    background-color: beige;
+    /*background-color: beige;*/
 }
 
 .header__navigation-link:not(:first-of-type) {
