@@ -14,7 +14,7 @@ import {
     getSubwayStationsDataSelector
 } from "../../redux/reducers/mainState/mainStateSelectors";
 import {
-    checkIsReadyToSendByPageFormReducerAC,
+    checkIsReadyToSendByPageFormReducerAC, resetToInitialByPageFormReducerAC,
     setIsValidFormReducerAC,
     seValueFormReducerAC
 } from "../../redux/reducers/formState/formStateActionCreators";
@@ -56,6 +56,7 @@ const CreateAnnouncement = (props: any) => {
     const seValueFormReducer = useCallback((value, field) => dispatch(seValueFormReducerAC(value, field, "createAnnouncement")), [dispatch])
     const setIsValidFormReducer = useCallback((field) => dispatch(setIsValidFormReducerAC(field, "createAnnouncement")), [dispatch])
     const checkIsReadyToSend = useCallback(() => dispatch(checkIsReadyToSendByPageFormReducerAC("createAnnouncement")), [dispatch])
+    const resetToInitialByPageFormReducer = useCallback(() => dispatch(resetToInitialByPageFormReducerAC("createAnnouncement")), [dispatch])
 
     //------DID-MOUNT-LIFE-CYCLE-----//
     useEffect(() => {
@@ -91,6 +92,11 @@ const CreateAnnouncement = (props: any) => {
         seValueFormReducer(value, field)
     }
 
+    const deleteLoadedImage = (imageName: string) => {
+        const newPhotosValue = photos.value.filter( ({photo, name}: any) => name !== imageName)
+        seValueFormReducer(newPhotosValue, "photos")
+    }
+
     //Функция возращает массив с конфигурацией для полей ввода
     const getInputsParamsConfig = () => {
         return [
@@ -102,18 +108,18 @@ const CreateAnnouncement = (props: any) => {
                 isValid: name.isValid
             },
             {
-                field: "description",
-                label: "Описание",
-                inputType: "text",
-                value: description.value,
-                isValid: description.isValid
-            },
-            {
                 field: "price",
                 label: "Цена",
                 inputType: "number",
                 value: price.value,
                 isValid: price.isValid
+            },
+            {
+                field: "description",
+                label: "Описание",
+                inputType: "textArea",
+                value: description.value,
+                isValid: description.isValid
             },
         ]
     }
@@ -126,50 +132,58 @@ const CreateAnnouncement = (props: any) => {
     return (
         <div className={"createAnnouncement fullHeightContent"}>
             <Header/>
-            <div className="createAnnouncement__container container">
-                <div className="createAnnouncement__category">
-                    <h2 className={`createAnnouncement__category-title ${getErrorClassName("category")}`}>
+            <div className="createAnnouncement__container container-lg pt-5">
+                <h1 className="display-5 jumbotron p-2 mb-5">Создание объявления</h1>
+                <div className="createAnnouncement__category d-flex">
+                    <h4 className={`createAnnouncement__category-title col-lg-3 text-left p-0 ${getErrorClassName("category")}`}>
                         Категория
-                    </h2>
-                    <Select onBlurHandler={() => setIsValidFormReducer("category")}
+                    </h4>
+                    <Select className={"col-lg-4"} onBlurHandler={() => setIsValidFormReducer("category")}
                         onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)}
                         value={category.value.label} selectItems={categoriesData} placeHolder={"Выбор категории"}/>
                 </div>
-                <div className="createAnnouncement__params">
-                    <h2 className="createAnnouncement__params-title">Категория</h2>
-                    {getInputsParamsConfig().map(({field, ...restConfig}) =>
-                        <TextInput key={field} {...restConfig}
-                                   onBlurHandler={() => setIsValidFormReducer(field)}
-                                   onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>)}
+                <hr className="my-4"/>
+                <div className="createAnnouncement__params d-flex">
+                    <h4 className="createAnnouncement__params-title col-lg-3 text-left p-0">Параметры</h4>
+                    <div className="col-lg-4 p-0">
+                        {getInputsParamsConfig().map(({field, ...restConfig}) =>
+                            <TextInput className={"mb-3"} key={field} {...restConfig}
+                                       onBlurHandler={() => setIsValidFormReducer(field)}
+                                       onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>)}
 
-                    <div className="createAnnouncement__params-photos">
-                        <div className="createAnnouncement__params-photos-label">
-                            <span>Фотографии</span>
-                            <span>{`${photos.value.length} из 5`}</span>
-                        </div>
-                        <div className="createAnnouncement__params-photos-files">
-                            {photos.value.map( ({photo}: any) => <Image className={"createAnnouncement__params-photos-files-file"} photo={photo}/> )}
-                            {photos.value.length < 5 &&
-                            <ImagePicker className={"createAnnouncement__params-photos-files-load"} onLoadHandler={onLoadImageHandler}/>}
+                        <div className="createAnnouncement__params-photos position-relative">
+                            <div className="createAnnouncement__params-photos-label mb-3">
+                                <span>{`Фотографии ${photos.value.length} из 5`}</span>
+                            </div>
+                            <div style={{height: "73px"}} className="createAnnouncement__params-photos-files d-flex">
+                                {photos.value.map( ({photo, name}: any) => <Image onClickHandler={() => deleteLoadedImage(name)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-2"} photo={photo}/> )}
+                                {photos.value.length < 5 &&
+                                <ImagePicker className={"col-lg-4 p-0"} onLoadHandler={onLoadImageHandler}/>}
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div className="createAnnouncement__location">
-                    <h2 className={`createAnnouncement__location-title ${getErrorClassName("subway")}`}>Место сделки</h2>
-                    <Select onBlurHandler={() => setIsValidFormReducer("subway")}
+                <hr className="my-4"/>
+                <div className="createAnnouncement__location d-flex">
+                    <h4 className={`createAnnouncement__location-title col-lg-3 text-left p-0 ${getErrorClassName("subway")}`}>Место сделки</h4>
+                    <Select className={"col-lg-4 p-0"} onBlurHandler={() => setIsValidFormReducer("subway")}
                         onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)}
                         value={subway.value.label} selectItems={subwayStationsData} placeHolder={"Выбор метро"}/>
                 </div>
-                <div className="createAnnouncement__contacts">
-                    <h2 className="createAnnouncement__contacts-title">Контакты</h2>
-                    <TextInput className={"createAnnouncement__input"} isValid={phone.isValid} value={phone.value}
+                <hr className="my-4"/>
+
+                <div className="createAnnouncement__contacts d-flex">
+                    <h4 className="createAnnouncement__contacts-title col-lg-3 text-left p-0">Контакты</h4>
+                    <TextInput className={"col-lg-3 p-0"} isValid={phone.isValid} value={phone.value}
                                placeholder={"Номер телефона"} label={"Телефон"} inputType={"number"}
                                onBlurHandler={() => setIsValidFormReducer("phone")}
                                onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "phone")}/>
                 </div>
-
-                <Button label={"Создать объявление"} isDisabled={isFetching} onClickHandler={checkIsReadyToSend}/>
+                <hr className="my-4"/>
+                <div className={"d-flex justify-content-around mb-5 col-lg-7 p-0"}>
+                    <Button className={"btn-success col-lg-7"} label={"Создать объявление"} isDisabled={isFetching} onClickHandler={checkIsReadyToSend}/>
+                    <Button className={"btn-danger col-lg-4"} label={"Очистить поля"} isDisabled={isFetching} onClickHandler={resetToInitialByPageFormReducer}/>
+                </div>
             </div>
             <Footer/>
         </div>
