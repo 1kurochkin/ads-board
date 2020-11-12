@@ -6,7 +6,6 @@ import Footer from "../../components/footer/footer";
 import {getAnnouncementsByFiltersThunk, getAnnouncementsListThunk} from "../../redux/thunks/thunks";
 import Announcement from "../../components/announcement/announcement";
 import useInfinityScroll from "../../hooks/useInfinityScroll";
-import Button from "../../components/button/button";
 import {
     getAnnouncementsListSelector,
     getCurrentPageAnnouncementsListReducerSelector,
@@ -16,12 +15,15 @@ import {
     getCategoriesDataSelector,
     getIsFetchingMainStateSelector
 } from "../../redux/reducers/mainState/mainStateSelectors";
-import {setCurrentPageAnnouncementsListReducerAC, resetToInitialStateAnnouncementsListReducerAC} from "../../redux/reducers/announcementsListState/announcementsListStateActionCreators";
-import {useHistory, NavLink} from 'react-router-dom';
 import {
-    getSearchedDataSelector,
-    getIsFetchingSearchReducerSelector,
+    resetToInitialStateAnnouncementsListReducerAC,
+    setCurrentPageAnnouncementsListReducerAC
+} from "../../redux/reducers/announcementsListState/announcementsListStateActionCreators";
+import {NavLink, useHistory} from 'react-router-dom';
+import {
     getCurrentPageSearchReducerSelector,
+    getIsFetchingSearchReducerSelector, getSearchConfigCategorySelector, getSearchConfigSubwayStationsSelector,
+    getSearchedDataSelector,
     getTotalNumOfPageSearchReducerSelector
 } from "../../redux/reducers/searchBoxState/searchBoxStateSelectors";
 import SearchBox from "../../components/searchBox/searchBox";
@@ -31,6 +33,8 @@ import {
 } from '../../redux/reducers/searchBoxState/searchBoxStateActionCreators';
 import Preloader from "../../components/preloader/preloader";
 import ButtonUp from "../../components/buttonUp/buttonUp";
+import {GET_PATH_SEARCH} from "../../app/App";
+import NavCategoryButton from "../../components/navCategoryButton/navCategoryButton";
 
 
 const AnnouncementsListPage = (props: any) => {
@@ -40,8 +44,11 @@ const AnnouncementsListPage = (props: any) => {
     const category = pathname.substr(1)
 
     //------MAP-STATE-TO-PROPS-----//
-    const categoriesData = useSelector(getCategoriesDataSelector)
+    const categoriesData = useSelector( (state) => getCategoriesDataSelector(state))
         //---SEARCHED-BOX-STATE---//
+    const {label:currentCategory} = useSelector(getSearchConfigCategorySelector)
+    const {label:currentSubway}: any = useSelector(getSearchConfigSubwayStationsSelector)
+
     const searchedData = useSelector(getSearchedDataSelector)
     const isFetchingSearchState = useSelector(getIsFetchingSearchReducerSelector)
     const currentPageSearch = useSelector(getCurrentPageSearchReducerSelector)
@@ -71,6 +78,9 @@ const AnnouncementsListPage = (props: any) => {
     const getSetCurrentPageAction: () => Function = () => isSearchState ? setCurrentPageSearchBox : setCurrentPage
     const getIsEqualsCurrAndTotalPage: () => boolean = () => isSearchState ? isEqualsCurrAndTotalPageSearch : isEqualsCurrAndTotalPage
 
+    //---LOCAL-STATE---//
+    const [state, setState] = useState(() => ( {currentCategory, currentSubway} ) )
+
     //----COMPONENT-DID-MOUNT/UNMOUNT-LIFECYCLE----//
     useEffect(() => {
         getAnnouncements(category)
@@ -84,6 +94,7 @@ const AnnouncementsListPage = (props: any) => {
     useEffect(() => {
         resetToInitialStateAnnouncementsList()
         getAnnouncements(category)
+        setState({currentCategory, currentSubway})
     }, [category])
 
     //------INFINITY-SCROLL------//
@@ -98,19 +109,35 @@ const AnnouncementsListPage = (props: any) => {
     return (
         <div className={"announcementsList fullHeightContent"}>
             <Header/>
-            <div className="announcementsList__slider-container slider-container">
-                <div className="slider-container__slider">
-                    {categoriesData.map( ({id, label, category}: any) => {
-                        return <NavLink className={"slider__category-item"} activeClassName={"navLink__active"} to={`/${category}`}>
-                            <h4>{label}</h4>
-                        </NavLink>
-                    } ) }
+            <SearchBox className={"mt-4"} placeHolder={"Поиск по объявлениям"}/>
+            <hr className={"my-4"}/>
+            <div className="row d-flex justify-content-center col-lg-12">
+                <h5 className={"alert alert-success"}>
+                    <span className={"font-weight-bold"}>Поиск по : </span>
+                    {state.currentSubway}> {state.currentCategory}
+                </h5>
+            </div>
+            <hr className={"my-4"}/>
+            <div className="announcementsList__slider-container d-flex container-fluid pt-2 pb-5">
+                <div className="slider-container__slider col-lg-2 p-0 ">
+                    {categoriesData.map( (categoryData: any) => {
+                        const {id, label, category, subCategories = []} = categoryData
+                        return <>
+                            <NavCategoryButton key={id} category={category} activeClassName={"text-warning"} configCategory={categoryData}>
+                            <h5>{label}</h5>
+                        </NavCategoryButton>
+                            {subCategories.map( (subCategoryData: any) => {
+                                const {id, label, category} = subCategoryData
+                                return <NavCategoryButton key={id} activeClassName={"text-warning"} category={category} configCategory={categoryData}>
+                                    <h6>- {label}</h6>
+                                </NavCategoryButton> } )}
+                        </> } ) }
+                    <hr className={"my-0 mt-4"}/>
                 </div>
-                <div className="slider-container__content">
-                    <SearchBox placeHolder={"Поиск по объявлениям"}/>
+                <div className="slider-container__content col-lg-8">
                     {getDataState().map( ({id, ...restMyAnnouncement}: any) =>
                         <div key={id} className="announcementsList__item">
-                            <Announcement id={id} {...restMyAnnouncement}/>
+                            <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>
                         </div>) }
                     <ButtonUp/>
                     {isFetchingSearchState || isFetchingMainState && <Preloader/>}
