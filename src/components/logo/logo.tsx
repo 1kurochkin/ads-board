@@ -6,7 +6,7 @@ const Logo = (props: any) => {
 
   return (
       <NavLink to={"/feed"}>
-          <div className="logo">
+          <div className="logo navbar-brand mb-0 h1">
               SALAM
           </div>
       </NavLink>
