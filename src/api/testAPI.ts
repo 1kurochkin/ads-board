@@ -26,17 +26,17 @@ export type PostSettingsPhoneData = { phone: string }
 
 export class testAPI {
 
-    static baseUrl = '/json/'
+    static baseUrl = './json/'
 
     // ------AUTHORIZATION-----//
     static postAuthorizationData = (data: AuthorizationData): Promise<Response> => {
         console.log(data, "postAuthorizationData")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+         return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     static postRegistrationData = (data: RegistrationData): Promise<Response> => {
         console.log(data, "postRegistrationData")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     // ------FEED-PAGE-----//
@@ -44,51 +44,51 @@ export class testAPI {
     static getLastAnnouncements = (): Promise<Response> => {
         console.log("getLastAnnouncements")
         const path = `getMyAnnouncements`
-        return fetch(`${testAPI.baseUrl}lastAnnouncements.json`)
+        return fetch(`https://5faa8c4eb5c645001602abd5.mockapi.io/getLastAnnouncements`)
     }
 
     // ------GET-USER-INFO-----//
     static getUserInfo = (): Promise<Response> => {
         console.log("getUserInfo")
-        return fetch(`${testAPI.baseUrl}userData.json`)
+        return fetch(`https://5faa8c4eb5c645001602abd5.mockapi.io/getUserData`)
     }
 
     // ------SEARCH-BOX-----//
     static getSubwayStations = (): Promise<Response> => {
         console.log("getSubwayStations")
-        return fetch(`${testAPI.baseUrl}subwayStations.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/getSubwayStations`)
     }
 
     static getAnnouncementsByFilters = (page: number, name?: string, category?: string| number, subway?: string | number): Promise<Response> => {
         const path = `getAnnouncementsByFilters?page=${page}&category=${category}&name=${name}&subway=${subway}`
         console.log(page, category, name, subway, "getAnnouncementsByFilters", path)
-        return fetch(`${testAPI.baseUrl}announcementsByFilter.json`)
+        return fetch(`https://5faa8c4eb5c645001602abd5.mockapi.io/getAnnouncementsByFilters`)
     }
 
     //---REQUEST-FOR-SEARCH-BOX/FEED-PAGE/HOUSING/JOB/TRADING---//
     static getAnnouncementsList = (page: number, category: GetAnnouncementsCategoryType): Promise<Response> => {
         const path = `getAnnouncementsByCategoryAndName?page=${page}&category=${category}`
         console.log(page, category, "getAnnouncementsByCategoryAndName", path)
-        return fetch(`${testAPI.baseUrl}announcements.json`)
+        return fetch(`https://5faa8c4eb5c645001602abd5.mockapi.io/getAnnouncementsList`)
     }
 
     // ------GET-ANNOUNCEMENT-BY-CATEGORY-AND-ID----//
     static getAnnouncementByCategoryAndId = (category: GetAnnouncementsCategoryType, id: number): Promise<Response> => {
         console.log("getAnnouncementByCategoryAndId", category, id)
         const path = `getAnnouncementByCategoryAndId/${category}/${id}`
-        return fetch(`${testAPI.baseUrl}announcementById.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/getAnnouncement`)
     }
 
     // ------MY-ANNOUNCEMENTS-PAGE---//
     static getMyAnnouncements = (page: number): Promise<Response> => {
         console.log("getMyAnnouncements")
         const path = `getMyAnnouncements?page=${page}`
-        return fetch(`${testAPI.baseUrl}announcements.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/getMyAnnouncements`)
     }
 
     static postDeleteAnnouncement = (id:number): Promise<Response> => {
         console.log(id, "postDeleteAnnouncement")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
 
@@ -106,37 +106,37 @@ export class testAPI {
     }
     static postSettingsAvatar = (data: PostSettingsAvatarData): Promise<Response> => {
         console.log(data, "postSettingsAvatar")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     static postSettingsName = (data: PostSettingsNameData): Promise<Response> => {
         console.log(data, "postSettingsName")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     static postSettingsLogin = (data: PostSettingsEmailData): Promise<Response> => {
         console.log(data, "postSettingsLogin")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     static postSettingsPhone = (data: PostSettingsPhoneData): Promise<Response> => {
         console.log(data, "postSettingsPhone")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     static postLogout = (): Promise<Response> => {
         console.log("postLogout")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     static postDelete = (): Promise<Response> => {
         console.log("postDelete")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 
     // ------CREATE-ANNOUNCEMENT-PAGE---//
     static postNewAnnouncement = (data: NewAnnouncementData): Promise<Response> => {
         console.log(data, "postNewAnnouncement")
-        return fetch(`${testAPI.baseUrl}responseForPostOrPutRequests.json`)
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
     }
 }
