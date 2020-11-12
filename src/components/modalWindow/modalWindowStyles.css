@@ -19,6 +19,15 @@
 }
 
 .modalWindow__popupBox {
+    border-radius: 5px;
+    position: relative;
     background-color: white;
     padding: 30px 60px;
+}
+
+.popup__close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 35px;
 }

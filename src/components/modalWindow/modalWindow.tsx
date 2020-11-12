@@ -32,10 +32,12 @@ const ModalWindow = (props: propsTypes) => {
     useOutsideClick(ref, outsideClickHandler)
 
     return (
+
         <>
             <div className={`modalWindow ${isActive && "modalWindow__active"} `}>
                 <div ref={ref} className="modalWindow__popupBox">
                     {React.cloneElement(modal, {closeModalWindow})}
+                    <span onClick={() => closeModalWindow()} className={"popup__close"}>&times;</span>
                 </div>
             </div>
             { withOpenBtn && children(() => setIsActive(true)) }
