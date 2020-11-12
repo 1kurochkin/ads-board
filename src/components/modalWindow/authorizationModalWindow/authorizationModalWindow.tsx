@@ -1,6 +1,7 @@
 import React from 'react';
 import ModalWindow from "../modalWindow";
 import AuthorizationPopupBox from "./authorizationPopupBox";
+import Button from "../../button/button";
 
 type AuthorizationModalWindowType = {
   isActiveFromProps?: boolean
@@ -13,7 +14,7 @@ const AuthorizationModalWindow = (props: AuthorizationModalWindowType) => {
   return (
       <ModalWindow alertCloseHandler={alertCloseHandler} isActiveFromProps={isActiveFromProps} withOpenBtn={true} modal={<AuthorizationPopupBox/>}>{
           (openModalWindow:any) =>
-              <div onClick={openModalWindow} className="header__btn-link btn">Вход и регистрация</div>
+              <Button label="Вход и регистрация" onClickHandler={openModalWindow} className="btn-outline-light"/>
       }</ModalWindow>
   );
 }
