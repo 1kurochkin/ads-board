@@ -80,6 +80,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
         return [
             {
                 field: "name",
+                label: "Имя",
                 inputType: "text",
                 placeholder: "Введите ваше имя",
                 value: name.value,
@@ -87,6 +88,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
             },
             {
                 field: "phoneNumber",
+                label: "Номер телефона",
                 inputType: "number",
                 placeholder: "Введите ваш телефон",
                 value: phoneNumber.value,
@@ -94,6 +96,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
             },
             {
                 field: "login",
+                label: "E-mail",
                 inputType: "text",
                 placeholder: "Введите ваш E-mail",
                 value: login.value,
@@ -101,6 +104,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
             },
             {
                 field: "password",
+                label: "Пароль",
                 inputType: "password",
                 placeholder: "Введите ваш пароль",
                 value: password.value,
@@ -117,13 +121,14 @@ const AuthorizationPopupBox = (props: PropsType) => {
     }
 
     return (
-        <div className="authorization-popupBox">
+        <div className="authorization-popupBox position-relative">
             <h1 className={"authorization-popupBox__title"}>{!isRegistration ? "Вход" : "Регистрация"}</h1>
-            <div className="authorization-popupBox__inputs-wrapper">
-                { getInputsConfig().map( ({field, inputType, placeholder, value, isValid}) => {
+            <hr className={"my-3"}/>
+            <div className="authorization-popupBox__inputs-wrapper mb-2">
+                { getInputsConfig().map( ({field, inputType, placeholder, value, label, isValid}) => {
                     if(!isRegistration && field == "name") return null
                     if(!isRegistration && field == "phoneNumber") return null
-                    return <TextInput key={field}
+                    return <TextInput className={"mb-4"} key={field} label={label}
                                       isValid={isValid} placeholder={placeholder}
                                       inputType={inputType} value={value}
                                       onBlurHandler={() => setIsValidFormReducer(field)}
@@ -132,7 +137,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
             </div>
             {!isCorrectAuthData && !isRegistration && <h4>Введённые данные не верны</h4>}
             <Button onClickHandler={checkIsReadyToSend} label={!isRegistration ? "Войти" : "Зарегестрироваться"}
-                    isDisabled={isFetching} className={"authorization-popupBox__btn"}/>
+                    isDisabled={isFetching} className={"authorization-popupBox__btn btn-success"}/>
             {getBtnByIsExistUserForSwitch()}
         </div>
     );
