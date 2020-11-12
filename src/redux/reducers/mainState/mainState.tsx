@@ -11,12 +11,25 @@ const initialState = {
     isFetching: false,
     subwayStationsData: [],
     categoriesData : [
-        {id: 1, label: "Недвижимость", category: "housing"},
-        {id: 2, label: "Квартиры", category: "apartments"},
-        {id: 3, label: "Комната", category: "bunk"},
-        {id: 4, label: "Койко-место", category: "room"},
-        {id: 5, label: "Работа", category: "job"},
-        {id: 6, label: "Вакансии", category: "vacancies"}
+        { id: 0, label: "Любая категория", category: "all"},
+        {
+            id: 1,
+            label: "Недвижимость",
+            category: "housing",
+            subCategories : [
+                {id: 2, label: "Квартиры", category: "apartments"},
+                {id: 3, label: "Комната", category: "bunk"},
+                {id: 4, label: "Койко-место", category: "room"}
+            ]
+        },
+        {
+            id: 5,
+            label: "Работа",
+            category: "job",
+            subCategories : [
+                {id: 6, label: "Вакансии", category: "vacancies"}
+            ]
+        }
     ]
 }
 
