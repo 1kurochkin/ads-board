@@ -1,4 +1,6 @@
 import {initialStateCategory, initialStateSubway} from "../../../components/searchBox/select/select";
+import {LOCATION_CHANGE} from "connected-react-router";
+import {PATH_SEARCH} from "../../../app/App";
 
 export const SET_SEARCHED_DATA = "SET_SEARCHED_DATA"
 export const SET_IS_FETCHING_SEARCH_REDUCER = "SET_IS_FETCHING_SEARCH_REDUCER"
@@ -25,10 +27,15 @@ const initialState = {
 
 export const searchBoxStateReducer = (state = initialState, action: any): initialStateType => {
     const { type, payload } = action
-    const { value, withConcat } = payload || {}
+    const { value, withConcat, location : {pathname = "/"} = {} } = payload || {}
     const { searchedData, currentPage, searchConfig } = state
+    const {searchConfig: initialStateSearchConfig} = initialState
 
     switch (type) {
+        case LOCATION_CHANGE :
+            console.log("LOCATION_CHANGE", payload)
+            return !pathname.includes(PATH_SEARCH) ?
+                {...state, searchConfig: initialStateSearchConfig} : state
         case SET_SEARCHED_DATA :
             console.log("SET_SEARCHED_DATA", value)
             const newSearchedData = withConcat ? searchedData.concat(value) : value
@@ -45,7 +52,7 @@ export const searchBoxStateReducer = (state = initialState, action: any): initia
             return {...state, totalNumOfPages: value}
         case RESET_TO_INITIAL_SEARCH_REDUCER :
             console.log("RESET_TO_INITIAL_SEARCH_REDUCER", value)
-            return initialState
+            return {...initialState, searchConfig: {...searchConfig}}
         case SET_SEARCH_CONFIG_CATEGORY_ID :
             console.log("SET_SEARCH_CONFIG_CATEGORY_ID", value)
             return {...state, searchConfig: {...searchConfig, categoryId: value}}
