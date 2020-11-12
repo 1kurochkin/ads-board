@@ -3,8 +3,9 @@ import "./selectStyles.css"
 import SelectItem from "./selectItem/selectItem";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 
-export const initialStateSubway = {id: 0, label: "Станция метро"}
-export const initialStateCategory = {id: 0, label: "Выбор категории"}
+//TODO Перенести в mainState
+export const initialStateSubway = {id: 0, label: "Все станции метро"}
+export const initialStateCategory = { id: 0, label: "Любая категория", category: "all"}
 
 const Select = (props: any) => {
     const {
@@ -14,6 +15,7 @@ const Select = (props: any) => {
         onBlurHandler = null,
         onChangeHandlerSelectItem,
         value,
+        className
     } = props
 
     const [isActive, setIsActive] = useState(false)
@@ -26,15 +28,13 @@ const Select = (props: any) => {
     }
 
     return (
-        <div ref={ref} className={"select"}>
-            <div onClick={toggleIsActive} className="select__current">
-                <input onBlur={onBlurHandler} readOnly={true} onChange={onChangeHandler}
+        <div ref={ref} className={`select dropdown ${className} p-0`}>
+                <input onClick={toggleIsActive} onBlur={onBlurHandler} readOnly={true} onChange={onChangeHandler}
                        placeholder={placeHolder}
-                       className={"select__current-input"}
+                       className={"select__current form-control dropdown-toggle w-100"}
                        value={value} type="text"/>
-                <div className={"select__current-arrow"}>&darr;</div>
-            </div>
-            <div className={`select__items ${isActive && "select__items-active"}`}>
+                {/*<div className={"select__current-arrow"}>&darr;</div>*/}
+            <div className={`select__items dropdown-menu w-100 ${isActive && "show"}`}>
                 {selectItems.map((selectItem: any) =>
                     <SelectItem {...selectItem} onChangeHandler={(event:any) => onChangeHandlerSelectItem(selectItem, toggleIsActive)}/>)}
             </div>
