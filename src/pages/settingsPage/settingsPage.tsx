@@ -97,39 +97,39 @@ const SettingsPage = (props: any) => {
     return (
         <div className={"settingsPage fullHeightContent"}>
             <Header/>
-            <div className="settingsPage__container container">
-                <div className="settingsPage__settings-wrapper">
+            <div className="container-lg pb-5 pt-5">
+                <h2 className="display-5 jumbotron p-2 mb-5">Настройки профиля</h2>
+                <div className="d-flex justify-content-around">
+                    <div className="settingsPage__settings-wrapper">
 
-                    <div className="settingsPage__setting-avatar">
-                        <Image photo={avatar.value}/>
-                        <ImagePicker onLoadHandler={onLoadImageHandler}/>
+                        <div className="settingsPage__setting-avatar w-100">
+                            <Image photo={avatar.value}/>
+                            <ImagePicker className={"position-absolute fixed-top opacity-0"} onLoadHandler={onLoadImageHandler}/>
+                        </div>
+
+                        <div className="settingsPage__logouOrDel-wrapper">
+                            <AlertModalWindow openBtnElement={<Button className={"btn-warning w-100 mb-4"} label={"Выйти из аккаунта"}/>}
+                                              btnOneConfiguration={{btnOneLabel: "Нет"}}
+                                              btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:logoutUser }}
+                                              alertText={"Выйти из аккаунта?"}/>
+
+                            <AlertModalWindow openBtnElement={<Button className={"btn-danger w-100"} label={"Удалить аккаунт"}/>}
+                                              btnOneConfiguration={{btnOneLabel: "Нет"}}
+                                              btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:deleteUser }}
+                                              alertText={"Удалить аккаунт?"}/>
+                        </div>
+
                     </div>
-
-                    <div className="settingsPage__logouOrDel-wrapper">
-                        <AlertModalWindow openBtnElement={<Button label={"Выйти из аккаунта"}/>}
-                                          btnOneConfiguration={{btnOneLabel: "Нет"}}
-                                          btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:logoutUser }}
-                                          alertText={"Выйти из аккаунта?"}/>
-
-                        <AlertModalWindow openBtnElement={<Button label={"Удалить аккаунт"}/>}
-                                          btnOneConfiguration={{btnOneLabel: "Нет"}}
-                                          btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:deleteUser }}
-                                          alertText={"Удалить аккаунт?"}/>
-                    </div>
-
-                </div>
-
-                <div className="settingsPage__settings-wrapper">
-                    { getInputsConfig().map( ({field, ...restConfig}) => {
-                        return (
-                            <div className="settingsPage__setting">
-                            <TextInput key={field} {...restConfig}
-                                       onBlurHandler={() => setIsValidFormReducer(field)}
-                                       onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
-                                <Button onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
+                    <div className="settingsPage__settings-wrapper col-lg-5">
+                        { getInputsConfig().map( ({field, ...restConfig}) => <>
+                            <div className="settingsPage__setting input-group w-100">
+                                <TextInput className={"w-75"} key={field} {...restConfig}
+                                           onBlurHandler={() => setIsValidFormReducer(field)}
+                                           onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
+                                <Button className={"input-group-append btn-success align-self-end"} onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
                             </div>
-                        )
-                    }) }
+                            <hr className="my-4"/> </>) }
+                    </div>
                 </div>
             </div>
             <Footer/>
