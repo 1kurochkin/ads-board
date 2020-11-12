@@ -88,7 +88,6 @@ export const sendAuthorizationOrRegistrationThunk = (data: AuthorizationData & R
                 dispatch(setSettingsInLocalStorageByFieldAC(data.login,"login"))
                 dispatch(setSettingsInLocalStorageByFieldAC(data.password,"password"))
                 dispatch(setIsAuthAC(true))
-                dispatch(push(PATH_FEED))
             } else dispatch(setIsCorrectAuthDataAC(false))
         })
         .catch(err => console.error(err))
