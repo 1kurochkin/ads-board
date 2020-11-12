@@ -19,7 +19,7 @@ const ButtonUp = (props: any) => {
     }
 
   return isView ?
-      <Button className={"btn-up"} label={"Наверх"}
+      <Button className={"btn-up btn-primary"} label={"Наверх"}
               onClickHandler={() => window.scrollTo(0,0)} /> : null
 }
 
