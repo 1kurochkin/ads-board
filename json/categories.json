@@ -1,12 +1,13 @@
 [
+  { "id": 0, "label": "Любая категория", "category": "all"},
   {
     "id": 1,
     "label": "Недвижимость",
     "category": "housing",
     "subCategories" : [
-      {"id": 2, "label": "Квартиры", "category": "/housing/apartments"},
-      {"id": 3, "label": "Комната", "category": "/housing/bunk"},
-      {"id": 4, "label": "Койко-место", "category": "/housing/room"}
+      {"id": 2, "label": "Квартиры", "category": "apartments"},
+      {"id": 3, "label": "Комната", "category": "bunk"},
+      {"id": 4, "label": "Койко-место", "category": "room"}
     ]
   },
   {
@@ -14,7 +15,7 @@
     "label": "Работа",
     "category": "job",
     "subCategories" : [
-      {"id": 6, "label": "Вакансии", "category": "/job/vacancies"}
+      {"id": 6, "label": "Вакансии", "category": "vacancies"}
     ]
   }
 ]
