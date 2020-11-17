@@ -19,10 +19,12 @@ import {
     resetToInitialStateAnnouncementsListReducerAC,
     setCurrentPageAnnouncementsListReducerAC
 } from "../../redux/reducers/announcementsListState/announcementsListStateActionCreators";
-import {NavLink, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {
     getCurrentPageSearchReducerSelector,
-    getIsFetchingSearchReducerSelector, getSearchConfigCategorySelector, getSearchConfigSubwayStationsSelector,
+    getIsFetchingSearchReducerSelector,
+    getSearchConfigCategorySelector,
+    getSearchConfigSubwayStationsSelector,
     getSearchedDataSelector,
     getTotalNumOfPageSearchReducerSelector
 } from "../../redux/reducers/searchBoxState/searchBoxStateSelectors";
@@ -31,37 +33,38 @@ import {
     resetToInitialStateSearchReducerAC,
     setCurrentPageSearchReducerAC
 } from '../../redux/reducers/searchBoxState/searchBoxStateActionCreators';
-import Preloader from "../../components/preloader/preloader";
 import ButtonUp from "../../components/buttonUp/buttonUp";
-import {GET_PATH_SEARCH} from "../../app/App";
-import NavCategoryButton from "../../components/navCategoryButton/navCategoryButton";
+import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWrapper/withBadFetchingCasesWrapper";
+import Button from "../../components/button/button";
+import CategoryNavigation from '../../components/categoryNavigation/categoryNavigation';
 
 
 const AnnouncementsListPage = (props: any) => {
 
     //------USE-HISTORY-----//
-    const {location : {pathname}} = useHistory()
+    const {location: {pathname}} = useHistory()
     const category = pathname.substr(1)
 
     //------MAP-STATE-TO-PROPS-----//
-    const categoriesData = useSelector( (state) => getCategoriesDataSelector(state))
-        //---SEARCHED-BOX-STATE---//
-    const {label:currentCategory} = useSelector(getSearchConfigCategorySelector)
-    const {label:currentSubway}: any = useSelector(getSearchConfigSubwayStationsSelector)
+
+    //---SEARCHED-BOX-STATE---//
+    const {label: currentCategory} = useSelector(getSearchConfigCategorySelector)
+    const {name: currentSubway}: any = useSelector(getSearchConfigSubwayStationsSelector)
 
     const searchedData = useSelector(getSearchedDataSelector)
     const isFetchingSearchState = useSelector(getIsFetchingSearchReducerSelector)
     const currentPageSearch = useSelector(getCurrentPageSearchReducerSelector)
     const totalNumOfPageSearch = useSelector(getTotalNumOfPageSearchReducerSelector)
     const isEqualsCurrAndTotalPageSearch = currentPageSearch === totalNumOfPageSearch
-        //----------------------//
+    //----------------------//
     const isSearchState = searchedData.length || isFetchingSearchState
     //---ANNOUNCEMENTS-LIST-STATE---//
     const announcementsList = useSelector(getAnnouncementsListSelector)
-    const isFetchingMainState = useSelector(getIsFetchingMainStateSelector)
     const currentPage = useSelector(getCurrentPageAnnouncementsListReducerSelector)
     const totalNumOfPages = useSelector(getTotalNumOfPagesAnnouncementsListReducerSelector)
     const isEqualsCurrAndTotalPage = currentPage === totalNumOfPages
+    //---MAIN-STATE---//
+    const isFetchingMainState = useSelector(getIsFetchingMainStateSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -79,10 +82,11 @@ const AnnouncementsListPage = (props: any) => {
     const getIsEqualsCurrAndTotalPage: () => boolean = () => isSearchState ? isEqualsCurrAndTotalPageSearch : isEqualsCurrAndTotalPage
 
     //---LOCAL-STATE---//
-    const [state, setState] = useState(() => ( {currentCategory, currentSubway} ) )
+    const [state, setState] = useState(() => ({currentCategory, currentSubway}))
 
     //----COMPONENT-DID-MOUNT/UNMOUNT-LIFECYCLE----//
     useEffect(() => {
+        window.scrollTo(0,0)
         getAnnouncements(category)
         return () => {
             resetToInitialStateAnnouncementsList()
@@ -98,50 +102,33 @@ const AnnouncementsListPage = (props: any) => {
     }, [category])
 
     //------INFINITY-SCROLL------//
-    const infinityScrollHandler = () => (event: any) => {
-        if(!getIsEqualsCurrAndTotalPage()) {
+    const infinityScrollHandler = (event?: any) => {
+        if (!getIsEqualsCurrAndTotalPage()) {
             getSetCurrentPageAction()()
             getDataAction()(category, true)
         }
     }
-    useInfinityScroll(infinityScrollHandler())
+    useInfinityScroll(infinityScrollHandler)
 
     return (
         <div className={"announcementsList fullHeightContent"}>
             <Header/>
             <SearchBox className={"mt-4"} placeHolder={"Поиск по объявлениям"}/>
-            <hr className={"my-4"}/>
-            <div className="row d-flex justify-content-center col-lg-12">
-                <h5 className={"alert alert-success"}>
-                    <span className={"font-weight-bold"}>Поиск по : </span>
-                    {state.currentSubway}> {state.currentCategory}
-                </h5>
-            </div>
-            <hr className={"my-4"}/>
-            <div className="announcementsList__slider-container d-flex container-fluid pt-2 pb-5">
-                <div className="slider-container__slider col-lg-2 p-0 ">
-                    {categoriesData.map( (categoryData: any) => {
-                        const {id, label, category, subCategories = []} = categoryData
-                        return <>
-                            <NavCategoryButton key={id} category={category} activeClassName={"text-warning"} configCategory={categoryData}>
-                            <h5>{label}</h5>
-                        </NavCategoryButton>
-                            {subCategories.map( (subCategoryData: any) => {
-                                const {id, label, category} = subCategoryData
-                                return <NavCategoryButton key={id} activeClassName={"text-warning"} category={category} configCategory={categoryData}>
-                                    <h6>- {label}</h6>
-                                </NavCategoryButton> } )}
-                        </> } ) }
-                    <hr className={"my-0 mt-4"}/>
-                </div>
+            <div className="announcementsList__slider-container container-fluid d-lg-flex">
+                <CategoryNavigation/>
                 <div className="slider-container__content col-lg-8">
-                    {getDataState().map( ({id, ...restMyAnnouncement}: any) =>
-                        <div key={id} className="announcementsList__item">
-                            <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>
-                        </div>) }
+                    <h3 className={"alert alert-success mb-4 d-flex flex-column"}>
+                        <span className={"font-weight-bold"}>Поиск по : </span>
+                        {state.currentSubway}> {state.currentCategory}
+                    </h3>
+                    <WithBadFetchingCasesWrapper isFetching={isFetchingMainState || isFetchingSearchState}>
+                        {getDataState().map(({id, ...restMyAnnouncement}: any) =>
+                            <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>)}
+                    </WithBadFetchingCasesWrapper>
                     <ButtonUp/>
-                    {isFetchingSearchState || isFetchingMainState && <Preloader/>}
                 </div>
+                {!getIsEqualsCurrAndTotalPage() && <Button className={"btn-success w-100 my-4 mobile"} onClickHandler={infinityScrollHandler}
+                         label={"Загрузить еще объявления"}/>}
             </div>
             <Footer/>
         </div>
