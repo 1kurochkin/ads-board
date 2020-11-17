@@ -1,4 +1,8 @@
-import {getItemFromLocalStorage, setItemToLocalStorage} from "../mainState/mainState";
+import {
+    getItemFromLocalStorage,
+    RESET_TO_DEFAULT_STATE_ALL_REDUCERS,
+    setItemToLocalStorage
+} from "../mainState/mainState";
 import defaultAvatar from "../../../pictures/defaultAvatar.jpg"
 export const SET_SETTINGS_IN_LOCAL_STORAGE_BY_FIELD = "SET_SETTINGS_IN_LOCAL_STORAGE_BY_FIELD"
 export const SET_IS_FETCHING_SETTINGS_REDUCER = "SET_IS_FETCHING_SETTINGS_REDUCER"
@@ -27,6 +31,9 @@ export const settingsStateReducer = (state = initialState, action : any): initia
         case SET_IS_FETCHING_SETTINGS_REDUCER :
             console.log("SET_IS_FETCHING_SETTINGS_REDUCER", value)
             return {...state, isFetching: value}
+        case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
+            console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
+            return initialState
         default: return state
     }
 }
