@@ -11,7 +11,10 @@ import {
     getIsCorrectAuthDataSelector,
     getIsRegistrationSelector
 } from "../../../redux/reducers/authorizationState/authorizationStateSelectors";
-import {getIsFetchingMainStateSelector} from "../../../redux/reducers/mainState/mainStateSelectors";
+import {
+    getIsErrorFetchMainStateSelector,
+    getIsFetchingMainStateSelector
+} from "../../../redux/reducers/mainState/mainStateSelectors";
 import Button from "../../button/button";
 import {
     checkIsReadyToSendByPageFormReducerAC, resetToInitialByPageFormReducerAC,
@@ -20,6 +23,7 @@ import {
 } from "../../../redux/reducers/formState/formStateActionCreators";
 import {getFieldsByPageFormReducerSelector} from "../../../redux/reducers/formState/formStateSelectors";
 import {prepareFormStateByPageForSend} from "../../../redux/reducers/formState/formState";
+import AlertErrorFetching from "../../alertErrorFetching/alertErrorFetching";
 
 
 type fieldTypes = "password" | "login" | "name" | string
@@ -32,6 +36,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
 
     //------MAP-STATE-TO-PROPS-----//
     const isRegistration = useSelector(getIsRegistrationSelector)
+    const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
     const isCorrectAuthData = useSelector(getIsCorrectAuthDataSelector)
     const isFetching = useSelector(getIsFetchingMainStateSelector)
     const authFormState: any = useSelector((state) => getFieldsByPageFormReducerSelector(state, "authorization"))
@@ -123,6 +128,8 @@ const AuthorizationPopupBox = (props: PropsType) => {
     return (
         <div className="authorization-popupBox position-relative">
             <h1 className={"authorization-popupBox__title"}>{!isRegistration ? "Вход" : "Регистрация"}</h1>
+            {isErrorFetchMainState && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Возникла ошибка!"}/>}
+            {!isCorrectAuthData && !isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Введённые данные не верны!"}/>}
             <hr className={"my-3"}/>
             <div className="authorization-popupBox__inputs-wrapper mb-2">
                 { getInputsConfig().map( ({field, inputType, placeholder, value, label, isValid}) => {
@@ -135,7 +142,6 @@ const AuthorizationPopupBox = (props: PropsType) => {
                                       onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
                 }) }
             </div>
-            {!isCorrectAuthData && !isRegistration && <h4>Введённые данные не верны</h4>}
             <Button onClickHandler={checkIsReadyToSend} label={!isRegistration ? "Войти" : "Зарегестрироваться"}
                     isDisabled={isFetching} className={"authorization-popupBox__btn btn-success"}/>
             {getBtnByIsExistUserForSwitch()}
