@@ -1,8 +1,9 @@
 .btn-up {
     position: fixed;
-    right: 20px;
-    bottom: 50px;
+    left: 20px;
+    bottom: 90px;
     opacity: 0.4;
+    z-index: 999;
 }
 
 .btn-up:hover {
