@@ -1,13 +1,17 @@
 import React from "react";
 import "./preloaderStyle.css";
 
-const Preloader = (props: any) => {
+type PreloaderPropsType = {
+    className?: string
+}
+
+const Preloader = (props: PreloaderPropsType) => {
     const {className} = props
 
     return (
-    <span className={`cssload-loader ${className}`}>
-        <span className="cssload-loader-inner"/>
-    </span>
+        <span className={`cssload-loader ${className}`}>
+            <span className="cssload-loader-inner"/>
+        </span>
     )
 }
 
