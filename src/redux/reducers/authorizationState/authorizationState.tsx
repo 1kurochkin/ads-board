@@ -1,5 +1,10 @@
 import {AuthorizationStateActionTypes} from "./authorizationStateActionCreators";
-import {getItemFromLocalStorage, setItemToLocalStorage, clearLocalStorage} from "../mainState/mainState";
+import {
+    getItemFromLocalStorage,
+    setItemToLocalStorage,
+    clearLocalStorage,
+    RESET_TO_DEFAULT_STATE_ALL_REDUCERS
+} from "../mainState/mainState";
 import {SET_IS_FETCHING_SETTINGS_REDUCER} from "../settingsState/settingsState";
 
 export const SET_IS_REGISTRATION = "SET_IS_REGISTRATION"
@@ -33,6 +38,9 @@ export const authorizationStateReducer = (state = initialState, action : Authori
             console.log("LOGOUT_OR_DELETE_USER")
             clearLocalStorage()
             return state
+        case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
+            console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
+            return initialState
         default: return state
     }
 }
