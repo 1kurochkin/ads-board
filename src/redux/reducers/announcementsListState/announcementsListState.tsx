@@ -1,4 +1,5 @@
 import {RESET_TO_INITIAL_SEARCH_REDUCER} from "../searchBoxState/searchBoxState";
+import {RESET_TO_DEFAULT_STATE_ALL_REDUCERS} from "../mainState/mainState";
 
 export const SET_ANNOUNCEMENTS_LIST = "SET_ANNOUNCEMENTS_LIST"
 export const SET_CURRENT_PAGE_ANNOUNCEMENTS_LIST_REDUCER = "SET_CURRENT_PAGE_ANNOUNCEMENTS_LIST_REDUCER"
@@ -33,6 +34,9 @@ export const announcementsListStateReducer = (state = initialState, action: any)
             return {...state, totalNumOfPages: value}
         case RESET_TO_INITIAL_ANNOUNCEMENTS_LIST_REDUCER :
             console.log("RESET_TO_INITIAL_ANNOUNCEMENTS_LIST_REDUCER")
+            return initialState
+        case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
+            console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
             return initialState
         default: return state
     }
