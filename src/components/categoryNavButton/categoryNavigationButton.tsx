@@ -8,13 +8,13 @@ import {setSearchConfigCategoryAC} from "../../redux/reducers/searchBoxState/sea
 type navCategoryButtonPropsType = {
     category: string
     activeClassName?: string
-    configCategory: string
+    configCategory: any
     children: any
     key?: any
     className?: string
 }
 
-const NavCategoryButton = (props: navCategoryButtonPropsType) => {
+const CategoryNavigationButton = (props: navCategoryButtonPropsType) => {
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -28,4 +28,4 @@ const NavCategoryButton = (props: navCategoryButtonPropsType) => {
 
 }
 
-export default NavCategoryButton;
+export default CategoryNavigationButton;
