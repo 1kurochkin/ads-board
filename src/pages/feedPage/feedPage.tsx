@@ -6,68 +6,63 @@ import {useDispatch, useSelector} from "react-redux";
 import {getLastAnnouncementsThunk} from "../../redux/thunks/thunks";
 import {
     getDescriptionSalamRuSelector,
-    getIsFetchingFeedReducerSelector,
     getLastAnnouncementsSelector
 } from "../../redux/reducers/feedState/feedStateSelectors";
 import Announcement from "../../components/announcement/announcement";
 import Footer from "../../components/footer/footer";
+import ButtonUp from "../../components/buttonUp/buttonUp";
+import Button from "../../components/button/button";
+import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWrapper/withBadFetchingCasesWrapper";
+import CategoryNavigation from "../../components/categoryNavigation/categoryNavigation";
+import CategoryNavigationButton from "../../components/categoryNavButton/categoryNavigationButton";
+import {initialStateCategory} from "../../redux/reducers/mainState/mainState";
 
 
 const FeedPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
-    const {lastAnnouncements, isFetching, descriptionSalamRu} = useSelector((state) => ({
-        lastAnnouncements: getLastAnnouncementsSelector(state),
-        isFetching: getIsFetchingFeedReducerSelector(state),
-        descriptionSalamRu: getDescriptionSalamRuSelector(state)
-    }))
+    const lastAnnouncements = useSelector(getLastAnnouncementsSelector)
+    const descriptionSalamRu = useSelector(getDescriptionSalamRuSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
-    const getLastAnnouncements = useCallback(() => dispatch(getLastAnnouncementsThunk()), [dispatch])
+    const getLastAnnouncements = useCallback((page, withConcat = false) => dispatch(getLastAnnouncementsThunk(page, withConcat)), [dispatch])
 
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
-        getLastAnnouncements()
+        window.scrollTo(0,0)
+        getLastAnnouncements(0)
+        getLastAnnouncements(1, true)
     }, [])
 
     return (
         <div className={"feedPage"}>
             <Header/>
-            <div className="feedPage__container container-lg">
-                <div className="feedPage__searchBox">
-                    <SearchBox placeHolder={"Поиск по объявлениям"}/>
-                </div>
-                {/*<div className="feedPage__category-cards">*/}
-                {/*    */}
-                {/*</div>*/}
-                <div className="feedPage__lastAnnouncements mb-5">
-                        <h2 className="display-5 jumbotron p-2">Последние объявления</h2>
-                    {/*<h2 className="feedPage__lastAnnouncements-title">Последние объявления</h2>*/}
-                    <div className="row justify-content-center">
-                        {lastAnnouncements.map((lastAnnouncement: any) => <Announcement {...lastAnnouncement}/>)}
+            {/*<div style={{height:"81px", width: "100%"}} className="ads-banner"></div>*/}
+            <SearchBox className={"mt-4"} placeHolder={"Поиск по объявлениям"}/>
+            <div className="container-fluid d-lg-flex">
+                <CategoryNavigation />
+                <div className="col-lg-8">
+
+                    <div className="mb-5">
+                        <h2 className="jumbotron p-2 pl-0">Последние объявления</h2>
+                        <WithBadFetchingCasesWrapper>
+                            {lastAnnouncements.map((lastAnnouncement: any) =>
+                                <Announcement className={"horizontalCard"} {...lastAnnouncement}/>)}
+                        </WithBadFetchingCasesWrapper>
+                        <CategoryNavigationButton category={"all"} configCategory={initialStateCategory}>
+                            <Button className={"btn-success col-md-12 mt-4"} label={"Посмотерть все объявления"}/>
+                        </CategoryNavigationButton>
                     </div>
-                </div>
-                <div className="jumbotron p-4">
-                    <h1 className="display-5">О проекте</h1>
                     <hr className="my-4"/>
-                        <p className="lead">Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit.
-                            Impedit minima perferendis tenetur?
-                            Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.
-                            Dignissimos fuga, quas quasi quisquam saepe sint.
-                        </p>
+                    <div className="jumbotron p-4 ">
+                        <h1 className="display-5">О проекте</h1>
+                        <hr className="my-4"/>
+                        <p className="lead">{descriptionSalamRu}</p>
+                    </div>
+
                 </div>
-                {/*<div className="feedPage__descriptionSalamRu">*/}
-                {/*    <h2 className="feedPage__descriptionSalamRu-title">О проекте</h2>*/}
-                {/*    <p className="feedPage__descriptionSalamRu-description">*/}
-                {/*        Lorem ipsum dolor sit amet,*/}
-                {/*        consectetur adipisicing elit.*/}
-                {/*        Impedit minima perferendis tenetur?*/}
-                {/*        Delectus dolores eaque est, explicabo laboriosam minus quia ut vel veniam.*/}
-                {/*        Dignissimos fuga, quas quasi quisquam saepe sint.*/}
-                {/*    </p>*/}
-                {/*</div>*/}
+                <ButtonUp/>
             </div>
             <Footer/>
         </div>
