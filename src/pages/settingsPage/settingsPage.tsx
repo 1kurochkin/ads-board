@@ -99,7 +99,7 @@ const SettingsPage = (props: any) => {
             <Header/>
             <div className="container-lg pb-5 pt-5">
                 <h2 className="display-5 jumbotron p-2 mb-5">Настройки профиля</h2>
-                <div className="d-flex justify-content-around">
+                <div className="d-lg-flex justify-content-around">
                     <div className="settingsPage__settings-wrapper">
 
                         <div className="settingsPage__setting-avatar w-100">
@@ -120,13 +120,13 @@ const SettingsPage = (props: any) => {
                         </div>
 
                     </div>
-                    <div className="settingsPage__settings-wrapper col-lg-5">
+                    <div className="settingsPage__settings-wrapper p-0 mt-5 col-lg-5">
                         { getInputsConfig().map( ({field, ...restConfig}) => <>
-                            <div className="settingsPage__setting input-group w-100">
-                                <TextInput className={"w-75"} key={field} {...restConfig}
+                            <div className="settingsPage__setting d-flex input-group my-2">
+                                <TextInput key={field} {...restConfig}
                                            onBlurHandler={() => setIsValidFormReducer(field)}
                                            onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
-                                <Button className={"input-group-append btn-success align-self-end"} onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
+                                <Button className={"input-group-append btn-success ml-4 align-self-end"} onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
                             </div>
                             <hr className="my-4"/> </>) }
                     </div>
