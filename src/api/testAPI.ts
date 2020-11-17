@@ -41,10 +41,10 @@ export class testAPI {
 
     // ------FEED-PAGE-----//
     //@response  20 последних объявлений
-    static getLastAnnouncements = (): Promise<Response> => {
+    static getLastAnnouncements = (page: number): Promise<Response> => {
         console.log("getLastAnnouncements")
-        const path = `getMyAnnouncements`
-        return fetch(`https://5faa8c4eb5c645001602abd5.mockapi.io/getLastAnnouncements`)
+        const path = `getLastAnnouncements`
+        return fetch(`https://5faa8c4eb5c645001602abd5.mockapi.io/getAnnouncementsList`)
     }
 
     // ------GET-USER-INFO-----//
@@ -73,9 +73,9 @@ export class testAPI {
     }
 
     // ------GET-ANNOUNCEMENT-BY-CATEGORY-AND-ID----//
-    static getAnnouncementByCategoryAndId = (category: GetAnnouncementsCategoryType, id: number): Promise<Response> => {
-        console.log("getAnnouncementByCategoryAndId", category, id)
-        const path = `getAnnouncementByCategoryAndId/${category}/${id}`
+    static getAnnouncementByIdThunk = (category: GetAnnouncementsCategoryType, id: number): Promise<Response> => {
+        console.log("getAnnouncementByIdThunk", category, id)
+        const path = `getAnnouncementByIdThunk/${category}/${id}`
         return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/getAnnouncement`)
     }
 
