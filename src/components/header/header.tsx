@@ -1,9 +1,9 @@
 import React, {useCallback, useRef, useState} from 'react';
 import "./headerStyles.css"
-import {Link, NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Logo from "../logo/logo";
 import AuthorizationModalWindow from "../modalWindow/authorizationModalWindow/authorizationModalWindow";
-import {PATH_CREATE_ANNOUNCEMENT, PATH_MY_ANNOUNCEMENTS, PATH_SETTINGS} from "../../app/App";
+import {linkToCreateAnnouncement, PATH_MY_ANNOUNCEMENTS, PATH_SETTINGS} from "../../app/App";
 import {useDispatch, useSelector} from "react-redux";
 import {getIsAuthSelector,} from "../../redux/reducers/authorizationState/authorizationStateSelectors";
 import AlertModalWindow from "../modalWindow/alertModalWindow/alertModalWindow";
@@ -11,8 +11,7 @@ import Button from "../button/button";
 import {postLogoutOrDeleteUser} from "../../redux/thunks/thunks";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import {getSettingsFieldValueByFieldSelector} from "../../redux/reducers/settingsState/settingsStateSelectors";
-import {getCategoriesDataSelector} from "../../redux/reducers/mainState/mainStateSelectors";
-import NavCategoryButton from "../navCategoryButton/navCategoryButton";
+import NavBar from "../navBar/navBar";
 
 const Header = (props: any) => {
 
@@ -22,7 +21,6 @@ const Header = (props: any) => {
     //------MAP-STATE-TO-PROPS-----//
     const isAuth = useSelector(getIsAuthSelector)
     const name = useSelector((state) => getSettingsFieldValueByFieldSelector(state, "name"))
-    const categoriesData = useSelector(getCategoriesDataSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -30,6 +28,7 @@ const Header = (props: any) => {
 
     //------LOCAL-STATE-----//
     const [isActiveAuthModal, setIsActiveAuthModal] = useState(false)
+    const [isActiveMobileMenu, setIsActiveMobileMenu] = useState(false)
     const [isActiveAuthMenu, setIsActiveAuthMenu] = useState(false)
     const [isActiveLogoutAlert, setIsActiveLogoutAlert] = useState(false)
 
@@ -50,7 +49,7 @@ const Header = (props: any) => {
     // ]
 
     const alertCreateAnnouncement = useCallback(() =>
-        <AlertModalWindow openBtnElement={<Button className={"header__btn-link btn-outline-light"} label={"Разместить объявление"}/>}
+        <AlertModalWindow openBtnElement={<Button className={"btn-outline-light my-sm-2"} label={"Разместить объявление"}/>}
                           btnOneConfiguration={{btnOneLabel: "Позже", btnOneHandler:() => setIsActiveAuthModal(false) }}
                           btnTwoConfiguration={{btnTwoLabel: "Авторизироваться", btnTwoHandler:() => setIsActiveAuthModal(true) }}
                           alertText={"Для размещения объявления, необходимо авторизироваться!"}/>, [])
@@ -60,17 +59,10 @@ const Header = (props: any) => {
                           btnOneConfiguration={{btnOneLabel: "Нет", btnOneHandler:() => setIsActiveLogoutAlert(false)}}
                           btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:logoutUser }}/>, [])
 
-
-    const linkToCreateAnnouncement = <>
-        <NavLink activeClassName={"active"} className="header__btn-link btn btn-outline-light" to={PATH_CREATE_ANNOUNCEMENT}>
-            Разместить объявление
-        </NavLink>
-    </>
-
     const authMenu = <>
-        <div ref={ref} onClick={toggleIsActiveAuthMenu} className="dropdown">
-            <Button className={"btn-warning dropdown-toggle"} label={name}/>
-            <div className={`dropdown-menu ${isActiveAuthMenu && "show"}`}>
+        <div ref={ref} onClick={toggleIsActiveAuthMenu} className="dropdown header__authMenu mr-md-4">
+            <Button className={"btn-warning dropdown-toggle w-100"} label={name}/>
+            <div className={`header__authMenu-menu dropdown-menu ${isActiveAuthMenu && "header__show"}`}>
                 <Link to={PATH_MY_ANNOUNCEMENTS} className="dropdown-item">
                     Мои объявления
                 </Link>
@@ -84,21 +76,18 @@ const Header = (props: any) => {
     </>
 
     return (
-        <div className="navbar navbar-dark bg-info pl-5 pr-5">
-            <div className="d-flex">
+        <div className="navbar justify-content-center navbar-dark d-flex flex-column flex-lg-row align-items-center bg-info pl-5 pr-5">
+            <div className={"d-flex col-sm-12 justify-content-between justify-content-md-center col-md-1 mb-md-3 mb-lg-0 align-items-center "}>
                 <Logo/>
-                <div className="header__navigation-wrapper navbar-nav flex-row ml-5">
-                    {categoriesData.map((categoryData: any, index:number) => {
-                        const {category, label, id} = categoryData
-                        return index !== 0 &&
-                            <NavCategoryButton className={"nav-link ml-3"} key={id} category={category} configCategory={categoryData}>
-                            {label}
-                        </NavCategoryButton> })}
-                </div>
+                <span onClick={() => setIsActiveMobileMenu(prevState => !prevState)}
+                      className="navbar-toggler-icon mobile border rounded border-color-dark p-3"/>
             </div>
-            <div className="header__inner-wrapper">
+            <div className={`header__menu p-0 flex-md-fill flex-md-column flex-lg-row justify-content-center justify-content-lg-between align-items-center flex-wrap flex-lg-nowrap d-flex ${isActiveMobileMenu && "header__show"}`}>
+                <NavBar className={"mb-md-3 mb-lg-0"}/>
+            <div className="d-flex align-items-md-center flex-column flex-md-row flex-grow-1 flex-md-grow-0 justifu-content-center">
                 {isAuth ? authMenu : <AuthorizationModalWindow alertCloseHandler={() => setIsActiveAuthModal(false)} isActiveFromProps={isActiveAuthModal}/>}
-                {isAuth ? linkToCreateAnnouncement : alertCreateAnnouncement()}
+                {isAuth ? linkToCreateAnnouncement("") : alertCreateAnnouncement()}
+            </div>
             </div>
             {isActiveLogoutAlert && alertLogout()}
         </div>
