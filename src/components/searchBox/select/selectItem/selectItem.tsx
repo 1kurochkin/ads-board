@@ -2,7 +2,7 @@ import React from 'react';
 import "./selectItem.css"
 
 type PropsType = {
-    label: string
+    name?: string
     isActive: any
     onChangeHandler: any
     className?: string
@@ -10,11 +10,11 @@ type PropsType = {
 
 const SelectItem = (props: PropsType) => {
 
-    const {label, isActive, onChangeHandler, className} = props
+    const {name = "", isActive, onChangeHandler, className} = props
 
     return (
-        <div onClick={onChangeHandler} className={`selectItem dropdown-item ${className}`}>
-            {label}
+        <div onClick={onChangeHandler} className={`selectItem dropdown-item p-3 border-bottom ${className} ${isActive && "active"}`}>
+            {name}
             {/*<input checked={isActive} type="radio" className="selectItem__checkBox"/>*/}
         </div>
     );
