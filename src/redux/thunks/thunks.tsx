@@ -1,4 +1,4 @@
-import {AuthorizationData, NewAnnouncementData, RegistrationData, testAPI} from "../../api/testAPI";
+import {AuthorizationData, NewAnnouncementData, RegistrationData} from "../../api/testAPI";
 import {Dispatch} from "redux";
 import {AppStateType} from "../store";
 import {
@@ -56,11 +56,15 @@ import {
     setIsFetchingMainStateAC,
     SetIsFetchingMainStateACType,
     setSubwayStationsDataAC,
-    SetSubwayStationsDataACType
+    SetSubwayStationsDataACType,
+    SetIsEmptyResponseMainStateACType,
+    setIsEmptyResponseMainStateAC,
+    setIsErrorFetchMainStateAC,
+    SetIsErrorFetchMainStateACType, resetToDefaultAllReducersAC
 } from "../reducers/mainState/mainStateActionCreators";
 import {
     resetToInitialByPageFormReducerAC,
-    ResetToInitialByPageFormReducerACType
+    ResetToInitialByPageFormReducerACType, setIsReadyToSendFormReducerAC
 } from "../reducers/formState/formStateActionCreators";
 import defaultAvatar from "../../pictures/defaultAvatar.jpg"
 
@@ -68,107 +72,158 @@ type GetStateType = () => AppStateType
 
 
 //--------------------AUTHORIZATION---------------------//
-type SendAuthDispatchType = Dispatch<SetIsAuthACType | SetIsFetchingMainStateACType | any | SetSettingsInLocalStorageByFieldACType | CallHistoryMethodAction | ResetToInitialByPageFormReducerACType>
+type SendAuthDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsAuthACType | SetIsFetchingMainStateACType | any | SetSettingsInLocalStorageByFieldACType | CallHistoryMethodAction | ResetToInitialByPageFormReducerACType>
 export const sendAuthorizationOrRegistrationThunk = (data: AuthorizationData & RegistrationData) => (dispatch: SendAuthDispatchType, getState: any) => {
-    const {authorizationState: {isRegistration}} = getState()
+    const {authorizationState: {isRegistration}, mainState : {apiService}} = getState()
     dispatch(setIsFetchingMainStateAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
     console.log("sendAuthorizationOrRegistrationThunk", data)
 
     const getRequestMethod = () => isRegistration ? "postRegistrationData" : "postAuthorizationData"
-    testAPI[getRequestMethod()](data)
-        .then(response => {
-            if (response.status !== 200)
-                throw `AUTHORIZATION DATA IS NOT POSTED STATUS ${response.status}`
+    const getPageForFormReducer = () => isRegistration ? "registration" : "authorization"
+    apiService[getRequestMethod()](data)
+        .then((response:any) => {
+            if (!response.ok) throw response.status
             return response.json()
         })
-        .then(({result = true}) => {
+        .then(({result = true}: any) => {
             dispatch(setIsFetchingMainStateAC(false))
             if (result) {
                 dispatch(getUserInfoThunk())
                 dispatch(setSettingsInLocalStorageByFieldAC(data.login,"login"))
                 dispatch(setSettingsInLocalStorageByFieldAC(data.password,"password"))
                 dispatch(setIsAuthAC(true))
-            } else dispatch(setIsCorrectAuthDataAC(false))
+            }
         })
-        .catch(err => console.error(err))
+        .catch((status: any) => {
+            console.log(status)
+            status == "401" ?
+                dispatch(setIsCorrectAuthDataAC(false)) :
+                dispatch(setIsErrorFetchMainStateAC(true))
+            dispatch(setIsFetchingMainStateAC(false))
+            dispatch(setIsReadyToSendFormReducerAC(false, getPageForFormReducer()))
+
+            console.error(status)
+        })
 }
 
 //--------------------SEARCH-BOX---------------------//
-type GetSubwayStationsDispatchType = Dispatch<SetSubwayStationsDataACType>
-export const getSubwayStationsThunk = () => (dispatch: GetSubwayStationsDispatchType) => {
+type GetSubwayStationsDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetSubwayStationsDataACType>
+export const getSubwayStationsThunk = () => (dispatch: GetSubwayStationsDispatchType, getState: any) => {
     console.log("getSubwayStationsThunk")
 
-    testAPI["getSubwayStations"]()
-        .then(response => {
-            if (response.status !== 200)
+    const {mainState: {apiService}} = getState()
+
+    apiService["getSubwayStations"]()
+        .then((response:any) => {
+            if (!response.ok)
                 throw `CANNOT FETCH GET REQUEST ${response.status}`
             return response.json()
         })
-        .then(data => {
+        .then((data: any) => {
             dispatch(setSubwayStationsDataAC(data))
         })
-        .catch(err => console.error(err))
+        .catch((err: any) => {
+            // dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        })
 }
 
-type GetAnnouncementsByFiltersDispatchType = Dispatch<SetSearchedDataAType | SetTotalNumOfPageSearchReducerACType | SetIsFetchingSearchReducerACType>
+type GetAnnouncementsByFiltersDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsEmptyResponseMainStateACType | SetSearchedDataAType | SetTotalNumOfPageSearchReducerACType | SetIsFetchingSearchReducerACType>
 export const getAnnouncementsByFiltersThunk = (withConcat: boolean = false) => (dispatch: GetAnnouncementsByFiltersDispatchType, getState: any) => {
     dispatch(setIsFetchingSearchReducerAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
+    dispatch(setIsEmptyResponseMainStateAC(false))
     console.log("getAnnouncementsByFiltersThunk")
-    const {currentPage, searchConfig: {categoryId, subwayStations, searchValue}} = getState().searchBoxState
-    testAPI["getAnnouncementsByFilters"](currentPage, searchValue, categoryId, subwayStations)
-        .then(response => {
-            if (response.status !== 200)
+
+    const {
+        searchBoxState : {
+            currentPage,
+            searchConfig: {categoryId: {category}, subwayStations: {id:stationId}, searchValue}
+        },
+        mainState : {apiService} } = getState()
+
+    apiService["getAnnouncementsByFilters"](currentPage, searchValue, category, stationId)
+        .then((response:any) => {
+            if(!response.ok) throw response.status
+            dispatch(setIsEmptyResponseMainStateAC(response.status === 404))
+            if (!response.ok)
                 throw `CANNOT FETCH GET REQUEST ${response.status}`
             return response.json()
         })
-        .then(({totalNumOfPages, announcements}) => {
-            dispatch(setTotalNumOfPageSearchReducerAC(totalNumOfPages))
+        .then(({pages, announcements}: any) => {
+            dispatch(setTotalNumOfPageSearchReducerAC(pages - 1))
             dispatch(setSearchedDataAC(announcements, withConcat))
             dispatch(setIsFetchingSearchReducerAC(false))
         })
-        .catch(err => console.error(err))
+        .catch((status: any) => {
+            status === 404 ?
+                dispatch(setIsEmptyResponseMainStateAC(true)) :
+                dispatch(setIsErrorFetchMainStateAC(true))
+            dispatch(setIsFetchingSearchReducerAC(false))
+            console.error(status)
+        })
 }
 
 //--------------------FEED-PAGE--------------------//
-type getLastAnnouncementsDispatchType = Dispatch<SetetIsFetchingFeedReducerACType | SetLastAnnouncementsACType>
-export const getLastAnnouncementsThunk = () => (dispatch: getLastAnnouncementsDispatchType) => {
-    dispatch(setIsFetchingFeedReducerAC(true))
-    console.log("sendAuthorizationOrRegistrationThunk")
+type getLastAnnouncementsDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsEmptyResponseMainStateACType | SetIsFetchingMainStateACType | SetLastAnnouncementsACType>
+export const getLastAnnouncementsThunk = (page: number, withConcat = false) => (dispatch: getLastAnnouncementsDispatchType, getState: any) => {
+    dispatch(setIsFetchingMainStateAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
+    dispatch(setIsEmptyResponseMainStateAC(false))
+    console.log("getLastAnnouncementsThunk")
 
-    testAPI["getLastAnnouncements"]()
-        .then(response => {
-            if (response.status !== 200)
-                throw `CANNOT FETCH GET REQUEST ${response.status}`
+    const {mainState: {apiService}} = getState()
+
+    apiService["getAnnouncementsByFilters"](page, "", "", "")
+        .then((response:any) => {
+            if(!response.ok) throw response.status
             return response.json()
         })
-        .then((data) => {
-            dispatch(setLastAnnouncementsAC(data))
-            dispatch(setIsFetchingFeedReducerAC(false))
+        .then(({announcements}: any)  => {
+            dispatch(setLastAnnouncementsAC(announcements, withConcat))
+            dispatch(setIsFetchingMainStateAC(false))
         })
-        .catch(err => console.error(err))
+        .catch((status: any) => {
+            status === 404 ?
+                dispatch(setIsEmptyResponseMainStateAC(true)) :
+                dispatch(setIsErrorFetchMainStateAC(true))
+            dispatch(setIsFetchingMainStateAC(false))
+            console.error(status)
+        })
 }
 //--------------------SETTINGS-PAGE--------------------//
-type PostSettingByFieldDispatchType = Dispatch<SetSettingsInLocalStorageByFieldACType>
-export const postSettingByFieldThunk = (data: any, field: SettingsFieldType) => (dispatch: PostSettingByFieldDispatchType) => {
+type PostSettingByFieldDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetSettingsInLocalStorageByFieldACType>
+export const postSettingByFieldThunk = (data: any, field: SettingsFieldType) => (dispatch: PostSettingByFieldDispatchType, getState: any) => {
+    dispatch(setIsErrorFetchMainStateAC(false))
+
     console.log("postSettingByFieldThunk")
     const [value] = Object.values(data)
 
-    testAPI["postSettingsByField"](data, field)
-        .then(response => {
-            if (response.status !== 200)
+    const {mainState: {apiService}} = getState()
+
+    apiService["postSettingsByField"](data, field)
+        .then((response:any) => {
+            if (!response.ok)
                 throw `CANNOT FETCH POST REQUEST ${response.status}`
             return response.json()
         })
-        .then(({result = false}) => {
+        .then(({result = false}: any) => {
             result && dispatch(setSettingsInLocalStorageByFieldAC(value, field))
         })
-        .catch(err => console.error(err))
+        .catch((err: any) => {
+            dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        })
 }
 
-type PostLogoutOrDeleteUserType = Dispatch<LogoutOrDeleteUserACType | CallHistoryMethodAction>
+type PostLogoutOrDeleteUserType = Dispatch<SetIsErrorFetchMainStateACType | LogoutOrDeleteUserACType | CallHistoryMethodAction>
 type LogoutOrDeleteType = "logout" | "delete"
-export const postLogoutOrDeleteUser = (logoutOrDelete: LogoutOrDeleteType) => (dispatch: PostLogoutOrDeleteUserType) => {
+export const postLogoutOrDeleteUser = (logoutOrDelete: LogoutOrDeleteType) => (dispatch: PostLogoutOrDeleteUserType, getState:any) => {
     console.log("postLogoutOrDeleteUser")
+    dispatch(setIsErrorFetchMainStateAC(false))
+
+    const {mainState: {apiService}} = getState()
 
     const getRequestByLogoutOrDelete = () => {
         if (logoutOrDelete === "logout") return "postLogout"
@@ -176,130 +231,174 @@ export const postLogoutOrDeleteUser = (logoutOrDelete: LogoutOrDeleteType) => (d
         return "postLogout"
     }
 
-    testAPI[getRequestByLogoutOrDelete()]()
-        .then(response => {
-            if (response.status !== 200)
+    apiService[getRequestByLogoutOrDelete()]()
+        .then((response:any) => {
+            if (!response.ok)
                 throw `CANNOT FETCH POST REQUEST ${response.status}`
             return response.json()
         })
-        .then(({result = false}) => {
+        .then(({result = false}: any) => {
             if (result) {
                 dispatch(logoutOrDeleteUseAC())
+                dispatch(resetToDefaultAllReducersAC())
                 dispatch(push(PATH_FEED))
             }
         })
-        .catch(err => console.error(err))
+        .catch((err: any) => {
+            dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        })
 }
 
 //--------------------ANNOUNCEMENT-PAGE--------------------//
-type GetAnnouncementByCategoryAndIdDispatchType = Dispatch<SettIsFetchingAnnouncementReducerACType | SetAnnouncementsACType>
-export const getAnnouncementByCategoryAndIdThunk = (category: string, id: number) => (dispatch: GetAnnouncementByCategoryAndIdDispatchType) => {
+type GetAnnouncementByIdDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsEmptyResponseMainStateACType | SettIsFetchingAnnouncementReducerACType | SetAnnouncementsACType>
+export const getAnnouncementByIdThunk = (category: string, id: number) => (dispatch: GetAnnouncementByIdDispatchType, getState: any) => {
     dispatch(settIsFetchingAnnouncementReducerAC(true))
-    console.log("getAnnouncementByCategoryAndIdThunk")
+    dispatch(setIsErrorFetchMainStateAC(false))
+    console.log("getAnnouncementByIdThunk")
 
-    testAPI["getAnnouncementByCategoryAndId"](category, id)
-        .then(response => {
-            if (response.status !== 200)
-                throw `CANNOT FETCH GET REQUEST ${response.status}`
+    const {mainState: {apiService}} = getState()
+
+    apiService["getAnnouncementByIdThunk"](category, id)
+        .then((response:any) => {
+            if(!response.ok) throw response.status
             return response.json()
         })
-        .then((data) => {
+        .then((data: any) => {
             dispatch(setAnnouncementAC(data))
             dispatch(settIsFetchingAnnouncementReducerAC(false))
         })
-        .catch(err => console.error(err))
+        .catch((status: any) => {
+            status === 404 ?
+                dispatch(setIsEmptyResponseMainStateAC(true)) :
+                dispatch(setIsErrorFetchMainStateAC(true))
+            dispatch(settIsFetchingAnnouncementReducerAC(false))
+            console.error(status)
+        })
 }
 
 //--------------------MY-ANNOUNCEMENT-PAGE--------------------//
-type GetMyAnnouncementsDispatchType = Dispatch<SetMyAnnouncementsACType | SettIsFetchingMyAnnouncementReducerACType | SetTotalNumOfPageMyAnnouncementReducerACType>
+type GetMyAnnouncementsDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetMyAnnouncementsACType | SetIsEmptyResponseMainStateACType | SetIsFetchingMainStateACType | SetTotalNumOfPageMyAnnouncementReducerACType>
 export const getMyAnnouncementsThunk = (withConcat = false) => (dispatch: GetMyAnnouncementsDispatchType, getState: any) => {
-    dispatch(settIsFetchingMyAnnouncementsReducerAC(true))
+    dispatch(setIsFetchingMainStateAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
+    dispatch(setIsEmptyResponseMainStateAC(false))
     console.log("getMyAnnouncementsThunk")
 
-    const {myAnnouncementsState: {currentPage}} = getState()
+    const {myAnnouncementsState: {currentPage}, mainState : {apiService}} = getState()
 
-    testAPI["getMyAnnouncements"](currentPage)
-        .then(response => {
-            if (response.status !== 200)
-                throw `CANNOT FETCH GET REQUEST ${response.status}`
+    apiService["getMyAnnouncements"](currentPage)
+        .then((response:any) => {
+            if (!response.ok) throw response.status
             return response.json()
         })
-        .then(({totalNumOfPages, announcements}) => {
-            dispatch(setTotalNumOfPageMyAnnouncementReducerAC(totalNumOfPages))
+        .then(({pages, announcements}: any) => {
+            dispatch(setTotalNumOfPageMyAnnouncementReducerAC(pages - 1))
             dispatch(setMyAnnouncementsAC(announcements, withConcat))
-            dispatch(settIsFetchingMyAnnouncementsReducerAC(false))
+            dispatch(setIsFetchingMainStateAC(false))
         })
-        .catch(err => console.error(err))
+        .catch((status: any) => {
+            status === 404 ?
+                dispatch(setIsEmptyResponseMainStateAC(true)) :
+                dispatch(setIsErrorFetchMainStateAC(true))
+
+            dispatch(setIsFetchingMainStateAC(false))
+
+            console.error(status)
+        })
 }
 
-type PostDeleteAnnouncementDispatchType = Dispatch<SettIsFetchingMyAnnouncementReducerACType | DelMyAnnouncementByIdACType>
-export const postDeleteAnnouncementThunk = (id: number) => (dispatch: PostDeleteAnnouncementDispatchType) => {
+type PostDeleteAnnouncementDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SettIsFetchingMyAnnouncementReducerACType | DelMyAnnouncementByIdACType>
+export const postDeleteAnnouncementThunk = (id: number) => (dispatch: PostDeleteAnnouncementDispatchType, getState: any) => {
     dispatch(settIsFetchingMyAnnouncementsReducerAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
     console.log("postDeleteAnnouncementThunk")
 
-    testAPI["postDeleteAnnouncement"](id)
-        .then(response => {
-            if (response.status !== 200)
+    const {mainState: {apiService}} = getState()
+
+    apiService["postDeleteAnnouncement"](id)
+        .then((response:any) => {
+            if (!response.ok)
                 throw `CANNOT FETCH POST REQUEST ${response.status}`
             return response.json()
         })
-        .then(({result = false}) => {
+        .then(({result = false}: any) => {
             result && dispatch(delMyAnnouncementByIdAC(id))
             dispatch(settIsFetchingMyAnnouncementsReducerAC(false))
         })
-        .catch(err => console.error(err))
+        .catch((err: any) => {
+            dispatch(settIsFetchingMyAnnouncementsReducerAC(false))
+            dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        })
 }
 
 //--------------------CREATE-ANNOUNCEMENT--------------------//
-type PostNewAnnouncementDispatchType = Dispatch<SetIsFetchingMainStateACType | CallHistoryMethodAction>
-export const postNewAnnouncementThunk = (data: NewAnnouncementData) => (dispatch: PostNewAnnouncementDispatchType) => {
+type PostNewAnnouncementDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsFetchingMainStateACType | CallHistoryMethodAction>
+export const postNewAnnouncementThunk = (data: NewAnnouncementData) => (dispatch: PostNewAnnouncementDispatchType, getState:any) => {
     dispatch(setIsFetchingMainStateAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
     console.log("postNewAnnouncement")
 
-    testAPI["postNewAnnouncement"](data)
-        .then(response => {
-            if (response.status !== 200) throw `CANNOT FETCH POST REQUEST ${response.status}`
+    const {mainState: {apiService}} = getState()
+
+    apiService["postNewAnnouncement"](data)
+        .then((response:any) => {
+            if (!response.ok) throw `CANNOT FETCH POST REQUEST ${response.status}`
             else {
-                dispatch(setIsFetchingMainStateAC(true))
+                dispatch(setIsFetchingMainStateAC(false))
                 dispatch(push(PATH_MY_ANNOUNCEMENTS))
             }
         })
-        .catch(err => console.error(err))
+        .catch((err: any) => {
+            dispatch(setIsFetchingMainStateAC(false))
+            dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        })
 }
 
 //--------------------ANNOUNCEMENTS-LIST-PAGE--------------------//
-type GetAnnouncementsListDispatchType = Dispatch<SetTotalNumOfPageAnnouncementsListReducerACType | SetIsFetchingMainStateACType | SetAnnouncementsListACType | SetCurrentPageAnnouncementsListReducerACType>
+type GetAnnouncementsListDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsEmptyResponseMainStateACType | SetTotalNumOfPageAnnouncementsListReducerACType | SetIsFetchingMainStateACType | SetAnnouncementsListACType | SetCurrentPageAnnouncementsListReducerACType>
 export const getAnnouncementsListThunk = (category: string, withConcat = false) => (dispatch: GetAnnouncementsListDispatchType, getState: any) => {
     dispatch(setIsFetchingMainStateAC(true))
+    dispatch(setIsErrorFetchMainStateAC(false))
     console.log("getAnnouncementsListThunk")
 
-    const {announcementsListState: {currentPage}} = getState()
+    const {announcementsListState: {currentPage}, mainState : {apiService}} = getState()
 
-    testAPI["getAnnouncementsList"](currentPage, category)
-        .then(response => {
-            if (response.status !== 200)
+    apiService["getAnnouncementsByFilters"](currentPage, "", "", "")
+        .then((response:any) => {
+            dispatch(setIsEmptyResponseMainStateAC(response.status === 404))
+            if (!response.ok)
                 throw `CANNOT FETCH GET REQUEST ${response.status}`
             return response.json()
         })
-        .then(({totalNumOfPages, announcements}) => {
-            dispatch(setTotalNumOfPageAnnouncementsListReducerAC(totalNumOfPages))
+        .then(({pages, announcements}: any) => {
+            dispatch(setTotalNumOfPageAnnouncementsListReducerAC(pages - 1))
             dispatch(setAnnouncementsListAC(announcements, withConcat))
             dispatch(setIsFetchingMainStateAC(false))
         })
-        .catch(err => console.error(err))
+        .catch((err: any) => {
+            dispatch(setIsFetchingMainStateAC(false))
+            dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        })
 }
 //--------------------GET-USER-INFO--------------------//
-type GetUserInfoDispatchType = Dispatch<SetSettingsInLocalStorageByFieldACType>
+type GetUserInfoDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetSettingsInLocalStorageByFieldACType>
 type GetUserInfoThunkType = typeof getUserInfoThunk
-export const getUserInfoThunk = () => (dispatch:GetUserInfoDispatchType) => {
+export const getUserInfoThunk = () => (dispatch:GetUserInfoDispatchType, getState:any) => {
     console.log("getUserInfoThunk")
-    testAPI.getUserInfo()
-        .then(response => {
-            if (response.status !== 200)
+
+    const {mainState: {apiService}} = getState()
+
+    apiService.getUserInfo()
+        .then((response:any) => {
+            if (!response.ok)
                 throw `CANNOT FETCH GET REQUEST ${response.status}`
             return response.json()
         })
-        .then( ({avatar = defaultAvatar, ...restUserData}) => {
+        .then( ({avatar = defaultAvatar, ...restUserData}: any) => {
             console.log("RESPONSE", restUserData)
             dispatch(setSettingsInLocalStorageByFieldAC(avatar, "avatar"))
             const userDataEntries = Object.entries(restUserData)
