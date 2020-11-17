@@ -1,5 +1,7 @@
 
 export const getIsFetchingMainStateSelector = (state: any) => state.mainState.isFetching
+export const getIsEmptyResponseMainStateSelector = (state: any) => state.mainState.isEmptyResponse
+export const getIsErrorFetchMainStateSelector = (state: any) => state.mainState.isErrorFetch
 export const getSubwayStationsDataSelector = (state: any) => state.mainState.subwayStationsData
 export const getCategoriesDataSelector = (state: any) => state.mainState.categoriesData
 
@@ -8,8 +10,8 @@ export const getTheSubCategoriesSelector = (categoriesData: Array<any>, activeCl
     const isIncludesSubCategory = (categoryData: Object) => "subCategories" in categoryData
     //Возвращает подготовленный объект категории
     const prepareCategoryToPush = (categoryData: any) => {
-        const {id, label, category} = categoryData
-        const baseCategory = {id, label, category}
+        const {id, name, category} = categoryData
+        const baseCategory = {id, name, category}
         return isIncludesSubCategory(categoryData) ?
             {...baseCategory, className: activeClassName} : baseCategory
     }
