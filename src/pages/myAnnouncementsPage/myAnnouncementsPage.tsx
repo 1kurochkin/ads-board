@@ -4,9 +4,9 @@ import Header from "../../components/header/header";
 import {useDispatch, useSelector} from "react-redux";
 import Footer from "../../components/footer/footer";
 import {
+    getCurrentPageMyAnnouncementsReducerSelector,
     getIsFetchingMyAnnouncementsReducerSelector,
     getMyAnnouncementsSelector,
-    getCurrentPageMyAnnouncementsReducerSelector,
     getTotalNumOfPagesMyAnnouncementsReducerSelector
 } from '../../redux/reducers/myAnnouncementState/myAnnouncementStateSelectors';
 import {getMyAnnouncementsThunk, postDeleteAnnouncementThunk} from "../../redux/thunks/thunks";
@@ -15,6 +15,9 @@ import useInfinityScroll from "../../hooks/useInfinityScroll";
 import {setCurrentPageMyAnnouncementReducerAC} from "../../redux/reducers/myAnnouncementState/myAnnouncementStateActionCreators";
 import Button from "../../components/button/button";
 import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
+import ButtonUp from "../../components/buttonUp/buttonUp";
+import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWrapper/withBadFetchingCasesWrapper";
+import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
 
 const MyAnnouncementsPage = (props: any) => {
 
@@ -32,6 +35,7 @@ const MyAnnouncementsPage = (props: any) => {
 
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
+        window.scrollTo(0,0)
         getMyAnnouncements()
     }, [])
 
@@ -52,13 +56,19 @@ const MyAnnouncementsPage = (props: any) => {
             <Header/>
             <div className="myAnnouncements__container container-lg pt-5 pb-5">
                 <h2 className="display-5 jumbotron p-2">Мои объявления</h2>
-                {myAnnouncements.map( ({id, ...restMyAnnouncement}: any) =>
-                    <div key={id} className="d-flex mb-3">
-                        <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>
-                        <Button className={"btn-danger align-self-stretch mb-3 align-items-center d-flex font-weight-bold"} isDisabled={isFetching} onClickHandler={() => postDeleteAnnouncement(id)}
-                                label={"Удалить объявление"}/>
-                    </div>) }
-                {myAnnouncements.length > 5 && <Button className={"myAnnouncements__btn-up"} onClickHandler={onClickBtnUpHandler} label={"Наверх"}/>}
+                <WithBadFetchingCasesWrapper>
+                    {myAnnouncements.map( ({id, ...restMyAnnouncement}: any) =>
+                        <div key={id} className="d-flex mb-3">
+                            <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>
+                            <AlertModalWindow openBtnElement={<Button className={"btn-danger align-self-stretch mb-3 align-items-center d-flex"} isDisabled={isFetching} label={"Удалить объявление"}/>}
+                                              btnOneConfiguration={{btnOneLabel: "Нет"}}
+                                              btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:() => postDeleteAnnouncement(id) }}
+                                              alertText={"Удалить объявление?"}/>
+                        </div>) }
+                </WithBadFetchingCasesWrapper>
+                {currentPage !== totalNumOfPages && <Button className={"btn-success w-100 my-4 mobile"} onClickHandler={infinityScrollHandler}
+                         label={"Загрузить еще объявления"}/>}
+                <ButtonUp/>
             </div>
             <Footer/>
         </div>
