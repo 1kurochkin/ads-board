@@ -1,6 +1,6 @@
-import {initialStateCategory, initialStateSubway} from "../../../components/searchBox/select/select";
 import {LOCATION_CHANGE} from "connected-react-router";
 import {PATH_SEARCH} from "../../../app/App";
+import {initialStateCategory, initialStateSubway, RESET_TO_DEFAULT_STATE_ALL_REDUCERS} from "../mainState/mainState";
 
 export const SET_SEARCHED_DATA = "SET_SEARCHED_DATA"
 export const SET_IS_FETCHING_SEARCH_REDUCER = "SET_IS_FETCHING_SEARCH_REDUCER"
@@ -13,6 +13,7 @@ export const SET_SEARCH_CONFIG_SEARCH_VALUE = "SET_SEARCH_CONFIG_SEARCH_VALUE"
 
 export type initialStateType = typeof initialState
 
+// @ts-ignore
 const initialState = {
     searchedData : [],
     currentPage : 0,
@@ -28,7 +29,7 @@ const initialState = {
 export const searchBoxStateReducer = (state = initialState, action: any): initialStateType => {
     const { type, payload } = action
     const { value, withConcat, location : {pathname = "/"} = {} } = payload || {}
-    const { searchedData, currentPage, searchConfig } = state
+    const { searchedData, currentPage, searchConfig, isFetching } = state
     const {searchConfig: initialStateSearchConfig} = initialState
 
     switch (type) {
@@ -52,7 +53,7 @@ export const searchBoxStateReducer = (state = initialState, action: any): initia
             return {...state, totalNumOfPages: value}
         case RESET_TO_INITIAL_SEARCH_REDUCER :
             console.log("RESET_TO_INITIAL_SEARCH_REDUCER", value)
-            return {...initialState, searchConfig: {...searchConfig}}
+            return {...initialState, isFetching, searchConfig: {...searchConfig}}
         case SET_SEARCH_CONFIG_CATEGORY_ID :
             console.log("SET_SEARCH_CONFIG_CATEGORY_ID", value)
             return {...state, searchConfig: {...searchConfig, categoryId: value}}
@@ -62,6 +63,9 @@ export const searchBoxStateReducer = (state = initialState, action: any): initia
         case SET_SEARCH_CONFIG_SEARCH_VALUE :
             console.log("SET_SEARCH_CONFIG_SEARCH_VALUE", value)
             return {...state, searchConfig: {...searchConfig, searchValue: value}}
+        case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
+            console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
+            return initialState
         default: return state
     }
 }
