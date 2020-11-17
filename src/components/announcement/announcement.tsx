@@ -22,11 +22,11 @@ const Announcement = (props: AnnouncementPropsType) => {
 
 
   return (
-      <div className={`border text-center text-white border-dark mb-3 mr-3 p-0 ${className}`}>
-              <NavLink to={`${GET_PATH_SEARCH(category)}/${id}`}>
-          <div className="card-header p-0">
+      <div className={`border text-center d-flex flex-column flex-md-row text-white border-dark mb-3 mr-3 p-0 ${className}`}>
+              <NavLink className={"col-lg-4 col-md-5 col-sm-12 p-0 card-header"} to={`${GET_PATH_SEARCH(category)}/${id}`}>
+          {/*<div className="card-header p-0">*/}
                   <Image photo={photo}/>
-          </div>
+          {/*</div>*/}
               </NavLink>
               <div className={"card-inner-wrapper d-flex flex-column justify-content-between"}>
                   <div className="card-body d-flex flex-column justify-content-between">
