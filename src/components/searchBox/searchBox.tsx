@@ -28,12 +28,12 @@ const SearchBox = (props: any) => {
     const {placeHolder, className} = props
 
     //------USE-HISTORY-----//
-    const history = useHistory()
+    const {location : {pathname}, push} = useHistory()
 
     //------MAP-STATE-TO-PROPS-----//
     const subwayStationsData = useSelector(getSubwayStationsDataSelector)
     const categoriesData = useSelector( (state) =>
-        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "active"))
+        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "bg-warning font-weight-bold text-center"))
     const isFetching = useSelector(getIsFetchingSearchReducerSelector)
     const searchConfigCategory = useSelector(getSearchConfigCategorySelector)
     const searchConfigSubwayStation = useSelector(getSearchConfigSubwayStationsSelector)
@@ -65,25 +65,28 @@ const SearchBox = (props: any) => {
     const onClickFindBtnHandler = () => {
         getAnnouncementsByFilters()
         resetToInitialStateSearchReducer()
-        history.push(GET_PATH_SEARCH(searchConfigCategory.category))
+        const newPathname = GET_PATH_SEARCH(searchConfigCategory.category)
+        pathname !== newPathname && push(newPathname)
     }
 
   return (
-      <div className={`searchBox d-flex col-lg-12 input-group justify-content-center ${className}`}>
-          <Select className={"col-lg-2 p-0 input-group-prepend"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)} value={searchConfigSubwayStation.label} selectItems={subwayStationsData} placeHolder={"Выбор категории"}/>
-          <div className="searchBox__search col-lg-5 p-0 d-flex">
-              <input onBlur={({target: {value}}) => setSearchConfigSearchValue(value)} onChange={searchOnChangeHandler}
-                     className={"searchBox__search-input w-100 form-control"}
-                     value={searchValue} type="text"
-                     placeholder={placeHolder}/>
-              <div onClick={() => setSearchValue("")} className={"searchBox__search-clear"}>&#10006;</div>
+      <>
+          <div className={`searchBox rounded bg-info p-0 mx-auto d-flex col-lg-10 input-group justify-content-center ${className}`}>
+              <Select className={"col-lg-3 p-2 input-group-prepend"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)} value={searchConfigSubwayStation.name} selectItems={subwayStationsData}/>
+              <div className="searchBox__search col-lg-4 p-2 d-flex">
+                  <input onBlur={({target: {value}}) => setSearchConfigSearchValue(value)} onChange={searchOnChangeHandler}
+                         className={"searchBox__search-input w-100 form-control pr-5"}
+                         value={searchValue} type="text"
+                         placeholder={placeHolder}/>
+                  <div onClick={() => setSearchValue("")} className={"searchBox__search-clear"}>&#10006;</div>
+              </div>
+              <Select className={"col-lg-3 p-2 input-group-append"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)} value={searchConfigCategory.name} selectItems={categoriesData}/>
+              <div className="input-group-append p-2 col-md-6 col-lg-2">
+                  <Button className={"btn-warning w-100"} onClickHandler={onClickFindBtnHandler} label={"Найти"} isDisabled={isFetching}/>
+              </div>
           </div>
-          <Select className={"col-lg-2 p-0 input-group-append"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)} value={searchConfigCategory.label} selectItems={categoriesData} placeHolder={"Метро"}/>
-          <div className="input-group-append">
-              <Button className={"btn-success"} onClickHandler={onClickFindBtnHandler} label={"Найти"} isDisabled={isFetching}/>
-          </div>
-
-      </div>
+          <hr className={"my-4"}/>
+    </>
   );
 }
 
