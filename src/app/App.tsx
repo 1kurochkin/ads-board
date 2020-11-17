@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import "./appStyles.css"
-import { Switch, Route, Redirect } from 'react-router-dom';
+import {Switch, Route, Redirect, NavLink} from 'react-router-dom';
 import FeedPage from "../pages/feedPage/feedPage";
 import ContactsPage from "../pages/contactsPage/contactsPage";
 import SettingsPage from "../pages/settingsPage/settingsPage";
@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getSubwayStationsThunk, getUserInfoThunk} from "../redux/thunks/thunks";
 import AnnouncementsListPage from "../pages/announcementsListPage/announcementsListPage";
 import {getCategoriesDataSelector, getTheSubCategoriesSelector} from "../redux/reducers/mainState/mainStateSelectors";
+import {getIsAuthSelector} from "../redux/reducers/authorizationState/authorizationStateSelectors";
 
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
@@ -21,11 +22,19 @@ export const PATH_SEARCH = "/search"
 export const GET_PATH_SEARCH = (category: string) =>  `${PATH_SEARCH}/${category}`
 export const PATH_CONTACTS = "/contacts"
 
+export const linkToCreateAnnouncement = (className:string) => <>
+    <NavLink activeClassName={"active"} className={`header__btn-link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-lg-0 ${className}`} to={PATH_CREATE_ANNOUNCEMENT}>
+        Разместить объявление
+    </NavLink>
+</>
+
+
 const App = () => {
 
     //------MAP-STATE-TO-PROPS-----//
     const categoriesData = useSelector( (state) =>
         getTheSubCategoriesSelector(getCategoriesDataSelector(state)))
+    const isAuth = useSelector(getIsAuthSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -34,7 +43,7 @@ const App = () => {
 
     useEffect(() => {
         getSubwayStations()
-        getUserData()
+        isAuth && getUserData()
     }, [])
 
     return (
