@@ -1,4 +1,5 @@
 import {SET_CURRENT_PAGE_SEARCH_REDUCER, SET_TOTAL_NUM_OF_PAGE_SEARCH_REDUCER} from "../searchBoxState/searchBoxState";
+import {RESET_TO_DEFAULT_STATE_ALL_REDUCERS} from "../mainState/mainState";
 
 export const SET_IS_FETCHING_MY_ANNOUNCEMENTS_REDUCER = "SET_IS_FETCHING_MY_ANNOUNCEMENTS_REDUCER"
 export const DELETE_MY_ANNOUNCEMENT_BY_ID = "DELETE_MY_ANNOUNCEMENT_BY_ID"
@@ -38,6 +39,9 @@ export const myAnnouncementsStateReducer = (state = initialState, action: any): 
         case SET_TOTAL_NUM_OF_PAGE_MY_ANNOUNCEMENTS_REDUCER :
             console.log("SET_TOTAL_NUM_OF_PAGE_SEARCH_REDUCER", value)
             return {...state, totalNumOfPages: value}
+        case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
+            console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
+            return initialState
         default: return state
     }
 }
