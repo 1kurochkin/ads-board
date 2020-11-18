@@ -29,6 +29,12 @@ export class testAPI {
     static baseUrl = './json/'
 
     // ------AUTHORIZATION-----//
+    static getIsExistUser = (login: string): Promise<Response> => {
+        console.log(login, "getIsExistUser")
+        const path = `getIsExistUser`
+        return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)
+    }
+
     static postAuthorizationData = (data: AuthorizationData): Promise<Response> => {
         console.log(data, "postAuthorizationData")
          return fetch(`https://5faa7de0b5c645001602aa4e.mockapi.io/responseForPost`)

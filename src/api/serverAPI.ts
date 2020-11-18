@@ -102,6 +102,12 @@ export class serverAPI {
     // }
 
     // ------AUTHORIZATION-----//
+    static getIsExistUser = (login: string): Promise<Response> => {
+        console.log(login, "getIsExistUser")
+        const path = `/userExists/${login}`
+        return serverAPI.configuredGET(path, false)
+    }
+
     static postAuthorizationData = (data: AuthorizationData): Promise<Response> => {
         console.log(data, "postAuthorizationData")
         const path = "/login"
