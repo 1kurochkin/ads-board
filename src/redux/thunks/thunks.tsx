@@ -6,7 +6,7 @@ import {
     LogoutOrDeleteUserACType,
     setIsAuthAC,
     SetIsAuthACType,
-    setIsCorrectAuthDataAC,
+    setIsCorrectAuthDataAC, setIsExistUserAuthDataAC,
 } from "../reducers/authorizationState/authorizationStateActionCreators";
 import {CallHistoryMethodAction, push} from "connected-react-router";
 import {
@@ -64,7 +64,7 @@ import {
 } from "../reducers/mainState/mainStateActionCreators";
 import {
     resetToInitialByPageFormReducerAC,
-    ResetToInitialByPageFormReducerACType, setIsReadyToSendFormReducerAC
+    ResetToInitialByPageFormReducerACType, setIsReadyToSendFormReducerAC, setIsValidFormReducerAC
 } from "../reducers/formState/formStateActionCreators";
 import defaultAvatar from "../../pictures/defaultAvatar.jpg"
 
@@ -72,6 +72,35 @@ type GetStateType = () => AppStateType
 
 
 //--------------------AUTHORIZATION---------------------//
+export const getIsExistUserThunk = () => (dispatch: any, getState: any) => {
+    console.log("getIsExistUserThunk")
+    dispatch(setIsFetchingMainStateAC(true))
+    dispatch(setIsValidFormReducerAC("login", "registration"))
+    const {
+        mainState: {apiService},
+        formState
+    } = getState()
+    const {login : {value, isValid}} = formState["registration"]
+
+    isValid ? apiService["getIsExistUser"](value)
+        .then((response:any) => {
+            if (!response.ok)
+                throw `CANNOT FETCH GET REQUEST ${response.status}`
+            return response.json()
+        })
+        .then(({result}: any) => {
+            dispatch(setIsExistUserAuthDataAC(result))
+            result && dispatch(setIsValidFormReducerAC("login", "registration", false))
+            dispatch(setIsFetchingMainStateAC(false))
+        })
+        .catch((err: any) => {
+            dispatch(setIsFetchingMainStateAC(false))
+            // dispatch(setIsErrorFetchMainStateAC(true))
+            console.error(err)
+        }) : dispatch(setIsFetchingMainStateAC(false))
+}
+
+
 type SendAuthDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsAuthACType | SetIsFetchingMainStateACType | any | SetSettingsInLocalStorageByFieldACType | CallHistoryMethodAction | ResetToInitialByPageFormReducerACType>
 export const sendAuthorizationOrRegistrationThunk = (data: AuthorizationData & RegistrationData) => (dispatch: SendAuthDispatchType, getState: any) => {
     const {authorizationState: {isRegistration}, mainState : {apiService}} = getState()
