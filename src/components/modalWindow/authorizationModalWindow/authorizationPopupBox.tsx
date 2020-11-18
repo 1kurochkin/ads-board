@@ -2,13 +2,13 @@ import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import "./authorizationPopupBoxStyles.css"
 import TextInput from "../../textInput/textInput";
 import {useDispatch, useSelector} from "react-redux";
-import {sendAuthorizationOrRegistrationThunk} from "../../../redux/thunks/thunks";
+import {getIsExistUserThunk, sendAuthorizationOrRegistrationThunk} from "../../../redux/thunks/thunks";
 import {
     setIsCorrectAuthDataAC,
     setIsRegistrationAC,
 } from "../../../redux/reducers/authorizationState/authorizationStateActionCreators";
 import {
-    getIsCorrectAuthDataSelector,
+    getIsCorrectAuthDataSelector, getIsExistUserSelector,
     getIsRegistrationSelector
 } from "../../../redux/reducers/authorizationState/authorizationStateSelectors";
 import {
@@ -36,6 +36,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
 
     //------MAP-STATE-TO-PROPS-----//
     const isRegistration = useSelector(getIsRegistrationSelector)
+    const isExistUser = useSelector(getIsExistUserSelector)
     const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
     const isCorrectAuthData = useSelector(getIsCorrectAuthDataSelector)
     const isFetching = useSelector(getIsFetchingMainStateSelector)
@@ -48,6 +49,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
     const sendAuthorizationOrRegistration = useCallback((data) => dispatch(sendAuthorizationOrRegistrationThunk(data)), [dispatch])
+    const getIsExistUser = useCallback(() => dispatch(getIsExistUserThunk()), [dispatch])
     const setIsRegistration = useCallback((boolean) => dispatch(setIsRegistrationAC(boolean)), [dispatch])
     const seValueFormReducer = useCallback((value, field) => dispatch(seValueFormReducerAC(value, field, currentPage)), [dispatch, isRegistration])
     const setIsCorrectAuthData = useCallback(() => dispatch(setIsCorrectAuthDataAC(true)), [dispatch])
@@ -89,7 +91,11 @@ const AuthorizationPopupBox = (props: PropsType) => {
                 inputType: "text",
                 placeholder: "Введите ваше имя",
                 value: name.value,
-                isValid: name.isValid
+                isValid: name.isValid,
+                className: "mb-4",
+                onBlurHandler: () => setIsValidFormReducer("name"),
+                onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "name")
+
             },
             {
                 field: "phoneNumber",
@@ -97,15 +103,21 @@ const AuthorizationPopupBox = (props: PropsType) => {
                 inputType: "number",
                 placeholder: "Введите ваш телефон",
                 value: phoneNumber.value,
-                isValid: phoneNumber.isValid
+                isValid: phoneNumber.isValid,
+                className: "mb-4",
+                onBlurHandler: () => setIsValidFormReducer("phoneNumber"),
+                onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "phoneNumber")
             },
             {
                 field: "login",
-                label: "E-mail",
+                label: "Логин",
                 inputType: "text",
-                placeholder: "Введите ваш E-mail",
+                placeholder: "Введите ваш Логин",
                 value: login.value,
-                isValid: login.isValid
+                isValid: login.isValid,
+                className: "mb-4",
+                onBlurHandler: () => isRegistration ? getIsExistUser() : setIsValidFormReducer("login"),
+                onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "login")
             },
             {
                 field: "password",
@@ -113,7 +125,10 @@ const AuthorizationPopupBox = (props: PropsType) => {
                 inputType: "password",
                 placeholder: "Введите ваш пароль",
                 value: password.value,
-                isValid: password.isValid
+                isValid: password.isValid,
+                className: "mb-4",
+                onBlurHandler: () => setIsValidFormReducer("password"),
+                onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "password")
             },
         ]
     }
@@ -129,17 +144,14 @@ const AuthorizationPopupBox = (props: PropsType) => {
         <div className="authorization-popupBox position-relative">
             <h1 className={"authorization-popupBox__title"}>{!isRegistration ? "Вход" : "Регистрация"}</h1>
             {isErrorFetchMainState && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Возникла ошибка!"}/>}
+            {isExistUser && isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Такой логин уже используется!"}/>}
             {!isCorrectAuthData && !isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Введённые данные не верны!"}/>}
             <hr className={"my-3"}/>
             <div className="authorization-popupBox__inputs-wrapper mb-2">
-                { getInputsConfig().map( ({field, inputType, placeholder, value, label, isValid}) => {
+                { getInputsConfig().map( ({field, ...restInputConfig}) => {
                     if(!isRegistration && field == "name") return null
                     if(!isRegistration && field == "phoneNumber") return null
-                    return <TextInput className={"mb-4"} key={field} label={label}
-                                      isValid={isValid} placeholder={placeholder}
-                                      inputType={inputType} value={value}
-                                      onBlurHandler={() => setIsValidFormReducer(field)}
-                                      onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
+                    return <TextInput {...restInputConfig} />
                 }) }
             </div>
             <Button onClickHandler={checkIsReadyToSend} label={!isRegistration ? "Войти" : "Зарегестрироваться"}
