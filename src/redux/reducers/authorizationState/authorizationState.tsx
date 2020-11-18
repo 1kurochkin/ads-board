@@ -5,15 +5,16 @@ import {
     clearLocalStorage,
     RESET_TO_DEFAULT_STATE_ALL_REDUCERS
 } from "../mainState/mainState";
-import {SET_IS_FETCHING_SETTINGS_REDUCER} from "../settingsState/settingsState";
 
 export const SET_IS_REGISTRATION = "SET_IS_REGISTRATION"
 export const SET_IS_CORRECT_AUTH_DATA = "SET_IS_CORRECT_AUTH_DATA"
 export const SET_IS_AUTH = "SET_IS_AUTH"
+export const SET_IS_EXIST_USER = "SET_IS_EXIST_USER"
 export const LOGOUT_OR_DELETE_USER = "LOGOUT_OR_DELETE_USER"
 
 type initialStateType = typeof initialState
 const initialState = {
+    isExistUser:false,
     isRegistration: false,
     isCorrectAuthData: true,
     isAuth: () => getItemFromLocalStorage("isAuth") !== null
@@ -27,6 +28,9 @@ export const authorizationStateReducer = (state = initialState, action : Authori
         case SET_IS_REGISTRATION :
             console.log("SET_IS_REGISTRATION", value)
             return {...state, isRegistration: value}
+        case SET_IS_EXIST_USER :
+            console.log("SET_IS_EXIST_USER", value)
+            return {...state, isExistUser: value}
         case SET_IS_CORRECT_AUTH_DATA :
             console.log("SET_IS_CORRECT_AUTH_DATA", value)
             return {...state, isCorrectAuthData: value}
