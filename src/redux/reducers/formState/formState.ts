@@ -95,8 +95,8 @@ const formStateReducer = (state = initialState, action: any) => {
             console.log("SET_VALUE_BY_PAGE_AND_FIELD_FORM_REDUCER", page, value)
             return {...state, [page] : {...stateByPage, [field] : {...stateByField, value, isValid: true}} }
         case SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER :
-            const isValid = checkIsValid(field, stateByField.value)
-            console.log("SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER", field, page)
+            const isValid = value !== null ? value : checkIsValid(field, stateByField.value)
+            console.log("SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER", field, page, value)
             return {...state, [page] : {...stateByPage, [field] : {...stateByField, isValid, isReadyToSend:false}} }
         case SET_IS_READY_TO_SEND :
             console.log("SET_IS_READY_TO_SEND", page, value)

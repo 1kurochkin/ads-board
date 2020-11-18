@@ -16,8 +16,8 @@ export type ResetToInitialByPageFormReducerACType = { type: typeof RESET_TO_INIT
 export const seValueFormReducerAC = ( value: string | number, field: FormReducerFieldsType, page: FormReducerPagesType,) =>
     ({ type: SET_VALUE_BY_PAGE_AND_FIELD_FORM_REDUCER, payload: {value, field, page} })
 
-export const setIsValidFormReducerAC = (field: FormReducerFieldsType, page: FormReducerPagesType ) =>
-    ({ type: SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER, payload: {field, page} })
+export const setIsValidFormReducerAC = (field: FormReducerFieldsType, page: FormReducerPagesType, value:boolean | null = null ) =>
+    ({ type: SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER, payload: {field, page, value} })
 
 export const setIsReadyToSendFormReducerAC = (value: boolean, page: FormReducerPagesType ) =>
     ({ type: SET_IS_READY_TO_SEND, payload: {value, page} })
