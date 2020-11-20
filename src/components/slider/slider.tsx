@@ -1,4 +1,4 @@
-import * as React from "react"
+ import * as React from "react"
 import "./sliderStyle.css"
 import {useState} from "react";
 
@@ -18,6 +18,11 @@ function Slider(props: SliderPropsTypes) {
 
     const isLastSlide = () => currentSlide === children["length"] - 1
     const isFirstSlide = () => currentSlide === 0
+    const isNeedBtn = (nextOrPrev:string) => {
+        if(!children.length) return false
+        if(nextOrPrev === "next" && !isLastSlide()) return true
+        if(nextOrPrev === "prev" && !isFirstSlide()) return true
+    }
 
     const changeSlide: any = (nextOrPrev: NextOrPrevArgType) => {
         console.log("changeSlide", nextOrPrev)
@@ -35,12 +40,10 @@ function Slider(props: SliderPropsTypes) {
                     <div style={transformStyle} className={`slider__page`}>
                         { React.cloneElement(child) }
                     </div>)}
-            {!isFirstSlide() && <div onClick={() => changeSlide("prev")} className="carousel-control carousel-control-prev">
-                <span className="carousel-control-prev-icon"/>
-            </div>}
-            {!isLastSlide() && <div onClick={() => changeSlide("next")} className="carousel-control carousel-control-next">
-                <span className="carousel-control-next-icon"/>
-            </div>}
+            {["prev", "next"].map( (el:any) => isNeedBtn(el) ?
+                <div onClick={() => changeSlide(el)} className={`carousel-control carousel-control-${el}`}>
+                    <span className={`carousel-control-${el}-icon`}/>
+                </div> : null)}
         </div>
     )
 }
