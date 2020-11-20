@@ -1,5 +1,6 @@
 import {serverAPI} from "../../../api/serverAPI";
 import {testAPI} from "../../../api/testAPI";
+import {LOCATION_CHANGE} from "connected-react-router";
 
 export const getItemFromLocalStorage = (feild:string) => localStorage.getItem(feild)
 export const setItemToLocalStorage = (feild:string, value:any) => localStorage.setItem(feild, value)
@@ -66,6 +67,10 @@ export const mainStateReducer = (state = initialState, action : any): initialSta
         case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
             console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
             return initialState
+        case LOCATION_CHANGE :
+            console.log("LOCATION_CHANGE")
+            window.scrollTo(0,0)
+            return state
         default: return state
     }
 }
