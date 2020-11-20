@@ -1,5 +1,6 @@
 // ------AUTHORIZATION-TYPES-----//
 import {SettingsFieldType} from "../redux/reducers/settingsState/settingsState";
+import {API_URL} from "../app/App";
 
 export type AuthorizationData = { login: string,  password: string }
 export type RegistrationData = { name: string,  login: string, phone: string, password: string }
@@ -28,7 +29,7 @@ export type PostSettingsPhoneData = { phone: string }
 export class serverAPI {
 
     // static baseURL = 'http://localhost:8080'
-    static baseURL = "http://127.0.0.1:8081/127.0.0.1:8080"
+    static baseURL = API_URL
     static login = () => localStorage.getItem("login") || "defaultUser"
     static password = () => localStorage.getItem("password") || "111111"
     static base64token = () => btoa(`${serverAPI.login()}:${serverAPI.password()}`)
