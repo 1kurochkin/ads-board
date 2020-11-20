@@ -1,8 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import "./announcementsListPageStyles.css"
-import Header from "../../components/header/header";
 import {useDispatch, useSelector} from "react-redux";
-import Footer from "../../components/footer/footer";
 import {getAnnouncementsByFiltersThunk, getAnnouncementsListThunk} from "../../redux/thunks/thunks";
 import Announcement from "../../components/announcement/announcement";
 import useInfinityScroll from "../../hooks/useInfinityScroll";
@@ -11,10 +9,7 @@ import {
     getCurrentPageAnnouncementsListReducerSelector,
     getTotalNumOfPagesAnnouncementsListReducerSelector
 } from "../../redux/reducers/announcementsListState/announcementsListStateSelectors";
-import {
-    getCategoriesDataSelector,
-    getIsFetchingMainStateSelector
-} from "../../redux/reducers/mainState/mainStateSelectors";
+import {getIsFetchingMainStateSelector} from "../../redux/reducers/mainState/mainStateSelectors";
 import {
     resetToInitialStateAnnouncementsListReducerAC,
     setCurrentPageAnnouncementsListReducerAC
@@ -48,7 +43,7 @@ const AnnouncementsListPage = (props: any) => {
     //------MAP-STATE-TO-PROPS-----//
 
     //---SEARCHED-BOX-STATE---//
-    const {label: currentCategory} = useSelector(getSearchConfigCategorySelector)
+    const {name: currentCategory} = useSelector(getSearchConfigCategorySelector)
     const {name: currentSubway}: any = useSelector(getSearchConfigSubwayStationsSelector)
 
     const searchedData = useSelector(getSearchedDataSelector)
@@ -86,11 +81,11 @@ const AnnouncementsListPage = (props: any) => {
 
     //----COMPONENT-DID-MOUNT/UNMOUNT-LIFECYCLE----//
     useEffect(() => {
-        window.scrollTo(0,0)
         getAnnouncements(category)
         return () => {
             resetToInitialStateAnnouncementsList()
             resetToInitialStateSearchReducer()
+            console.log("UNMOUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         }
     }, [])
 
@@ -111,8 +106,7 @@ const AnnouncementsListPage = (props: any) => {
     useInfinityScroll(infinityScrollHandler)
 
     return (
-        <div className={"announcementsList fullHeightContent"}>
-            <Header/>
+        <>
             <SearchBox className={"mt-4"} placeHolder={"Поиск по объявлениям"}/>
             <div className="announcementsList__slider-container container-fluid d-lg-flex">
                 <CategoryNavigation/>
@@ -127,11 +121,11 @@ const AnnouncementsListPage = (props: any) => {
                     </WithBadFetchingCasesWrapper>
                     <ButtonUp/>
                 </div>
-                {!getIsEqualsCurrAndTotalPage() && <Button className={"btn-success w-100 my-4 mobile"} onClickHandler={infinityScrollHandler}
-                         label={"Загрузить еще объявления"}/>}
+                {!getIsEqualsCurrAndTotalPage() &&
+                <Button className={"btn-success w-100 my-4 mobile"} onClickHandler={infinityScrollHandler}
+                        label={"Загрузить еще объявления"}/>}
             </div>
-            <Footer/>
-        </div>
+        </>
     );
 }
 

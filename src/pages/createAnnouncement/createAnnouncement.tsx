@@ -1,20 +1,20 @@
 import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import "./createAnnouncementStyles.css"
-import Header from "../../components/header/header";
 import {useDispatch, useSelector} from "react-redux";
 import {postNewAnnouncementThunk} from "../../redux/thunks/thunks";
-import Footer from "../../components/footer/footer";
 import TextInput from "../../components/textInput/textInput";
 import Select from "../../components/searchBox/select/select";
 import Button from "../../components/button/button";
-import Image from "../../components/image/image";
+import Image from "../../components/picture/picture";
 import {
     getCategoriesDataSelector,
     getIsFetchingMainStateSelector,
-    getSubwayStationsDataSelector, getTheSubCategoriesSelector
+    getSubwayStationsDataSelector,
+    getTheSubCategoriesSelector
 } from "../../redux/reducers/mainState/mainStateSelectors";
 import {
-    checkIsReadyToSendByPageFormReducerAC, resetToInitialByPageFormReducerAC,
+    checkIsReadyToSendByPageFormReducerAC,
+    resetToInitialByPageFormReducerAC,
     setIsValidFormReducerAC,
     seValueFormReducerAC
 } from "../../redux/reducers/formState/formStateActionCreators";
@@ -136,9 +136,7 @@ const CreateAnnouncement = (props: any) => {
         !formState[field].isValid && "createAnnouncement__title-error"
 
     return (
-        <div className={"createAnnouncement fullHeightContent"}>
-            <Header/>
-            <div className="createAnnouncement__container container-lg pt-5">
+        <div className="createAnnouncement__container container-lg pt-5">
                 <h1 className="display-5 jumbotron p-2 mb-5">Создание объявления</h1>
                 <div className="createAnnouncement__category d-flex">
                     <h4 className={`createAnnouncement__category-title col-lg-3 text-left p-0 ${getErrorClassName("categoryId")}`}>
@@ -200,8 +198,6 @@ const CreateAnnouncement = (props: any) => {
                                       alertText={"Сбросить все введённые данные?"}/>
                 </div>
             </div>
-            <Footer/>
-        </div>
     );
 }
 

@@ -1,15 +1,10 @@
 import React, {useCallback, useEffect} from 'react';
 import "./feedPageStyles.css"
-import Header from "../../components/header/header";
 import SearchBox from "../../components/searchBox/searchBox";
 import {useDispatch, useSelector} from "react-redux";
 import {getLastAnnouncementsThunk} from "../../redux/thunks/thunks";
-import {
-    getDescriptionSalamRuSelector,
-    getLastAnnouncementsSelector
-} from "../../redux/reducers/feedState/feedStateSelectors";
+import {getLastAnnouncementsSelector} from "../../redux/reducers/feedState/feedStateSelectors";
 import Announcement from "../../components/announcement/announcement";
-import Footer from "../../components/footer/footer";
 import ButtonUp from "../../components/buttonUp/buttonUp";
 import Button from "../../components/button/button";
 import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWrapper/withBadFetchingCasesWrapper";
@@ -22,7 +17,6 @@ const FeedPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
     const lastAnnouncements = useSelector(getLastAnnouncementsSelector)
-    const descriptionSalamRu = useSelector(getDescriptionSalamRuSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -30,18 +24,15 @@ const FeedPage = (props: any) => {
 
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
-        window.scrollTo(0,0)
         getLastAnnouncements(0)
         getLastAnnouncements(1, true)
     }, [])
 
     return (
-        <div className={"feedPage"}>
-            <Header/>
-            {/*<div style={{height:"81px", width: "100%"}} className="ads-banner"></div>*/}
+        <>
             <SearchBox className={"mt-4"} placeHolder={"Поиск по объявлениям"}/>
             <div className="container-fluid d-lg-flex">
-                <CategoryNavigation />
+                <CategoryNavigation/>
                 <div className="col-lg-8">
 
                     <div className="mb-5">
@@ -58,14 +49,17 @@ const FeedPage = (props: any) => {
                     <div className="jumbotron p-4 ">
                         <h1 className="display-5">О проекте</h1>
                         <hr className="my-4"/>
-                        <p className="lead">{descriptionSalamRu}</p>
+                        <p className="lead">
+                            Salam.ru – веб-приложение, выполняющее функцию доски объявлений, на которой, есть
+                            возможность разместить объявления, либо найти себе жильё или работу.<br/>
+                            Этот проект создан для помощи братским народам, проживающим на территории города Москвы/МО,
+                            в поиске жилья и работы.
+                        </p>
                     </div>
-
                 </div>
                 <ButtonUp/>
             </div>
-            <Footer/>
-        </div>
+        </>
     );
 }
 

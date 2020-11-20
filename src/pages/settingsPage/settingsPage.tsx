@@ -1,13 +1,11 @@
 import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import "./settingsPageStyles.css"
-import Header from "../../components/header/header";
 import {useDispatch, useSelector} from "react-redux";
 import {postLogoutOrDeleteUser, postSettingByFieldThunk} from "../../redux/thunks/thunks";
-import Footer from "../../components/footer/footer";
 import {SettingsFieldType} from '../../redux/reducers/settingsState/settingsState';
 import TextInput from "../../components/textInput/textInput";
 import Button from "../../components/button/button";
-import Image from "../../components/image/image";
+import Image from "../../components/picture/picture";
 import {getSettingsFieldValueByFieldSelector} from '../../redux/reducers/settingsState/settingsStateSelectors';
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
 import {setIsValidFormReducerAC, seValueFormReducerAC} from "../../redux/reducers/formState/formStateActionCreators";
@@ -21,12 +19,12 @@ const SettingsPage = (props: any) => {
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "settings"))
     const {photo, name, phone, login,} = formState
 
-    const settingsState = useSelector( (state) => ({
+    const settingsState = useSelector((state) => ({
         photo: getSettingsFieldValueByFieldSelector(state, "photo"),
         name: getSettingsFieldValueByFieldSelector(state, "name"),
         phone: getSettingsFieldValueByFieldSelector(state, "phone"),
         login: getSettingsFieldValueByFieldSelector(state, "login")
-    }) )
+    }))
     const settingsStateEntries = Object.entries(settingsState)
 
     //-----MAP-DISPATCH-TO-PROPS----//
@@ -39,7 +37,7 @@ const SettingsPage = (props: any) => {
 
     //------DID-MOUNT-LIFE-CYCLE-----//
     useEffect(() => {
-        settingsStateEntries.forEach( ([key, value]) => seValueFormReducer(value, key) )
+        settingsStateEntries.forEach(([key, value]) => seValueFormReducer(value, key))
     }, [])
 
     const onLoadImageHandler = (image: any, imageName: string) => {
@@ -62,7 +60,7 @@ const SettingsPage = (props: any) => {
         // @ts-ignore
         const valueFromSettingsState = settingsState[field]
         console.log("onClickHandler", isValid)
-        const postData = {[field] : value}
+        const postData = {[field]: value}
         isValid && value !== valueFromSettingsState && postSettingByField(postData, field)
     }
 
@@ -95,44 +93,45 @@ const SettingsPage = (props: any) => {
     }
 
     return (
-        <div className={"settingsPage fullHeightContent"}>
-            <Header/>
-            <div className="container-lg pb-5 pt-5">
-                <h2 className="display-5 jumbotron p-2 mb-5">Настройки профиля</h2>
-                <div className="d-lg-flex justify-content-around">
-                    <div className="settingsPage__settings-wrapper">
+        <div className="container-lg pb-5 pt-5">
+            <h2 className="display-5 jumbotron p-2 mb-5">Настройки профиля</h2>
+            <div className="d-lg-flex justify-content-around">
+                <div className="settingsPage__settings-wrapper">
 
-                        <div className="settingsPage__setting-avatar w-100">
-                            <Image photo={photo.value}/>
-                            <ImagePicker className={"position-absolute fixed-top opacity-0"} onLoadHandler={onLoadImageHandler}/>
-                        </div>
-
-                        <div className="settingsPage__logouOrDel-wrapper">
-                            <AlertModalWindow openBtnElement={<Button className={"btn-warning w-100 mb-4"} label={"Выйти из аккаунта"}/>}
-                                              btnOneConfiguration={{btnOneLabel: "Нет"}}
-                                              btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:logoutUser }}
-                                              alertText={"Выйти из аккаунта?"}/>
-
-                            <AlertModalWindow openBtnElement={<Button className={"btn-danger w-100"} label={"Удалить аккаунт"}/>}
-                                              btnOneConfiguration={{btnOneLabel: "Нет"}}
-                                              btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler:deleteUser }}
-                                              alertText={"Удалить аккаунт?"}/>
-                        </div>
-
+                    <div className="settingsPage__setting-avatar w-100">
+                        <Image photo={photo.value}/>
+                        <ImagePicker className={"position-absolute fixed-top opacity-0"}
+                                     onLoadHandler={onLoadImageHandler}/>
                     </div>
-                    <div className="settingsPage__settings-wrapper p-0 mt-5 col-lg-5">
-                        { getInputsConfig().map( ({field, ...restConfig}) => <>
-                            <div className="settingsPage__setting d-flex input-group my-2">
-                                <TextInput key={field} {...restConfig}
-                                           onBlurHandler={() => setIsValidFormReducer(field)}
-                                           onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
-                                <Button className={"input-group-append btn-success ml-4 align-self-end"} onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
-                            </div>
-                            <hr className="my-4"/> </>) }
+
+                    <div className="settingsPage__logouOrDel-wrapper">
+                        <AlertModalWindow
+                            openBtnElement={<Button className={"btn-warning w-100 mb-4"} label={"Выйти из аккаунта"}/>}
+                            btnOneConfiguration={{btnOneLabel: "Нет"}}
+                            btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler: logoutUser}}
+                            alertText={"Выйти из аккаунта?"}/>
+
+                        <AlertModalWindow
+                            openBtnElement={<Button className={"btn-danger w-100"} label={"Удалить аккаунт"}/>}
+                            btnOneConfiguration={{btnOneLabel: "Нет"}}
+                            btnTwoConfiguration={{btnTwoLabel: "Да", btnTwoHandler: deleteUser}}
+                            alertText={"Удалить аккаунт?"}/>
                     </div>
+
+                </div>
+                <div className="settingsPage__settings-wrapper p-0 mt-5 col-lg-5">
+                    {getInputsConfig().map(({field, ...restConfig}) => <>
+                        <div className="settingsPage__setting d-flex input-group my-2">
+                            <TextInput key={field} {...restConfig}
+                                       onBlurHandler={() => setIsValidFormReducer(field)}
+                                       onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
+                            <Button className={"input-group-append btn-success ml-4 align-self-end"}
+                                    onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
+                        </div>
+                        <hr className="my-4"/>
+                    </>)}
                 </div>
             </div>
-            <Footer/>
         </div>
     );
 }
