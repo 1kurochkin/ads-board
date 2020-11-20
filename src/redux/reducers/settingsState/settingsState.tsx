@@ -9,7 +9,7 @@ export const SET_IS_FETCHING_SETTINGS_REDUCER = "SET_IS_FETCHING_SETTINGS_REDUCE
 
 type initialStateType = typeof initialState
 const initialState = {
-    avatar: () => getItemFromLocalStorage("avatar") || defaultAvatar,
+    photo: () => getItemFromLocalStorage("photo") || defaultAvatar,
     name: () => getItemFromLocalStorage("name") || "",
     phone: () => getItemFromLocalStorage("phone") || "",
     login: () => getItemFromLocalStorage("login") || "",
@@ -17,7 +17,7 @@ const initialState = {
     isFetching: false
 }
 
-export type SettingsFieldType = "avatar" | "name" | "phone" | "login" | "currentPassword" | "password" | string
+export type SettingsFieldType = "photo" | "name" | "phone" | "login" | "currentPassword" | "password" | string
 
 export const settingsStateReducer = (state = initialState, action : any): initialStateType => {
     const {type, payload } = action

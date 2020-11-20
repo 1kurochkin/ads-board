@@ -38,7 +38,7 @@ const initialState = {
         isReadyToSend: false
     },
     settings : {
-        avatar: defaultInitialStateForFormField,
+        photo: defaultInitialStateForFormField,
         name: defaultInitialStateForFormField,
         phone: defaultInitialStateForFormField,
         login: defaultInitialStateForFormField,

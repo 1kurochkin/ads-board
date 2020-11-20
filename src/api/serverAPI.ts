@@ -172,7 +172,7 @@ export class serverAPI {
     static postSettingsByField = (data: any, field: SettingsFieldType): Promise<Response> => {
         console.log(data, "postSettingsByField")
         switch (field) {
-            case "avatar": return serverAPI.postSettingsAvatar(data)
+            case "photo": return serverAPI.postSettingsAvatar(data)
             case "name": return serverAPI.postSettingsName(data)
             case "phone": return serverAPI.postSettingsPhone(data)
             default: return serverAPI.postSettingsAvatar(data)

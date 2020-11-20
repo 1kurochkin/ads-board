@@ -427,9 +427,9 @@ export const getUserInfoThunk = () => (dispatch:GetUserInfoDispatchType, getStat
                 throw `CANNOT FETCH GET REQUEST ${response.status}`
             return response.json()
         })
-        .then( ({avatar = defaultAvatar, ...restUserData}: any) => {
+        .then( ({photo = defaultAvatar, ...restUserData}: any) => {
             console.log("RESPONSE", restUserData)
-            dispatch(setSettingsInLocalStorageByFieldAC(avatar, "avatar"))
+            dispatch(setSettingsInLocalStorageByFieldAC(photo, "photo"))
             const userDataEntries = Object.entries(restUserData)
             userDataEntries.forEach( ([field, value]) => {
                 console.log(field, value)

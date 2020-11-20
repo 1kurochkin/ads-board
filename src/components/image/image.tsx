@@ -12,7 +12,7 @@ const Image = (props: ImagePropsType) => {
 
     const {photo, className, onClickHandler = null, styles={}} = props
 
-  return <div onClick={onClickHandler} style={{backgroundImage: `url(${photo})`, ...styles}} className={`image ${className}`}/>
+  return <div onClick={onClickHandler} style={{backgroundImage: `url(http://localhost:8080/photo/${photo})`, ...styles}} className={`image ${className}`}/>
 }
 
 export default Image;

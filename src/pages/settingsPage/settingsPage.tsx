@@ -19,10 +19,10 @@ const SettingsPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "settings"))
-    const {avatar, name, phone, login,} = formState
+    const {photo, name, phone, login,} = formState
 
     const settingsState = useSelector( (state) => ({
-        avatar: getSettingsFieldValueByFieldSelector(state, "avatar"),
+        photo: getSettingsFieldValueByFieldSelector(state, "photo"),
         name: getSettingsFieldValueByFieldSelector(state, "name"),
         phone: getSettingsFieldValueByFieldSelector(state, "phone"),
         login: getSettingsFieldValueByFieldSelector(state, "login")
@@ -44,8 +44,8 @@ const SettingsPage = (props: any) => {
 
     const onLoadImageHandler = (image: any, imageName: string) => {
         const postData = {photo: image, name: imageName}
-        seValueFormReducer(image, "avatar")
-        postSettingByField(postData, "avatar")
+        seValueFormReducer(image, "photo")
+        postSettingByField(postData, "photo")
     }
 
     //Функция - обработчик события изменеия в инпуте. Проверка на валидность значения в инпуте.
@@ -103,7 +103,7 @@ const SettingsPage = (props: any) => {
                     <div className="settingsPage__settings-wrapper">
 
                         <div className="settingsPage__setting-avatar w-100">
-                            <Image photo={avatar.value}/>
+                            <Image photo={photo.value}/>
                             <ImagePicker className={"position-absolute fixed-top opacity-0"} onLoadHandler={onLoadImageHandler}/>
                         </div>
 
