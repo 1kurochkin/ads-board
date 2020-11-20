@@ -115,6 +115,11 @@ a {
         display: block;
     }
 
+    .desktop {
+        display: none!important;
+    }
+
+
     .header__authMenu-menu.dropdown-menu {
         position: unset!important;
         width: 100%;

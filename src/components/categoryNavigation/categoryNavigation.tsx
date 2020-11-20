@@ -9,7 +9,7 @@ const CategoryNavigation: React.FC<any> = (props) => {
   const categoriesData = useSelector( (state) => getCategoriesDataSelector(state))
 
   return (
-      <div className="col-lg-2 col-md-3 col-sm-12 p-0 categoryNavigation">
+      <div className="col-lg-2 desktop col-md-3 col-sm-12 p-0 categoryNavigation">
           {categoriesData.map( (categoryData: any) => {
               const {id, name, category, subCategories = []} = categoryData
               return <>
