@@ -2,7 +2,6 @@ import React, {useCallback, useEffect} from 'react';
 import "./appStyles.css"
 import {Switch, Route, Redirect, NavLink} from 'react-router-dom';
 import FeedPage from "../pages/feedPage/feedPage";
-import ContactsPage from "../pages/contactsPage/contactsPage";
 import SettingsPage from "../pages/settingsPage/settingsPage";
 import AnnouncementPage from '../pages/announcementPage/announcementPage';
 import MyAnnouncementsPage from "../pages/myAnnouncementsPage/myAnnouncementsPage";
@@ -13,26 +12,36 @@ import {getSubwayStationsThunk, getUserInfoThunk} from "../redux/thunks/thunks";
 import AnnouncementsListPage from "../pages/announcementsListPage/announcementsListPage";
 import {getCategoriesDataSelector, getTheSubCategoriesSelector} from "../redux/reducers/mainState/mainStateSelectors";
 import {getIsAuthSelector} from "../redux/reducers/authorizationState/authorizationStateSelectors";
+import CooperationPage from "../pages/cooperationPage/cooperationPage";
+import Header from "../components/header/header";
+import Footer from "../components/footer/footer";
+import SupportPage from "../pages/supportPage/supportPage";
+
+export const API_URL = "http://127.0.0.1:8081/127.0.0.1:8080"
+// export const API_URL = "http://localhost:8080"
 
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
 export const PATH_CREATE_ANNOUNCEMENT = "/createAnnouncement"
 export const PATH_SETTINGS = "/settings"
 export const PATH_SEARCH = "/search"
-export const GET_PATH_SEARCH = (category: string) =>  `${PATH_SEARCH}/${category}`
+export const GET_PATH_SEARCH = (category: string) => `${PATH_SEARCH}/${category}`
 export const PATH_CONTACTS = "/contacts"
+export const PATH_COOPERATION = "/cooperation"
+export const PATH_SUPPORT = "/support"
 
-export const linkToCreateAnnouncement = (className:string) => <>
-    <NavLink activeClassName={"active"} className={`header__btn-link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-lg-0 ${className}`} to={PATH_CREATE_ANNOUNCEMENT}>
+export const linkToCreateAnnouncement = (className: string) => <>
+    <NavLink activeClassName={"active"}
+             className={`header__btn-link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-lg-0 ${className}`}
+             to={PATH_CREATE_ANNOUNCEMENT}>
         Разместить объявление
     </NavLink>
 </>
 
-
 const App = () => {
 
     //------MAP-STATE-TO-PROPS-----//
-    const categoriesData = useSelector( (state) =>
+    const categoriesData = useSelector((state) =>
         getTheSubCategoriesSelector(getCategoriesDataSelector(state)))
     const isAuth = useSelector(getIsAuthSelector)
 
@@ -47,19 +56,24 @@ const App = () => {
     }, [])
 
     return (
-    <div className="App bg-light">
-        <Switch>
-            <Route exact path={PATH_CREATE_ANNOUNCEMENT} component={CreateAnnouncement}/>
-            <Route exact path={PATH_FEED} component={FeedPage}/>
-            <Route exact path={PATH_MY_ANNOUNCEMENTS} component={MyAnnouncementsPage}/>
-            <Route exact path={PATH_SETTINGS} component={SettingsPage}/>
-            <Route exact path={PATH_CONTACTS} component={ContactsPage}/>
-            {categoriesData.map( ({category}:any) => <Route exact path={GET_PATH_SEARCH(category)} component={AnnouncementsListPage}/> )}
-            {categoriesData.map( ({category}:any) =>  <Route exact path={`${GET_PATH_SEARCH(category)}/:id`} component={AnnouncementPage}/> )}
-            <Redirect to={PATH_FEED}/>
-        </Switch>
-    </div>
-  );
+        <div className="App bg-light fullHeightContent">
+            <Header/>
+            <Switch>
+                <Route exact path={PATH_CREATE_ANNOUNCEMENT} component={CreateAnnouncement}/>
+                <Route exact path={PATH_FEED} component={FeedPage}/>
+                <Route exact path={PATH_MY_ANNOUNCEMENTS} component={MyAnnouncementsPage}/>
+                <Route exact path={PATH_SETTINGS} component={SettingsPage}/>
+                <Route exact path={PATH_COOPERATION} component={CooperationPage}/>
+                <Route exact path={PATH_SUPPORT} component={SupportPage}/>
+                {categoriesData.map(({category}: any) => <Route exact path={GET_PATH_SEARCH(category)}
+                                                                component={AnnouncementsListPage}/>)}
+                {categoriesData.map(({category}: any) => <Route exact path={`${GET_PATH_SEARCH(category)}/:id`}
+                                                                component={AnnouncementPage}/>)}
+                <Redirect to={PATH_FEED}/>
+            </Switch>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;

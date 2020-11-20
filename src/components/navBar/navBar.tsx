@@ -1,7 +1,7 @@
 import React from 'react';
 import "./navBarStyles.css"
 import {NavLink} from "react-router-dom";
-import {PATH_CONTACTS} from "../../app/App";
+import {PATH_CONTACTS, PATH_COOPERATION, PATH_SUPPORT} from "../../app/App";
 import CategoryNavigationButton from "../categoryNavButton/categoryNavigationButton";
 import {initialStateCategory} from "../../redux/reducers/mainState/mainState";
 import Button from "../button/button";
@@ -13,9 +13,8 @@ type NavBarPropsType = {
 const NavBar = (props: NavBarPropsType) => {
 
     const linkConfigs = [
-        {path: PATH_CONTACTS, label: "Контакты"},
-        {path: PATH_CONTACTS, label: "Реклама"},
-        {path: PATH_CONTACTS, label: "Поддержка"}
+        {path: PATH_COOPERATION, label: "Сотрудничество"},
+        {path: PATH_SUPPORT, label: "Поддержка"}
     ]
 
 
