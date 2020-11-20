@@ -1,7 +1,7 @@
 import React from 'react';
 import "./announcementStyles.css"
 import {NavLink} from "react-router-dom";
-import Image from "../image/image";
+import Image from "../picture/picture";
 import {GET_PATH_SEARCH} from "../../app/App";
 
 type AnnouncementPropsType = {
