@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import "./pictureStyles.css"
-import {API_URL} from "../../app/App";
-import badCaseImage from "../../pictures/defaultAvatar.jpg"
 import useBadCaseImage from "../../hooks/useBadCaseImage";
 
 type ImagePropsType = {

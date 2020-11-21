@@ -17,9 +17,6 @@ import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import SupportPage from "../pages/supportPage/supportPage";
 
-export const API_URL = "http://127.0.0.1:8081/127.0.0.1:8080"
-// export const API_URL = "http://localhost:8080"
-
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
 export const PATH_CREATE_ANNOUNCEMENT = "/createAnnouncement"

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {API_URL} from "../app/App";
+
 import badCaseImage from "../pictures/badCaseImage.png"
+import { API_URL } from '../api/serverAPI';
 
 const useBadCaseImage = (photo:string) => {
 
