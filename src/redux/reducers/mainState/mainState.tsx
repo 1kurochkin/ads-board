@@ -42,8 +42,8 @@ const initialState = {
             ]
         }
     ],
-    apiService: testAPI,
-    // apiService: serverAPI
+    // apiService: testAPI,
+    apiService: serverAPI
 }
 
 export const mainStateReducer = (state = initialState, action : any): initialStateType => {
