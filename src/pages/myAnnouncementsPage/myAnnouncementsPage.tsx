@@ -16,6 +16,10 @@ import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
 import ButtonUp from "../../components/buttonUp/buttonUp";
 import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWrapper/withBadFetchingCasesWrapper";
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
+import {
+    getIsEmptyResponseMainStateSelector,
+    getIsErrorFetchMainStateSelector
+} from "../../redux/reducers/mainState/mainStateSelectors";
 
 const MyAnnouncementsPage = (props: any) => {
 
@@ -24,6 +28,9 @@ const MyAnnouncementsPage = (props: any) => {
     const isFetching = useSelector(getIsFetchingMyAnnouncementsReducerSelector)
     const currentPage = useSelector(getCurrentPageMyAnnouncementsReducerSelector)
     const totalNumOfPages = useSelector(getTotalNumOfPagesMyAnnouncementsReducerSelector)
+
+    const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
+    const isEmptyResponseMainState = useSelector(getIsEmptyResponseMainStateSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -39,14 +46,11 @@ const MyAnnouncementsPage = (props: any) => {
     //------INFINITY-SCROLL------//
     const infinityScrollHandler = (event: any) => {
         if (currentPage !== totalNumOfPages) {
-            setCurrentPage()
-            getMyAnnouncements(true)
+            !isErrorFetchMainState && !isEmptyResponseMainState && setCurrentPage()
+            !isEmptyResponseMainState && getMyAnnouncements(true)
         }
     }
     useInfinityScroll(infinityScrollHandler)
-
-
-    const onClickBtnUpHandler = () => window.scrollTo(0, 0)
 
     return (
         <div className="myAnnouncements__container container-lg pt-5 pb-5">
