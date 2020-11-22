@@ -138,7 +138,7 @@ export class serverAPI {
     }
 
     static getAnnouncementsByFilters = (page: number, name?: string, categoryId?: string| number, stationId?: string | number): Promise<Response> => {
-        const path = `/announcement/filter?category=${categoryId}&name=${name}&stationId=${stationId}&page=${page}`
+        const path = `/announcement/filter?category=${categoryId === "all" ? "" : categoryId}&name=${name}&stationId=${stationId}&page=${page}`
         console.log(page, categoryId, name, stationId, "getAnnouncementsByFilters", path)
         return serverAPI.configuredGET(path, false)
     }
