@@ -96,6 +96,7 @@ export class serverAPI {
         const baseUrlWithoutApi = serverAPI.baseURL.slice(0, -4)
         const path = "/logout"
         return fetch( baseUrlWithoutApi + path, settings)
+        // return serverAPI.configuredPOST(path, null, true)
     }
 
     // static configuredPUT = (path) => {
@@ -137,7 +138,7 @@ export class serverAPI {
     }
 
     static getAnnouncementsByFilters = (page: number, name?: string, categoryId?: string| number, stationId?: string | number): Promise<Response> => {
-        const path = `/announcement/filter?categoryId=${categoryId}&name=${name}&stationId=${stationId}&page=${page}`
+        const path = `/announcement/filter?category=${categoryId}&name=${name}&stationId=${stationId}&page=${page}`
         console.log(page, categoryId, name, stationId, "getAnnouncementsByFilters", path)
         return serverAPI.configuredGET(path, false)
     }
@@ -159,7 +160,7 @@ export class serverAPI {
     static getMyAnnouncements = (page: number): Promise<Response> => {
         console.log("getMyAnnouncements", page)
         const path = `/userAnnouncements?page=${page}`
-        return serverAPI.configuredGET(path, false)
+        return serverAPI.configuredGET(path, true)
     }
 
     static postDeleteAnnouncement = (id:number): Promise<Response> => {
