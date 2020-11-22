@@ -9,7 +9,11 @@ import {
     getCurrentPageAnnouncementsListReducerSelector,
     getTotalNumOfPagesAnnouncementsListReducerSelector
 } from "../../redux/reducers/announcementsListState/announcementsListStateSelectors";
-import {getIsFetchingMainStateSelector} from "../../redux/reducers/mainState/mainStateSelectors";
+import {
+    getIsEmptyResponseMainStateSelector,
+    getIsErrorFetchMainStateSelector,
+    getIsFetchingMainStateSelector
+} from "../../redux/reducers/mainState/mainStateSelectors";
 import {
     resetToInitialStateAnnouncementsListReducerAC,
     setCurrentPageAnnouncementsListReducerAC
@@ -60,6 +64,8 @@ const AnnouncementsListPage = (props: any) => {
     const isEqualsCurrAndTotalPage = currentPage === totalNumOfPages
     //---MAIN-STATE---//
     const isFetchingMainState = useSelector(getIsFetchingMainStateSelector)
+    const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
+    const isEmptyResponseMainState = useSelector(getIsEmptyResponseMainStateSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -85,7 +91,6 @@ const AnnouncementsListPage = (props: any) => {
         return () => {
             resetToInitialStateAnnouncementsList()
             resetToInitialStateSearchReducer()
-            console.log("UNMOUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         }
     }, [])
 
@@ -99,8 +104,8 @@ const AnnouncementsListPage = (props: any) => {
     //------INFINITY-SCROLL------//
     const infinityScrollHandler = (event?: any) => {
         if (!getIsEqualsCurrAndTotalPage()) {
-            getSetCurrentPageAction()()
-            getDataAction()(category, true)
+            !isErrorFetchMainState && !isEmptyResponseMainState && getSetCurrentPageAction()()
+            !isEmptyResponseMainState && getDataAction()(category, true)
         }
     }
     useInfinityScroll(infinityScrollHandler)
