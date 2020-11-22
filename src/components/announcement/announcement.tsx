@@ -8,7 +8,7 @@ type AnnouncementPropsType = {
     photos: string
     id: number
     name: string
-    category: string
+    categoryName: string
     price: number
     creationDate: string
     station: string
@@ -18,12 +18,12 @@ type AnnouncementPropsType = {
 
 const Announcement = (props: AnnouncementPropsType) => {
 
-    const {photos, name, creationDate, category, className, price, station, id} = props
+    const {photos, name, creationDate, categoryName, className, price, station, id} = props
 
 
   return (
       <div className={`border text-center d-flex flex-column flex-md-row text-white border-dark mb-3 mr-3 p-0 ${className}`}>
-              <NavLink className={"col-lg-4 col-md-5 col-sm-12 p-0 card-header"} to={`${GET_PATH_SEARCH(category)}/${id}`}>
+              <NavLink className={"col-lg-4 col-md-5 col-sm-12 p-0 card-header"} to={`${GET_PATH_SEARCH(categoryName)}/${id}`}>
           {/*<div className="card-header p-0">*/}
                   <Image photo={photos[0]}/>
           {/*</div>*/}
