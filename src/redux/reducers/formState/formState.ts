@@ -23,7 +23,7 @@ const initialState = {
     registration : {
         name: defaultInitialStateForFormField,
         login: defaultInitialStateForFormField,
-        phoneNumber: defaultInitialStateForFormField,
+        phone: defaultInitialStateForFormField,
         password: defaultInitialStateForFormField,
         isReadyToSend: false
     },
@@ -31,7 +31,7 @@ const initialState = {
         photoList: {value: [], isValid: true},
         name: defaultInitialStateForFormField,
         price: defaultInitialStateForFormField,
-        categoryId: {value: initialStateCategory, isValid: true},
+        category: {value: initialStateCategory, isValid: true},
         description: defaultInitialStateForFormField,
         sellerPhone: defaultInitialStateForFormField,
         stationId: {value: initialStateSubway, isValid: true},
@@ -53,8 +53,6 @@ const checkIsValid = (field: string, value: any) => {
             return !!value.length
         case "password" :
             return value.length <= 24 && value.length >= 3
-        case "phoneNumber" :
-            return !!value.length
         case "login" :
             return !!value.length
         case "stationId":
@@ -63,7 +61,7 @@ const checkIsValid = (field: string, value: any) => {
             return !!value.length
         case "phone":
             return !!value.length
-        case "categoryId":
+        case "category":
             console.log(JSON.stringify(value), JSON.stringify(initialStateCategory))
             return JSON.stringify(value) !== JSON.stringify(initialStateCategory)
         case "description":
@@ -92,7 +90,7 @@ const formStateReducer = (state = initialState, action: any) => {
 
     switch (type) {
         case SET_VALUE_BY_PAGE_AND_FIELD_FORM_REDUCER :
-            console.log("SET_VALUE_BY_PAGE_AND_FIELD_FORM_REDUCER", page, value)
+            console.log("SET_VALUE_BY_PAGE_AND_FIELD_FORM_REDUCER", page, field, value)
             return {...state, [page] : {...stateByPage, [field] : {...stateByField, value, isValid: true}} }
         case SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER :
             const isValid = value !== null ? value : checkIsValid(field, stateByField.value)

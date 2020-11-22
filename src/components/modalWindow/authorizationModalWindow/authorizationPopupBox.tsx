@@ -9,7 +9,8 @@ import {
 } from "../../../redux/reducers/authorizationState/authorizationStateActionCreators";
 import {
     getIsCorrectAuthDataSelector, getIsExistUserSelector,
-    getIsRegistrationSelector
+    getIsRegistrationSelector,
+    getIsFetchingAuthStateSelector, getIsErrorFetchingAuthStateSelector
 } from "../../../redux/reducers/authorizationState/authorizationStateSelectors";
 import {
     getIsErrorFetchMainStateSelector,
@@ -37,9 +38,9 @@ const AuthorizationPopupBox = (props: PropsType) => {
     //------MAP-STATE-TO-PROPS-----//
     const isRegistration = useSelector(getIsRegistrationSelector)
     const isExistUser = useSelector(getIsExistUserSelector)
-    const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
+    const isErrorFetchingAuthState = useSelector(getIsErrorFetchingAuthStateSelector)
     const isCorrectAuthData = useSelector(getIsCorrectAuthDataSelector)
-    const isFetching = useSelector(getIsFetchingMainStateSelector)
+    const isFetching = useSelector(getIsFetchingAuthStateSelector)
     const authFormState: any = useSelector((state) => getFieldsByPageFormReducerSelector(state, "authorization"))
     const regFormState: any = useSelector((state) => getFieldsByPageFormReducerSelector(state, "registration"))
     const currentFormState = (isRegistration ? regFormState : authFormState) || {}
@@ -98,15 +99,15 @@ const AuthorizationPopupBox = (props: PropsType) => {
 
             },
             {
-                field: "phoneNumber",
+                field: "phone",
                 label: "Номер телефона",
                 inputType: "number",
                 placeholder: "Введите ваш телефон",
                 value: phoneNumber.value,
                 isValid: phoneNumber.isValid,
                 className: "mb-4",
-                onBlurHandler: () => setIsValidFormReducer("phoneNumber"),
-                onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "phoneNumber")
+                onBlurHandler: () => setIsValidFormReducer("phone"),
+                onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "phone")
             },
             {
                 field: "login",
@@ -143,14 +144,14 @@ const AuthorizationPopupBox = (props: PropsType) => {
     return (
         <div className="authorization-popupBox position-relative">
             <h1 className={"authorization-popupBox__title"}>{!isRegistration ? "Вход" : "Регистрация"}</h1>
-            {isErrorFetchMainState && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Возникла ошибка!"}/>}
+            {isErrorFetchingAuthState && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Возникла ошибка!"}/>}
             {isExistUser && isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Такой логин уже используется!"}/>}
             {!isCorrectAuthData && !isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Введённые данные не верны!"}/>}
             <hr className={"my-3"}/>
             <div className="authorization-popupBox__inputs-wrapper mb-2">
                 { getInputsConfig().map( ({field, ...restInputConfig}) => {
                     if(!isRegistration && field == "name") return null
-                    if(!isRegistration && field == "phoneNumber") return null
+                    if(!isRegistration && field == "phone") return null
                     return <TextInput {...restInputConfig} />
                 }) }
             </div>

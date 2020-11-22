@@ -12,12 +12,13 @@ import {setIsValidFormReducerAC, seValueFormReducerAC} from "../../redux/reducer
 import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState/formStateSelectors";
 import withAuthRedirectHoc from '../../hocs/withAuthRedirectHoc';
 import ImagePicker from "../../components/imagePicker/imagePicker";
+import Picture from "../../components/picture/picture";
 
 const SettingsPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "settings"))
-    const {photo, name, phone, login,} = formState
+    const {photo, name, phone, login} = formState
 
     const settingsState = useSelector((state) => ({
         photo: getSettingsFieldValueByFieldSelector(state, "photo"),
@@ -40,9 +41,9 @@ const SettingsPage = (props: any) => {
         settingsStateEntries.forEach(([key, value]) => seValueFormReducer(value, key))
     }, [])
 
-    const onLoadImageHandler = (image: any, imageName: string) => {
-        const postData = {photo: image, name: imageName}
-        seValueFormReducer(image, "photo")
+    const onLoadImageHandler = (data: any, type: string) => {
+        const postData = {data, type}
+        seValueFormReducer(data, "photo")
         postSettingByField(postData, "photo")
     }
 
@@ -69,24 +70,29 @@ const SettingsPage = (props: any) => {
     const getInputsConfig = () => {
         return [
             {
-                field: "name",
-                label: "Имя",
-                inputType: "text",
-                value: name.value,
-                isValid: name.isValid
-            },
-            {
                 field: "login",
                 label: "Логин",
                 inputType: "text",
+                isReadOnly:true,
                 value: login.value,
                 isValid: login.isValid
             },
             {
+                field: "name",
+                label: "Имя",
+                inputType: "text",
+                value: name.value,
+                onBlurHandler: () => setIsValidFormReducer("name"),
+                onChangeHandler: (event: any) => onChangeHandler(event, "name"),
+                isValid: name.isValid
+            },
+            {
                 field: "phone",
                 label: "Номер телефона",
-                inputType: "tel",
+                inputType: "number",
                 value: phone.value,
+                onBlurHandler: () => setIsValidFormReducer("phone"),
+                onChangeHandler: (event: any) => onChangeHandler(event, "phone"),
                 isValid: phone.isValid
             },
         ]
@@ -99,9 +105,10 @@ const SettingsPage = (props: any) => {
                 <div className="settingsPage__settings-wrapper">
 
                     <div className="settingsPage__setting-avatar w-100">
-                        <Image photo={photo.value}/>
+                        <Picture photo={photo.value}/>
                         <ImagePicker className={"position-absolute fixed-top opacity-0"}
                                      onLoadHandler={onLoadImageHandler}/>
+                        <span>Для изменения фотографии - нажмите на изображение</span>
                     </div>
 
                     <div className="settingsPage__logouOrDel-wrapper">
@@ -122,11 +129,9 @@ const SettingsPage = (props: any) => {
                 <div className="settingsPage__settings-wrapper p-0 mt-5 col-lg-5">
                     {getInputsConfig().map(({field, ...restConfig}) => <>
                         <div className="settingsPage__setting d-flex input-group my-2">
-                            <TextInput key={field} {...restConfig}
-                                       onBlurHandler={() => setIsValidFormReducer(field)}
-                                       onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>
-                            <Button className={"input-group-append btn-success ml-4 align-self-end"}
-                                    onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/>
+                            <TextInput key={field} {...restConfig}/>
+                            {field !== "login" ? <Button className={"input-group-append btn-success ml-4 align-self-end"}
+                                    onClickHandler={() => onClickHandler(field)} label={"Сохранить"}/> : null}
                         </div>
                         <hr className="my-4"/>
                     </>)}

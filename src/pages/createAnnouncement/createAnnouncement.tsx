@@ -24,6 +24,7 @@ import {getSettingsFieldValueByFieldSelector} from "../../redux/reducers/setting
 import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
 import ImagePicker from "../../components/imagePicker/imagePicker";
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
+import Picture from "../../components/picture/picture";
 
 type CreateAnnouncementFieldsType =
     "photos"
@@ -40,12 +41,12 @@ const CreateAnnouncement = (props: any) => {
     //------MAP-STATE-TO-PROPS-----//
     const subwayStationsData = useSelector(getSubwayStationsDataSelector)
     const [defaultCategory, ...categoriesData] = useSelector( (state) =>
-        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "active"))
+        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "bg-warning font-weight-bold text-center"))
     const phoneRedux = useSelector( (state) => getSettingsFieldValueByFieldSelector(state, "phone"))
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "createAnnouncement"))
     const {
         photoList, name,
-        price, categoryId,
+        price, category,
         description,
         sellerPhone, stationId,
         isReadyToSend
@@ -72,7 +73,9 @@ const CreateAnnouncement = (props: any) => {
     useEffect(() => {
         if(isReadyToSend) {
             const condition = (postData: any, key: any, value: any) => {
-                key === "categoryId" || key === "stationId" ? postData[key] = value.id : postData[key] = value
+                postData[key] = value
+                if(key === "category") postData[key] = value.category
+                if(key === "stationId") postData[key] = value.id
                 return postData
             }
             const postData = prepareFormStateByPageForSend(formState)(condition)
@@ -80,14 +83,14 @@ const CreateAnnouncement = (props: any) => {
         }
     }, [isReadyToSend])
 
-    const selectItemOnChangeHandler = (field: "categoryId" | "stationId", selectItem: any, setIsActiveSelect: Function) => {
+    const selectItemOnChangeHandler = (field: "category" | "stationId", selectItem: any, setIsActiveSelect: Function) => {
         if("className" in selectItem) return false
         setValueFormReducer(selectItem, field)
         setIsActiveSelect(false)
     }
 
-    const onLoadImageHandler = (image: any, imageName: string) => {
-        const value = photoList.value.concat({photo: image, name: imageName})
+    const onLoadImageHandler = (data: any, type: string) => {
+        const value = photoList.value.concat({data, type})
         setValueFormReducer(value, "photoList")
     }
 
@@ -98,8 +101,8 @@ const CreateAnnouncement = (props: any) => {
         setValueFormReducer(value, field)
     }
 
-    const deleteLoadedImage = (imageName: string) => {
-        const newPhotosValue = photoList.value.filter( ({photo, name}: any) => name !== imageName)
+    const deleteLoadedImage = (image: string) => {
+        const newPhotosValue = photoList.value.filter( ({data}: any) => data !== image)
         setValueFormReducer(newPhotosValue, "photoList")
     }
 
@@ -132,19 +135,19 @@ const CreateAnnouncement = (props: any) => {
 
     // const {name, subway, photos, description, phone, category, price} = state
 
-    const getErrorClassName = (field: "categoryId" | "stationId") =>
+    const getErrorClassName = (field: "category" | "stationId") =>
         !formState[field].isValid && "createAnnouncement__title-error"
 
     return (
         <div className="createAnnouncement__container container-lg pt-5">
                 <h1 className="display-5 jumbotron p-2 mb-5">Создание объявления</h1>
                 <div className="createAnnouncement__category d-flex">
-                    <h4 className={`createAnnouncement__category-title col-lg-3 text-left p-0 ${getErrorClassName("categoryId")}`}>
+                    <h4 className={`createAnnouncement__category-title col-lg-3 text-left p-0 ${getErrorClassName("category")}`}>
                         Категория
                     </h4>
-                    <Select className={"col-lg-4"} onBlurHandler={() => setIsValidFormReducer("categoryId")}
-                        onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("categoryId", selectItem, handler)}
-                        value={categoryId.value.label} selectItems={categoriesData} placeHolder={"Выбор категории"}/>
+                    <Select className={"col-lg-4"} onBlurHandler={() => setIsValidFormReducer("category")}
+                        onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)}
+                        value={category.value.name} selectItems={categoriesData} placeHolder={"Выбор категории"}/>
                 </div>
                 <hr className="my-4"/>
                 <div className="createAnnouncement__params d-block d-lg-flex">
@@ -162,8 +165,8 @@ const CreateAnnouncement = (props: any) => {
                                 </span>
                             {/*</div>*/}
                             <div className="createAnnouncement__params-photos-files d-flex flex-wrap">
-                                {photoList.value.map( ({photo, name}: any) =>
-                                    <Image onClickHandler={() => deleteLoadedImage(name)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-2"} photo={photo}/> )}
+                                {photoList.value.map( ({data}: any) =>
+                                    <Picture onClickHandler={() => deleteLoadedImage(data)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-2"} photo={data}/> )}
                                 {photoList.value.length < 5 &&
                                 <ImagePicker className={"col-lg-4 p-0 my-3"} onLoadHandler={onLoadImageHandler}/>}
                                 <span>
