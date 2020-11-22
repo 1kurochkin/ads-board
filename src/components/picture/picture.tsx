@@ -1,21 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./pictureStyles.css"
 import useBadCaseImage from "../../hooks/useBadCaseImage";
+import badCaseImage from "../../pictures/badCaseImage.png";
+import Preloader from "../preloader/preloader";
 
-type ImagePropsType = {
+type PicturePropsType = {
     photo: string
     className?: string
     onClickHandler?: any
     styles?: any
 }
 
-const Picture = (props: ImagePropsType) => {
+const Picture = (props: PicturePropsType) => {
 
     const {photo, className, onClickHandler = null, styles={}} = props
 
-    const imageSRC = useBadCaseImage(photo)
+    //
+    // const [imageSRC, setImageSRC] = useState(photo)
+    const [isLoadImage, setIsLoadImage] = useState(true)
 
-  return <div onClick={onClickHandler} style={{backgroundImage: `url(${imageSRC})`, ...styles}} className={`image ${className}`}/>
+    // const image = new Image
+    // image.src = imageSRC
+    // image.onload = () => {
+    //     console.log("LOAD IMAGE")
+    // }
+    // image.onerror = () => setImageSRC(badCaseImage)
+
+  return isLoadImage ?
+      <div onClick={onClickHandler}  className={`image ${className}`}
+           style={{backgroundImage: `url(${photo})`, ...styles}} /> :
+      <Preloader/>
 }
 
 export default Picture;
