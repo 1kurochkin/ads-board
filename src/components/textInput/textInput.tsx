@@ -6,11 +6,12 @@ type propsTypes = {
   inputType?: string
   value: string
   key?: number | string
-  onBlurHandler: Function
-  onChangeHandler: Function
+  onBlurHandler?: Function
+  onChangeHandler?: Function
   isValid?: boolean
   className?: string
-  label?: string
+  label?: string,
+  isReadOnly?: boolean
 }
 
 const TextInput = (props: propsTypes) => {
@@ -19,10 +20,11 @@ const TextInput = (props: propsTypes) => {
     className,
     placeholder,
     value, key,
-    onBlurHandler,
-    onChangeHandler,
+    onBlurHandler = () => null,
+    onChangeHandler = () => null,
     inputType = "text",
     label = "",
+    isReadOnly = false,
     isValid = true} = props
 
   return (
@@ -31,7 +33,7 @@ const TextInput = (props: propsTypes) => {
           {inputType === "textArea" ?
               <textarea style={{resize: "none"}} rows={6} className={"form-control"} onChange={(event) => onChangeHandler(event)} placeholder={placeholder}
                         onBlur={(event) => onBlurHandler(event)} value={value}/> :
-              <input className={"form-control"} key={key} onBlur={(event) => onBlurHandler(event)} value={value} type={inputType} placeholder={placeholder}
+              <input readOnly={isReadOnly} className={"form-control"} key={key} onBlur={(event) => onBlurHandler(event)} value={value} type={inputType} placeholder={placeholder}
                      onChange={(event) => onChangeHandler(event)} />}
         </div>
   );
