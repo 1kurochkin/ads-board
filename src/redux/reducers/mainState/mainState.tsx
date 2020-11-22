@@ -29,7 +29,7 @@ const initialState = {
             category: "housing",
             subCategories : [
                 {id: 2, name: "Квартиры", category: "apartments"},
-                {id: 3, name: "Комната", category: "bunk"},
+                {id: 3, name: "Комната", category: "bed"},
                 {id: 4, name: "Койко-место", category: "room"}
             ]
         },
