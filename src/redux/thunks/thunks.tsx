@@ -388,6 +388,7 @@ type GetAnnouncementsListDispatchType = Dispatch<SetIsErrorFetchMainStateACType 
 export const getAnnouncementsListThunk = (category: string, withConcat = false) => (dispatch: GetAnnouncementsListDispatchType, getState: any) => {
     dispatch(setIsFetchingMainStateAC(true))
     dispatch(setIsErrorFetchMainStateAC(false))
+    dispatch(setIsEmptyResponseMainStateAC(false))
     console.log("getAnnouncementsListThunk")
 
     const {announcementsListState: {currentPage}, mainState : {apiService}} = getState()
