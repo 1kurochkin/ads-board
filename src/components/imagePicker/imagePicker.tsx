@@ -13,12 +13,13 @@ const ImagePicker = (props: ImagePickerPropsType) => {
 
     const onChangeFileHandler = (event: any) => {
         const file = event.target.files[0]
-        const {name = `uploadUserImg${Date.now()}`} = file || {}
+        console.log(file, "onChangeFileHandler")
+        const {type} = file || {}
         const reader = new FileReader();
 
         reader.onload = () => {
             const {result} = reader
-            onLoadHandler(result, name)
+            onLoadHandler(result, type)
         }
 
         file && reader.readAsDataURL(file)
