@@ -11,14 +11,14 @@ type AnnouncementPropsType = {
     category: string
     price: number
     creationDate: string
-    subwayStation: string
+    station: string
     hasLike: boolean
     className?: string
 }
 
 const Announcement = (props: AnnouncementPropsType) => {
 
-    const {photo, name, creationDate, category, className, price, subwayStation, id} = props
+    const {photo, name, creationDate, category, className, price, station, id} = props
 
 
   return (
@@ -32,7 +32,7 @@ const Announcement = (props: AnnouncementPropsType) => {
                   <div className="card-body d-flex flex-column justify-content-between">
                       <h5 className="card-title text-primary">{name}</h5>
                       <h6 className="card-text text-dark">{`Цена: ${price} руб.`}</h6>
-                      <h6 className="card-text text-dark">{`Метро: ${subwayStation}`}</h6>
+                      <h6 className="card-text text-dark">{`Метро: ${station}`}</h6>
                   </div>
                   <div className="card-footer">
                       <small className="text-muted">{`Дата создания: ${creationDate}`}</small>
