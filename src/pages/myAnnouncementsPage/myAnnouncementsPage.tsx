@@ -45,7 +45,7 @@ const MyAnnouncementsPage = (props: any) => {
 
     //------INFINITY-SCROLL------//
     const infinityScrollHandler = (event: any) => {
-        if (currentPage !== totalNumOfPages) {
+        if (currentPage !== totalNumOfPages && !isFetching) {
             !isErrorFetchMainState && !isEmptyResponseMainState && setCurrentPage()
             !isEmptyResponseMainState && getMyAnnouncements(true)
         }

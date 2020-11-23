@@ -17,7 +17,7 @@ export type initialStateType = typeof initialState
 const initialState = {
     searchedData : [],
     currentPage : 0,
-    totalNumOfPages: 1,
+    totalNumOfPages: 0,
     isFetching: false,
     searchConfig : {
         categoryId: initialStateCategory,
@@ -38,7 +38,7 @@ export const searchBoxStateReducer = (state = initialState, action: any): initia
             return !pathname.includes(PATH_SEARCH) ?
                 {...state, searchConfig: initialStateSearchConfig} : state
         case SET_SEARCHED_DATA :
-            console.log("SET_SEARCHED_DATA", value)
+            console.log("SET_SEARCHED_DATA", value, withConcat)
             const newSearchedData = withConcat ? searchedData.concat(value) : value
             return {...state, searchedData: newSearchedData}
         case SET_IS_FETCHING_SEARCH_REDUCER :

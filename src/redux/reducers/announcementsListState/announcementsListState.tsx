@@ -11,7 +11,7 @@ type initialStateType = typeof initialState
 const initialState = {
     announcementsList: [],
     currentPage: 0,
-    totalNumOfPages: 1
+    totalNumOfPages: 0
 }
 
 export const announcementsListStateReducer = (state = initialState, action: any): initialStateType => {

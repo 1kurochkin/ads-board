@@ -11,7 +11,7 @@ type initialStateType = typeof initialState
 const initialState = {
     myAnnouncements: [],
     currentPage: 0,
-    totalNumOfPages: 1,
+    totalNumOfPages: 0,
     isFetching: false
 }
 
