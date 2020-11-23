@@ -25,7 +25,7 @@ const FeedPage = (props: any) => {
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
         getLastAnnouncements(0)
-        getLastAnnouncements(1, true)
+        // getLastAnnouncements(1, true)
     }, [])
 
     return (
