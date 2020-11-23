@@ -1,7 +1,7 @@
 // ------AUTHORIZATION-TYPES-----//
 import {SettingsFieldType} from "../redux/reducers/settingsState/settingsState";
 
-export const API_URL = "http://45.135.164.81/api"
+export const API_URL = "https://45.135.164.81/api"
 
 export type AuthorizationData = { login: string,  password: string }
 export type RegistrationData = { name: string,  login: string, phone: string, password: string }
