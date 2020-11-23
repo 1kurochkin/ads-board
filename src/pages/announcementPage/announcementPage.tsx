@@ -26,19 +26,19 @@ const AnnouncementPage = (props: any) => {
         creationDate = ""
     } = useSelector(getAnnouncementSelector)
 
+    //------CATCH-PARAMS-FROM-URL-----//
+    const {id} = useParams()
+
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
-    const getAnnouncementById = useCallback(() => dispatch(getAnnouncementByIdThunk(category, id)), [dispatch])
-
-    //------CATCH-PARAMS-FROM-URL-----//
-    const {category, id} = useParams()
+    const getAnnouncementById = useCallback(() => dispatch(getAnnouncementByIdThunk(id)), [dispatch])
 
     const {goBack} = useHistory()
 
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
         getAnnouncementById()
-    }, [])
+    }, [id])
 
     return (
         <div className="announcementPage__container container-lg pt-5 pb-5">
