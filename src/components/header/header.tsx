@@ -36,7 +36,10 @@ const Header = (props: any) => {
     const [isActiveLogoutAlert, setIsActiveLogoutAlert] = useState(false)
 
     //------DID-UODATE-DEP-LOCATION-----//
-    useEffect( () => setIsActiveMobileMenu(false), [location])
+    useEffect( () => {
+        setIsActiveMobileMenu(false)
+        setIsActiveAuthMenu(false)
+    }, [location])
 
     const outsideClickHandler = () => {
         isActiveAuthMenu && toggleIsActiveAuthMenu()
