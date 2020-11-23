@@ -277,14 +277,14 @@ export const postLogoutOrDeleteUser = (logoutOrDelete: LogoutOrDeleteType) => (d
 
 //--------------------ANNOUNCEMENT-PAGE--------------------//
 type GetAnnouncementByIdDispatchType = Dispatch<SetIsErrorFetchMainStateACType | SetIsEmptyResponseMainStateACType | SettIsFetchingAnnouncementReducerACType | SetAnnouncementsACType>
-export const getAnnouncementByIdThunk = (category: string, id: number) => (dispatch: GetAnnouncementByIdDispatchType, getState: any) => {
+export const getAnnouncementByIdThunk = (id: number) => (dispatch: GetAnnouncementByIdDispatchType, getState: any) => {
     dispatch(settIsFetchingAnnouncementReducerAC(true))
     dispatch(setIsErrorFetchMainStateAC(false))
     console.log("getAnnouncementByIdThunk")
 
     const {mainState: {apiService}} = getState()
 
-    apiService["getAnnouncementByIdThunk"](category, id)
+    apiService["getAnnouncementById"](id)
         .then((response:any) => {
             if(!response.ok) throw response.status
             return response.json()
