@@ -62,10 +62,11 @@ const App = () => {
                 <Route exact path={PATH_SETTINGS} component={SettingsPage}/>
                 <Route exact path={PATH_COOPERATION} component={CooperationPage}/>
                 <Route exact path={PATH_SUPPORT} component={SupportPage}/>
-                {categoriesData.map(({category}: any) => <Route exact path={GET_PATH_SEARCH(category)}
-                                                                component={AnnouncementsListPage}/>)}
-                {categoriesData.map(({category}: any) => <Route exact path={`${GET_PATH_SEARCH(category)}/:id`}
-                                                                component={AnnouncementPage}/>)}
+                {categoriesData.reduce( (array:Array<any>, {category}: any) => {
+                    array.push(<Route exact path={`${GET_PATH_SEARCH(category)}`} component={AnnouncementsListPage}/>)
+                    array.push(<Route exact path={`${GET_PATH_SEARCH(category)}/:id`} component={AnnouncementPage}/>)
+                    return array
+                }, [] ) }
                 <Redirect to={PATH_FEED}/>
             </Switch>
             <Footer/>
