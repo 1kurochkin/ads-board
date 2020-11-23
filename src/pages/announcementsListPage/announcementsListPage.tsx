@@ -99,7 +99,7 @@ const AnnouncementsListPage = (props: any) => {
         resetToInitialStateAnnouncementsList()
         getAnnouncements(category)
         setState({currentCategory, currentSubway})
-    }, [category])
+    }, [searchedData])
 
     //------INFINITY-SCROLL------//
     const infinityScrollHandler = (event?: any) => {
