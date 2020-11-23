@@ -1,6 +1,6 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import "./headerStyles.css"
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Logo from "../logo/logo";
 import AuthorizationModalWindow from "../modalWindow/authorizationModalWindow/authorizationModalWindow";
 import {linkToCreateAnnouncement, PATH_MY_ANNOUNCEMENTS, PATH_SETTINGS} from "../../app/App";
@@ -14,6 +14,9 @@ import {getSettingsFieldValueByFieldSelector} from "../../redux/reducers/setting
 import NavBar from "../navBar/navBar";
 
 const Header = (props: any) => {
+
+    //------USE-HISTORY-----//
+    const {location} = useHistory()
 
     //------USE-REF-----//
     const ref = useRef(null)
@@ -31,6 +34,9 @@ const Header = (props: any) => {
     const [isActiveMobileMenu, setIsActiveMobileMenu] = useState(false)
     const [isActiveAuthMenu, setIsActiveAuthMenu] = useState(false)
     const [isActiveLogoutAlert, setIsActiveLogoutAlert] = useState(false)
+
+    //------DID-UODATE-DEP-LOCATION-----//
+    useEffect( () => setIsActiveMobileMenu(false), [location])
 
     const outsideClickHandler = () => {
         isActiveAuthMenu && toggleIsActiveAuthMenu()
