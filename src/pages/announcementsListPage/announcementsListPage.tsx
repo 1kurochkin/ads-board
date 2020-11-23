@@ -54,14 +54,14 @@ const AnnouncementsListPage = (props: any) => {
     const isFetchingSearchState = useSelector(getIsFetchingSearchReducerSelector)
     const currentPageSearch = useSelector(getCurrentPageSearchReducerSelector)
     const totalNumOfPageSearch = useSelector(getTotalNumOfPageSearchReducerSelector)
-    const isEqualsCurrAndTotalPageSearch = currentPageSearch === totalNumOfPageSearch
+    const isEqualsCurrAndTotalPage = currentPageSearch === totalNumOfPageSearch
     //----------------------//
-    const isSearchState = searchedData.length || isFetchingSearchState
+    // const isSearchState = searchedData.length || isFetchingSearchState
     //---ANNOUNCEMENTS-LIST-STATE---//
-    const announcementsList = useSelector(getAnnouncementsListSelector)
-    const currentPage = useSelector(getCurrentPageAnnouncementsListReducerSelector)
-    const totalNumOfPages = useSelector(getTotalNumOfPagesAnnouncementsListReducerSelector)
-    const isEqualsCurrAndTotalPage = currentPage === totalNumOfPages
+    // const announcementsList = useSelector(getAnnouncementsListSelector)
+    // const currentPage = useSelector(getCurrentPageAnnouncementsListReducerSelector)
+    // const totalNumOfPages = useSelector(getTotalNumOfPagesAnnouncementsListReducerSelector)
+    // const isEqualsCurrAndTotalPage = currentPage === totalNumOfPages
     //---MAIN-STATE---//
     const isFetchingMainState = useSelector(getIsFetchingMainStateSelector)
     const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
@@ -69,43 +69,48 @@ const AnnouncementsListPage = (props: any) => {
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
-    const getAnnouncements = useCallback((category, withConcat = false) => dispatch(getAnnouncementsListThunk(category, withConcat)), [dispatch])
-    const getAnnouncementsByFilters = useCallback(() => dispatch(getAnnouncementsByFiltersThunk(true)), [dispatch])
-    const setCurrentPage = useCallback(() => dispatch(setCurrentPageAnnouncementsListReducerAC()), [dispatch])
+    // const getAnnouncements = useCallback((category, withConcat = false) => dispatch(getAnnouncementsListThunk(category, withConcat)), [dispatch])
+    const getAnnouncementsByFilters = useCallback((withConcat = true) => dispatch(getAnnouncementsByFiltersThunk(withConcat)), [dispatch])
+    // const setCurrentPage = useCallback(() => dispatch(setCurrentPageAnnouncementsListReducerAC()), [dispatch])
     const setCurrentPageSearchBox = useCallback(() => dispatch(setCurrentPageSearchReducerAC()), [dispatch])
-    const resetToInitialStateAnnouncementsList = useCallback(() => dispatch(resetToInitialStateAnnouncementsListReducerAC()), [dispatch])
+    // const resetToInitialStateAnnouncementsList = useCallback(() => dispatch(resetToInitialStateAnnouncementsListReducerAC()), [dispatch])
     const resetToInitialStateSearchReducer = useCallback(() => dispatch(resetToInitialStateSearchReducerAC()), [dispatch])
 
     //---GET-ACTIONS---//
-    const getDataAction: () => Function = () => isSearchState ? getAnnouncementsByFilters : getAnnouncements
-    const getDataState: () => Array<any> = () => isSearchState ? searchedData : announcementsList
-    const getSetCurrentPageAction: () => Function = () => isSearchState ? setCurrentPageSearchBox : setCurrentPage
-    const getIsEqualsCurrAndTotalPage: () => boolean = () => isSearchState ? isEqualsCurrAndTotalPageSearch : isEqualsCurrAndTotalPage
+    // const getDataAction: () => Function = () => isSearchState ? getAnnouncementsByFilters : getAnnouncements
+    // const getDataState: () => Array<any> = () => isSearchState ? searchedData : announcementsList
+    // const getSetCurrentPageAction: () => Function = () => isSearchState ? setCurrentPageSearchBox : setCurrentPage
+    // const getIsEqualsCurrAndTotalPage: () => boolean = () => isSearchState ? isEqualsCurrAndTotalPageSearch : isEqualsCurrAndTotalPage
 
     //---LOCAL-STATE---//
     const [state, setState] = useState(() => ({currentCategory, currentSubway}))
 
     //----COMPONENT-DID-MOUNT/UNMOUNT-LIFECYCLE----//
     useEffect(() => {
-        getAnnouncements(category)
+        // getAnnouncements(category)
         return () => {
-            resetToInitialStateAnnouncementsList()
+            // resetToInitialStateAnnouncementsList()
             resetToInitialStateSearchReducer()
         }
     }, [])
 
     //----COMPONENT-DID-UPDATE-LIFECYCLE----//
     useEffect(() => {
-        resetToInitialStateAnnouncementsList()
-        getAnnouncements(category)
+        // resetToInitialStateAnnouncementsList()
+        resetToInitialStateSearchReducer()
+        !isFetchingSearchState && getAnnouncementsByFilters(false)
+    }, [category])
+
+    //----COMPONENT-DID-UPDATE-LIFECYCLE----//
+    useEffect(() => {
         setState({currentCategory, currentSubway})
     }, [searchedData])
 
     //------INFINITY-SCROLL------//
     const infinityScrollHandler = (event?: any) => {
-        if (!getIsEqualsCurrAndTotalPage()) {
-            !isErrorFetchMainState && !isEmptyResponseMainState && getSetCurrentPageAction()()
-            !isEmptyResponseMainState && getDataAction()(category, true)
+        if (!isEqualsCurrAndTotalPage && !isFetchingMainState) {
+            !isErrorFetchMainState && !isEmptyResponseMainState && setCurrentPageSearchBox()
+            !isEmptyResponseMainState && getAnnouncementsByFilters(true)
         }
     }
     useInfinityScroll(infinityScrollHandler)
@@ -120,13 +125,13 @@ const AnnouncementsListPage = (props: any) => {
                         <span className={"font-weight-bold"}>Поиск по : </span>
                         {state.currentSubway}> {state.currentCategory}
                     </h3>
-                    <WithBadFetchingCasesWrapper isFetching={isFetchingMainState || isFetchingSearchState}>
-                        {getDataState().map(({id, ...restMyAnnouncement}: any) =>
+                    <WithBadFetchingCasesWrapper isFetching={isFetchingSearchState}>
+                        {searchedData.map(({id, ...restMyAnnouncement}: any) =>
                             <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>)}
                     </WithBadFetchingCasesWrapper>
                     <ButtonUp/>
                 </div>
-                {!getIsEqualsCurrAndTotalPage() &&
+                {!isEqualsCurrAndTotalPage && !isEmptyResponseMainState &&
                 <Button className={"btn-success w-100 my-4 mobile"} onClickHandler={infinityScrollHandler}
                         label={"Загрузить еще объявления"}/>}
             </div>
