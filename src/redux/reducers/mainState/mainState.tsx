@@ -69,7 +69,7 @@ export const mainStateReducer = (state = initialState, action : any): initialSta
             return initialState
         case LOCATION_CHANGE :
             console.log("LOCATION_CHANGE")
-            window.scrollTo(0,0)
+            window.scrollTo(0,50)
             return state
         default: return state
     }
