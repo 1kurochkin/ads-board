@@ -26,11 +26,11 @@ const Picture = (props: PicturePropsType) => {
         if(isImageFromServer && photo) {
             const image = new Image
             image.src = getImageSrc()
-            image.onload = () => setIsLoadImage(true)
             image.onerror = () => {
                 setIsLoadImage(true)
                 setImageSRC(badCaseImage)
             }
+            image.onload = () => setIsLoadImage(true)
         }
         if(!photo) {
             setImageSRC(badCaseImage)
