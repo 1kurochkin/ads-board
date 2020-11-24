@@ -16,6 +16,7 @@ import CooperationPage from "../pages/cooperationPage/cooperationPage";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import SupportPage from "../pages/supportPage/supportPage";
+import UnhandledRoutePage from "../pages/unhandledRoutePage/unhandledRoutePage";
 
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
@@ -67,7 +68,7 @@ const App = () => {
                     array.push(<Route exact path={`${GET_PATH_SEARCH(category)}/:id`} component={AnnouncementPage}/>)
                     return array
                 }, [] ) }
-                <Redirect to={PATH_FEED}/>
+                <Route component={UnhandledRoutePage}/>
             </Switch>
             <Footer/>
         </div>
