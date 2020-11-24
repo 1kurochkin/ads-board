@@ -72,8 +72,8 @@ const SearchBox = (props: any) => {
   return (
       <>
           <div className={`searchBox rounded bg-info p-0 mx-auto d-flex col-lg-10 input-group justify-content-center ${className}`}>
-              <Select className={"col-lg-3 p-2 input-group-prepend"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)} value={searchConfigSubwayStation.name} selectItems={subwayStationsData}/>
-              <div className="searchBox__search col-lg-4 p-2 d-flex">
+              <Select className={"col-lg-4 p-2 input-group-prepend"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("subway", selectItem, handler)} value={searchConfigSubwayStation.name} selectItems={subwayStationsData}/>
+              <div className="searchBox__search col-lg-3 p-2 d-flex">
                   <input onBlur={({target: {value}}) => setSearchConfigSearchValue(value)} onChange={searchOnChangeHandler}
                          className={"searchBox__search-input w-100 form-control pr-5"}
                          value={searchValue} type="text"
