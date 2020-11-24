@@ -11,9 +11,15 @@ import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWr
 import CategoryNavigation from "../../components/categoryNavigation/categoryNavigation";
 import CategoryNavigationButton from "../../components/categoryNavButton/categoryNavigationButton";
 import {initialStateCategory} from "../../redux/reducers/mainState/mainState";
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 
 const FeedPage = (props: any) => {
+
+    useSetMetaTitleAndDescription(
+        "Главная",
+        "Salam.ru – доска объявлений, на которой, есть возможность разместить объявления, либо найти себе жильё или работу."
+    )
 
     //------MAP-STATE-TO-PROPS-----//
     const lastAnnouncements = useSelector(getLastAnnouncementsSelector)
