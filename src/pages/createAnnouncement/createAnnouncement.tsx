@@ -25,6 +25,7 @@ import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
 import ImagePicker from "../../components/imagePicker/imagePicker";
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
 import Picture from "../../components/picture/picture";
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 type CreateAnnouncementFieldsType =
     "photos"
@@ -37,6 +38,11 @@ type CreateAnnouncementFieldsType =
     | string
 
 const CreateAnnouncement = (props: any) => {
+
+    useSetMetaTitleAndDescription(
+        "Создание объявления",
+        "Создать объявление на Salam.ru"
+    )
 
     //------MAP-STATE-TO-PROPS-----//
     const subwayStationsData = useSelector(getSubwayStationsDataSelector)
@@ -111,7 +117,7 @@ const CreateAnnouncement = (props: any) => {
         return [
             {
                 field: "name",
-                label: "Имя",
+                label: "Название",
                 inputType: "text",
                 value: name.value,
                 isValid: name.isValid
