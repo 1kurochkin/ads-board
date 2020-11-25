@@ -57,6 +57,7 @@ const App = () => {
         <div className="App bg-light fullHeightContent">
             <Header/>
             <Switch>
+                <Route exact path={"/"} component={() => <Redirect to={PATH_FEED}/>}/>
                 <Route exact path={PATH_CREATE_ANNOUNCEMENT} component={CreateAnnouncement}/>
                 <Route exact path={PATH_FEED} component={FeedPage}/>
                 <Route exact path={PATH_MY_ANNOUNCEMENTS} component={MyAnnouncementsPage}/>
