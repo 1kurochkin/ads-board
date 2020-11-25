@@ -21,7 +21,7 @@ const NavBar = (props: NavBarPropsType) => {
     const {className} = props
 
   return (
-      <div className={`navbar-nav my-4 my-md-0 d-flex col-lg-7 col-md-7  justify-content-md-center flex-fill flex-md-row p-0 ${className}`}>
+      <div className={`navbar-nav my-4 my-md-0 d-flex  justify-content-md-center flex-fill flex-md-row p-0 ${className}`}>
           <CategoryNavigationButton className={"nav-link p-md-0"} category={"all"} configCategory={initialStateCategory}>
               <Button className={"btn-light w-100"} label={"Объявления"}/>
           </CategoryNavigationButton>
