@@ -10,6 +10,7 @@ import {
 import Button from "../../components/button/button";
 import Slider from "../../components/slider/slider";
 import Image from "../../components/picture/picture";
+import Picture from "../../components/picture/picture";
 
 const AnnouncementPage = (props: any) => {
 
@@ -49,12 +50,12 @@ const AnnouncementPage = (props: any) => {
             </div>
 
             <hr className="my-4"/>
-            <div className="announcementPage__photoAndInfo-wrapper d-block d-lg-flex mb-5">
+            <div className="announcementPage__photoAndInfo-wrapper d-block d-lg-flex mb-lg-5">
 
                 <div className="announcementPage__photo-slider">
-                    <Slider>
-                        {photos.map((photo: string) => <Image photo={photo}/>)}
-                    </Slider>
+                    {!photos.length ? <Picture photo={""}/> : <Slider>
+                        {photos.map((photo: string) => <Picture photo={photo}/>)}
+                    </Slider>}
                 </div>
 
                 <div className="announcementPage__info-wrapper mt-5 ml-lg-5 col-sm-12 col-lg-5 p-0">
