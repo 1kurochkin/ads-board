@@ -55,7 +55,7 @@ const MyAnnouncementsPage = (props: any) => {
     return (
         <div className="myAnnouncements__container container-lg pt-5 pb-5">
             <h2 className="display-5 jumbotron p-2">Мои объявления</h2>
-            <WithBadFetchingCasesWrapper>
+            <WithBadFetchingCasesWrapper isEmptyResponse={!myAnnouncements.length || isEmptyResponseMainState}>
                 {myAnnouncements.map(({id, ...restMyAnnouncement}: any) =>
                     <div key={id} className="d-flex mb-3">
                         <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>
