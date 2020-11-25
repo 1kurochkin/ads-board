@@ -6,7 +6,7 @@
 
 .header__menu {
     max-height: 100vh;
-    overflow: unset;
+    /*overflow: hidden;*/
 }
 
 .header {
@@ -56,12 +56,13 @@
     overflow: hidden;
     opacity: 0;
     /*padding: 0;*/
+
     transition: max-height 0.5s;
 }
 
-.header__authMenu-menu.dropdown-menu.header__show {
-    /*padding: 0.5rem;*/
-}
+/*.header__authMenu-menu.dropdown-menu.header__show {*/
+/*    !*padding: 0.5rem;*!*/
+/*}*/
 
 /*.header__authMenu-menu {*/
 /*    padding: 25px 40px;*/

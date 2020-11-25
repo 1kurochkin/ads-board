@@ -91,9 +91,9 @@ const Header = (props: any) => {
                 <span onClick={() => setIsActiveMobileMenu(prevState => !prevState)}
                       className="navbar-toggler-icon mobile border rounded border-color-dark p-3"/>
             </div>
-            <div className={`d-flex flex-column flex-lg-row flex-fill col-sm-12 col-md-10 flex-md-column align-items-md-center flex-md-row p-0 justify-content-md-around ${isActiveMobileMenu && "header__show"}`}>
+            <div className={`d-flex header__menu flex-column mobile flex-lg-row flex-fill col-sm-12 col-md-10 flex-md-column align-items-md-center flex-md-row p-0 justify-content-md-around ${isActiveMobileMenu && "header__show"}`}>
                 <NavBar className={"mb-md-3 mb-lg-0"}/>
-            <div className="d-flex align-items-md-center flex-column flex-md-row flex-grow-1 flex-md-grow-0 justifu-content-center">
+            <div className="d-flex align-items-md-center flex-column flex-md-row flex-grow-1 flex-md-grow-0">
                 {isAuth ? authMenu : <AuthorizationModalWindow alertCloseHandler={() => setIsActiveAuthModal(false)} isActiveFromProps={isActiveAuthModal}/>}
                 {isAuth ? linkToCreateAnnouncement("") : alertCreateAnnouncement()}
             </div>
