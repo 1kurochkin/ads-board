@@ -1,6 +1,7 @@
-/*.announcement {*/
-/*    width: 208px;*/
-/*}*/
+.announcement:hover {
+    transform: scale(1.02, 1.02);
+    transition: all 0.3s;
+}
 /*.announcement__photo-wrapper {*/
 /*    height: 182px;*/
 /*}*/

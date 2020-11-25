@@ -13,7 +13,7 @@ const SelectItem = (props: PropsType) => {
     const {name = "", isActive, onChangeHandler, className} = props
 
     return (
-        <div style={{cursor: "pointer"}} onClick={onChangeHandler} className={`selectItem dropdown-item p-3 border-bottom ${className} ${isActive && "active"}`}>
+        <div onClick={onChangeHandler} className={`selectItem cursor-pointer dropdown-item p-3 border-bottom ${className} ${isActive && "active"}`}>
             {name}
             {/*<input checked={isActive} type="radio" className="selectItem__checkBox"/>*/}
         </div>
