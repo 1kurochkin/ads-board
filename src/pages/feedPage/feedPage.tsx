@@ -17,7 +17,7 @@ import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescrip
 const FeedPage = (props: any) => {
 
     useSetMetaTitleAndDescription(
-        "Главная",
+        "Salam.ru — объявления в Москве — Объявления на сайте Salam.ru",
         "Salam.ru – доска объявлений, на которой, есть возможность разместить объявления, либо найти себе жильё или работу."
     )
 

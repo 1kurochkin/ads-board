@@ -20,8 +20,14 @@ import {
     getIsEmptyResponseMainStateSelector,
     getIsErrorFetchMainStateSelector
 } from "../../redux/reducers/mainState/mainStateSelectors";
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 const MyAnnouncementsPage = (props: any) => {
+
+    useSetMetaTitleAndDescription(
+        "Мои объявления",
+        "Посмотреть созданные мною объявления на Salam.ru"
+    )
 
     //------MAP-STATE-TO-PROPS-----//
     const myAnnouncements = useSelector(getMyAnnouncementsSelector)
@@ -54,7 +60,7 @@ const MyAnnouncementsPage = (props: any) => {
 
     return (
         <div className="myAnnouncements__container container-lg pt-5 pb-5">
-            <h2 className="display-5 jumbotron p-2">Мои объявления</h2>
+            <h1 className="display-5 jumbotron p-2">Мои объявления</h1>
             <WithBadFetchingCasesWrapper isEmptyResponse={!myAnnouncements.length || isEmptyResponseMainState}>
                 {myAnnouncements.map(({id, ...restMyAnnouncement}: any) =>
                     <div key={id} className="d-flex mb-3">

@@ -9,13 +9,12 @@ import {
 } from '../../redux/reducers/announcementState/announcementStateSelectors';
 import Button from "../../components/button/button";
 import Slider from "../../components/slider/slider";
-import Image from "../../components/picture/picture";
 import Picture from "../../components/picture/picture";
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 const AnnouncementPage = (props: any) => {
 
     //------MAP-STATE-TO-PROPS-----//
-    const isFetching = useSelector(getIsFetchingAnnouncementReducerSelector)
     const {
         photos = [],
         name = "",
@@ -26,6 +25,11 @@ const AnnouncementPage = (props: any) => {
         contactPhone = "",
         creationDate = ""
     } = useSelector(getAnnouncementSelector)
+
+    useSetMetaTitleAndDescription(
+        name,
+        `Страница объявления ${name} на Salam.ru`
+    )
 
     //------CATCH-PARAMS-FROM-URL-----//
     const {id} = useParams()
@@ -46,7 +50,7 @@ const AnnouncementPage = (props: any) => {
             <div className="d-flex flex-column flex-md-row justify-content-md-between">
                 <Button className={"btn-primary order-md-1"} onClickHandler={goBack} label={"Назад"}/>
                 <hr className="my-4 mobile"/>
-                <h2 className="announcementPage__name text-left m-0">{name}</h2>
+                <h1 className="announcementPage__name text-left m-0">{name}</h1>
             </div>
 
             <hr className="my-4"/>

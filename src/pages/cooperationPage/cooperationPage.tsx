@@ -1,7 +1,13 @@
 import React from 'react';
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 
 const CooperationPage = (props: any) => {
+
+    useSetMetaTitleAndDescription(
+        "Сотрудничество",
+        "Страница сотрудничества с Salam.ru"
+    )
 
     return (
         <div className="contactsPage__container container-lg pb-5 pt-5 text-center">

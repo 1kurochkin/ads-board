@@ -1,20 +1,25 @@
-import React, {ChangeEvent, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import "./settingsPageStyles.css"
 import {useDispatch, useSelector} from "react-redux";
 import {postLogoutOrDeleteUser, postSettingByFieldThunk} from "../../redux/thunks/thunks";
 import {SettingsFieldType} from '../../redux/reducers/settingsState/settingsState';
 import TextInput from "../../components/textInput/textInput";
 import Button from "../../components/button/button";
-import Image from "../../components/picture/picture";
+import Picture from "../../components/picture/picture";
 import {getSettingsFieldValueByFieldSelector} from '../../redux/reducers/settingsState/settingsStateSelectors';
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
 import {setIsValidFormReducerAC, seValueFormReducerAC} from "../../redux/reducers/formState/formStateActionCreators";
 import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState/formStateSelectors";
 import withAuthRedirectHoc from '../../hocs/withAuthRedirectHoc';
 import ImagePicker from "../../components/imagePicker/imagePicker";
-import Picture from "../../components/picture/picture";
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 const SettingsPage = (props: any) => {
+
+    useSetMetaTitleAndDescription(
+        "Настройки профиля",
+        "Страница настроек профиля на Salam.ru"
+    )
 
     //------MAP-STATE-TO-PROPS-----//
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "settings"))
@@ -100,7 +105,7 @@ const SettingsPage = (props: any) => {
 
     return (
         <div className="container-lg pb-5 pt-5">
-            <h2 className="display-5 jumbotron p-2 mb-5">Настройки профиля</h2>
+            <h1 className="display-5 jumbotron p-2 mb-5">Настройки профиля</h1>
             <div className="d-lg-flex justify-content-around">
                 <div className="settingsPage__settings-wrapper">
 

@@ -41,7 +41,7 @@ const CreateAnnouncement = (props: any) => {
 
     useSetMetaTitleAndDescription(
         "Создание объявления",
-        "Создать объявление на Salam.ru"
+        "Создание объявления на Salam.ru"
     )
 
     //------MAP-STATE-TO-PROPS-----//

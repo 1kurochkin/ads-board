@@ -36,6 +36,7 @@ import ButtonUp from "../../components/buttonUp/buttonUp";
 import WithBadFetchingCasesWrapper from "../../components/withBadFetchingCasesWrapper/withBadFetchingCasesWrapper";
 import Button from "../../components/button/button";
 import CategoryNavigation from '../../components/categoryNavigation/categoryNavigation';
+import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
 
 
 const AnnouncementsListPage = (props: any) => {
@@ -49,6 +50,11 @@ const AnnouncementsListPage = (props: any) => {
     //---SEARCHED-BOX-STATE---//
     const {name: currentCategory} = useSelector(getSearchConfigCategorySelector)
     const {name: currentSubway}: any = useSelector(getSearchConfigSubwayStationsSelector)
+
+    useSetMetaTitleAndDescription(
+        currentCategory,
+        `Страница поиска объявлений в категории ${currentCategory} на Salam.ru`
+    )
 
     const searchedData = useSelector(getSearchedDataSelector)
     const isFetchingSearchState = useSelector(getIsFetchingSearchReducerSelector)
