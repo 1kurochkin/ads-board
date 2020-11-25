@@ -97,6 +97,11 @@ a {
     border-right: 1px solid black;
 }
 
+.createAnnouncement__params-photos-files-file {
+    height: 67px!important;
+    width: 49%!important;
+}
+
 @media (max-width: 1140px) {
     html {
         font-size: 14px;
@@ -107,6 +112,12 @@ a {
 @media (max-width: 992px) {
     html {
         font-size: 14px;
+    }
+
+    .createAnnouncement__params-photos-files-file {
+        height: 150px!important;
+        width: 49%!important;
+        margin-bottom: 10px;
     }
 
 }
@@ -143,10 +154,10 @@ a {
         width: 100%;
     }
 
-    .createAnnouncement__params-photos-files-file {
-        height: 150px!important;
-        width: 45%!important;
-    }
+    /*.createAnnouncement__params-photos-files-file {*/
+    /*    height: 150px!important;*/
+    /*    width: 46%!important;*/
+    /*}*/
 
     .settingsPage__setting-avatar {
         height: 290px!important;

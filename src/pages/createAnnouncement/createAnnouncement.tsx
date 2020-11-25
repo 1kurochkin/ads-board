@@ -170,15 +170,15 @@ const CreateAnnouncement = (props: any) => {
                                     {`Фотографии ${photoList.value.length} из 5`}
                                 </span>
                             {/*</div>*/}
-                            <div className="createAnnouncement__params-photos-files d-flex flex-wrap">
+                            <div className="createAnnouncement__params-photos-files justify-content-between d-flex align-items-center flex-wrap flex-lg-nowrap">
                                 {photoList.value.map( ({data}: any) =>
-                                    <Picture onClickHandler={() => deleteLoadedImage(data)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-2"} photo={data}/> )}
+                                    <Picture onClickHandler={() => deleteLoadedImage(data)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-lg-2"} photo={data}/> )}
                                 {photoList.value.length < 5 &&
                                 <ImagePicker className={"col-lg-4 p-0 my-3"} onLoadHandler={onLoadImageHandler}/>}
-                                <span>
+                            </div>
+                            <span className={"mt-2"}>
                                     Чтобы удалить фото - нажмите на него
                                 </span>
-                            </div>
                         </div>
                     </div>
                 </div>
