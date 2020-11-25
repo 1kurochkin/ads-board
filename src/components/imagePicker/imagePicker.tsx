@@ -13,16 +13,7 @@ const ImagePicker = (props: ImagePickerPropsType) => {
 
     const onChangeFileHandler = (event: any) => {
         const file = event.target.files[0]
-        console.log(file, "onChangeFileHandler")
-        const {type} = file || {}
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            const {result} = reader
-            onLoadHandler(result, type)
-        }
-
-        file && reader.readAsDataURL(file)
+        file && onLoadHandler(file)
     }
 
   return <div style={styles} className={`h-100 w-100 ${className}`}>

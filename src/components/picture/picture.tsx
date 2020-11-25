@@ -13,10 +13,10 @@ type PicturePropsType = {
 
 const Picture = (props: PicturePropsType) => {
 
-    const {photo = "", className, onClickHandler = null, styles={}} = props
-    const isImageFromServer = !photo.includes("data")
+    const {photo, className, onClickHandler = null, styles={}} = props
+    const isImageFromServer = typeof photo === "string"
 
-    const getImageSrc = () => isImageFromServer ? `${API_URL}/photo/${photo}` : photo
+    const getImageSrc = () => isImageFromServer ? `${API_URL}/photo/${photo}` : photo && URL.createObjectURL(photo)
 
     const [imageSRC, setImageSRC] = useState(() => "")
     const [isLoadImage, setIsLoadImage] = useState(!isImageFromServer)

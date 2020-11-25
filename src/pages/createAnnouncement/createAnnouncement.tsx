@@ -95,8 +95,8 @@ const CreateAnnouncement = (props: any) => {
         setIsActiveSelect(false)
     }
 
-    const onLoadImageHandler = (data: any, type: string) => {
-        const value = photoList.value.concat({data, type})
+    const onLoadImageHandler = (file: any) => {
+        const value = photoList.value.concat(file)
         setValueFormReducer(value, "photoList")
     }
 
@@ -107,8 +107,8 @@ const CreateAnnouncement = (props: any) => {
         setValueFormReducer(value, field)
     }
 
-    const deleteLoadedImage = (image: string) => {
-        const newPhotosValue = photoList.value.filter( ({data}: any) => data !== image)
+    const deleteLoadedImage = (fileName: string) => {
+        const newPhotosValue = photoList.value.filter( ({name}: any) => name !== fileName)
         setValueFormReducer(newPhotosValue, "photoList")
     }
 
@@ -171,8 +171,8 @@ const CreateAnnouncement = (props: any) => {
                                 </span>
                             {/*</div>*/}
                             <div className="createAnnouncement__params-photos-files justify-content-between d-flex align-items-center flex-wrap flex-lg-nowrap">
-                                {photoList.value.map( ({data}: any) =>
-                                    <Picture onClickHandler={() => deleteLoadedImage(data)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-lg-2"} photo={data}/> )}
+                                {photoList.value.map( (file: any) =>
+                                    <Picture onClickHandler={() => deleteLoadedImage(file.name)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-lg-2"} photo={file}/> )}
                                 {photoList.value.length < 5 &&
                                 <ImagePicker className={"col-lg-4 p-0 my-3"} onLoadHandler={onLoadImageHandler}/>}
                             </div>

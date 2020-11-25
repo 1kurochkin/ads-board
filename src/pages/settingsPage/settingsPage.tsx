@@ -46,10 +46,9 @@ const SettingsPage = (props: any) => {
         settingsStateEntries.forEach(([key, value]) => seValueFormReducer(value, key))
     }, [])
 
-    const onLoadImageHandler = (data: any, type: string) => {
-        const postData = {data, type}
-        seValueFormReducer(data, "photo")
-        postSettingByField(postData, "photo")
+    const onLoadImageHandler = (file: any) => {
+        seValueFormReducer(file, "photo")
+        postSettingByField(file, "photo")
     }
 
     //Функция - обработчик события изменеия в инпуте. Проверка на валидность значения в инпуте.

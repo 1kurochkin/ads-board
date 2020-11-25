@@ -227,7 +227,9 @@ export const postSettingByFieldThunk = (data: any, field: SettingsFieldType) => 
     dispatch(setIsErrorFetchMainStateAC(false))
 
     console.log("postSettingByFieldThunk")
-    const [value] = Object.values(data)
+
+    const getValue = () => field === "photo" ? URL.createObjectURL(data) : Object.values(data)[0]
+    field === "photo" && URL.revokeObjectURL(data)
 
     const {mainState: {apiService}} = getState()
 
@@ -238,7 +240,7 @@ export const postSettingByFieldThunk = (data: any, field: SettingsFieldType) => 
             return response.json()
         })
         .then(({result = false}: any) => {
-            result && dispatch(setSettingsInLocalStorageByFieldAC(value, field))
+            result && dispatch(setSettingsInLocalStorageByFieldAC(getValue(), field))
         })
         .catch((err: any) => {
             dispatch(setIsErrorFetchMainStateAC(true))

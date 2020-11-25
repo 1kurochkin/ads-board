@@ -40,11 +40,16 @@ export class serverAPI {
         "Content-Type" : "application/json",
     })
 
+    static headersFile = () => new Headers({
+        "Content-type" : "multipart/form-data"
+    })
+
     static addAuthHeader = (headers: any) => {
         headers.set("Authorization", `Basic ${serverAPI.base64token()}`)
         return headers
     }
-    static headerWithAuth = () => serverAPI.addAuthHeader(serverAPI.headers())
+    static headerWithAuth = (headers = serverAPI.headers()) =>
+        serverAPI.addAuthHeader(headers)
 
     // ----REQUEST-CONFIGURATION---//
     static getConfiguration = (data?: any, withAuth = true) => {
@@ -73,6 +78,15 @@ export class serverAPI {
         }
     }
 
+    static postFileConfiguration = (body: any) => {
+        const headers = serverAPI.headerWithAuth(serverAPI.headersFile())
+        return {
+            method: 'POST',
+            body,
+            headers
+        }
+    }
+
     // static putConfiguration = () => {
     //     return {
     //         method: 'PUT',
@@ -91,12 +105,18 @@ export class serverAPI {
         return fetch(serverAPI.baseURL + path, settings)
     }
 
+
     static logoutPOST = () => {
         const settings = {method: 'POST'}
         const baseUrlWithoutApi = serverAPI.baseURL.slice(0, -4)
         const path = "/logout"
         return fetch( baseUrlWithoutApi + path, settings)
         // return serverAPI.configuredPOST(path, null, true)
+    }
+
+    static filePOST = (data:any, path: string) => {
+        const settings = serverAPI.postFileConfiguration(data)
+        return fetch(serverAPI.baseURL + path, settings)
     }
 
     // static configuredPUT = (path) => {
@@ -181,10 +201,12 @@ export class serverAPI {
             default: return serverAPI.postSettingsAvatar(data)
         }
     }
-    static postSettingsAvatar = (data: PostSettingsAvatarData): Promise<Response> => {
+    static postSettingsAvatar = (data: any): Promise<Response> => {
+        const body = new FormData()
+        body.append("photo", data)
         console.log(data, "postSettingsAvatar")
         const path = "/user/settings/avatar"
-        return serverAPI.configuredPOST(path, data, true)
+        return serverAPI.filePOST(body, path)
     }
 
     static postSettingsName = (data: PostSettingsNameData): Promise<Response> => {
@@ -211,8 +233,16 @@ export class serverAPI {
 
     // ------CREATE-ANNOUNCEMENT-PAGE---//
     static postNewAnnouncement = (data: NewAnnouncementData): Promise<Response> => {
+        const body = new FormData()
+        const dataEntries = Object.entries(data)
+        // @ts-ignore
+        dataEntries.forEach( ([key, value]:any) => {
+            if(key === "photoList") {
+                value.forEach( (file:any, index:number) => body.append(`file${index}`, value[index]))
+            } else body.append(key, value)
+        })
         console.log(data, "postNewAnnouncement")
         const path = "/announcement/new"
-        return serverAPI.configuredPOST(path, data, true)
+        return serverAPI.filePOST(body, path)
     }
 }
