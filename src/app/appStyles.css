@@ -27,6 +27,10 @@ h1, h2, h3, h4, span {
     opacity: 0;
 }
 
+.no-cursor {
+    cursor: unset!important;
+}
+
 .mobile {
     display: none;
 }

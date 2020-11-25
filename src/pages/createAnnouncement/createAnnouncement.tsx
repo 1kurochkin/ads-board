@@ -47,7 +47,7 @@ const CreateAnnouncement = (props: any) => {
     //------MAP-STATE-TO-PROPS-----//
     const subwayStationsData = useSelector(getSubwayStationsDataSelector)
     const [defaultCategory, ...categoriesData] = useSelector( (state) =>
-        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "bg-warning font-weight-bold text-center"))
+        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "bg-secondary text-white no-cursor font-weight-bold text-center"))
     const phoneRedux = useSelector( (state) => getSettingsFieldValueByFieldSelector(state, "phone"))
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "createAnnouncement"))
     const {
