@@ -41,7 +41,7 @@ export class serverAPI {
     })
 
     static headersFile = () => new Headers({
-        "Content-type" : "multipart/form-data"
+
     })
 
     static addAuthHeader = (headers: any) => {
