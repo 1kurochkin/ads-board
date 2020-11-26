@@ -23,7 +23,7 @@ const Announcement = (props: AnnouncementPropsType) => {
 
   return (
       <NavLink className={`announcement border cursor-pointer text-center d-flex flex-column flex-md-row text-white border-dark mb-3 mr-3 p-0 ${className}`} to={`${GET_PATH_SEARCH(categoryName)}/${id}`}>
-          <div className="col-lg-4 col-md-5 col-sm-12 p-0 card-header">
+          <div className="col-lg-4 col-md-5 p-0 card-header">
                   <Image photo={photos[0]}/>
           </div>
               <div className={"card-inner-wrapper d-flex flex-column justify-content-between"}>
