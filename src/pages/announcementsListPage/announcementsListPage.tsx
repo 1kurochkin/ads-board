@@ -93,6 +93,7 @@ const AnnouncementsListPage = (props: any) => {
 
     //----COMPONENT-DID-MOUNT/UNMOUNT-LIFECYCLE----//
     useEffect(() => {
+        window.scrollTo(0, 50)
         // getAnnouncements(category)
         return () => {
             // resetToInitialStateAnnouncementsList()

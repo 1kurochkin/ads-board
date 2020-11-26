@@ -1,6 +1,7 @@
 import {serverAPI} from "../../../api/serverAPI";
 import {testAPI} from "../../../api/testAPI";
 import {LOCATION_CHANGE} from "connected-react-router";
+import {PATH_SEARCH} from "../../../app/App";
 
 export const getItemFromLocalStorage = (feild:string) => localStorage.getItem(feild)
 export const setItemToLocalStorage = (feild:string, value:any) => localStorage.setItem(feild, value)
@@ -48,7 +49,7 @@ const initialState = {
 
 export const mainStateReducer = (state = initialState, action : any): initialStateType => {
     const {type, payload } = action
-    const { value } = payload || {}
+    const { value, location : {pathname = "/"} = {} } = payload || {}
     const { subwayStationsData } = state
 
     switch (type) {
@@ -68,8 +69,8 @@ export const mainStateReducer = (state = initialState, action : any): initialSta
             console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
             return initialState
         case LOCATION_CHANGE :
-            console.log("LOCATION_CHANGE")
-            window.scrollTo(0,50)
+            console.log("LOCATION_CHANGE", payload)
+            !pathname.includes(PATH_SEARCH) &&  window.scrollTo(0,50)
             return state
         default: return state
     }
