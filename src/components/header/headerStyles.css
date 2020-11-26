@@ -5,6 +5,7 @@
 }
 
 .header__menu {
+    transition: max-height 0.5s;
     max-height: 100vh;
     /*overflow: hidden;*/
 }

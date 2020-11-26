@@ -140,6 +140,10 @@ a {
         width: 100%;
     }
 
+    .header__menu {
+        max-height: 0!important;
+    }
+
 }
 
 @media (max-width: 576px) {
@@ -158,7 +162,6 @@ a {
 
     .header__menu {
         overflow: hidden!important;
-        transition: max-height 0.5s;
         max-height: 0!important;
     }
 
