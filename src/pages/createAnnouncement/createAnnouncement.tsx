@@ -95,7 +95,8 @@ const CreateAnnouncement = (props: any) => {
 
     const selectItemOnChangeHandler = (field: "category" | "stationId", selectItem: any, setIsActiveSelect: Function) => {
         if("className" in selectItem) return false
-        isMaxSizeFile && setValueFormReducer(selectItem, field)
+        isMaxSizeFile && setIsMaxSizeFile(false)
+        setValueFormReducer(selectItem, field)
         setIsActiveSelect(false)
     }
 
