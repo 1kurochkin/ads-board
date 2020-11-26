@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import "./createAnnouncementStyles.css"
 import {useDispatch, useSelector} from "react-redux";
 import {postNewAnnouncementThunk} from "../../redux/thunks/thunks";
@@ -22,10 +22,11 @@ import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState
 import {prepareFormStateByPageForSend} from "../../redux/reducers/formState/formState";
 import {getSettingsFieldValueByFieldSelector} from "../../redux/reducers/settingsState/settingsStateSelectors";
 import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
-import ImagePicker from "../../components/imagePicker/imagePicker";
+import ImagePicker, {MAX_FILE_SIZE} from "../../components/imagePicker/imagePicker";
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
 import Picture from "../../components/picture/picture";
 import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
+import AlertErrorFetching from "../../components/alertErrorFetching/alertErrorFetching";
 
 type CreateAnnouncementFieldsType =
     "photos"
@@ -67,6 +68,9 @@ const CreateAnnouncement = (props: any) => {
     const checkIsReadyToSend = useCallback(() => dispatch(checkIsReadyToSendByPageFormReducerAC("createAnnouncement")), [dispatch])
     const resetToInitialByPageFormReducer = useCallback(() => dispatch(resetToInitialByPageFormReducerAC("createAnnouncement")), [dispatch])
 
+    //------LOCAL-STATE-----//
+    const [isMaxSizeFile, setIsMaxSizeFile] = useState(false)
+
     //------DID-MOUNT-LIFE-CYCLE-----//
     useEffect(() => {
         setValueFormReducer(phoneRedux, "sellerPhone")
@@ -91,18 +95,22 @@ const CreateAnnouncement = (props: any) => {
 
     const selectItemOnChangeHandler = (field: "category" | "stationId", selectItem: any, setIsActiveSelect: Function) => {
         if("className" in selectItem) return false
-        setValueFormReducer(selectItem, field)
+        isMaxSizeFile && setValueFormReducer(selectItem, field)
         setIsActiveSelect(false)
     }
 
     const onLoadImageHandler = (file: any) => {
-        const value = photoList.value.concat(file)
-        setValueFormReducer(value, "photoList")
+        if(file.size > MAX_FILE_SIZE) setIsMaxSizeFile(true)
+        else {
+            const value = photoList.value.concat(file)
+            setValueFormReducer(value, "photoList")
+        }
     }
 
     //Функция - обработчик события изменеия в инпуте. Проверка на валидность значения в инпуте.
     const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>, field: CreateAnnouncementFieldsType) => {
         console.log("onChangeHandler", field)
+        setIsMaxSizeFile(false)
         const {currentTarget: {value}} = event
         setValueFormReducer(value, field)
     }
@@ -165,20 +173,22 @@ const CreateAnnouncement = (props: any) => {
                                        onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, field)}/>)}
 
                         <div className="createAnnouncement__params-photos position-relative">
-                            {/*<div className="createAnnouncement__params-photos-label mb-3">*/}
+                            <div className="">
                                 <span className={"createAnnouncement__params-photos-label mb-3"}>
                                     {`Фотографии ${photoList.value.length} из 5`}
                                 </span>
-                            {/*</div>*/}
+                            {isMaxSizeFile &&
+                            <span className={"mt-2 text-danger text-left d-block font-weight-bold"}>
+                                Cлишком большой размер файла
+                            </span>}
+                            </div>
                             <div className="createAnnouncement__params-photos-files justify-content-between d-flex align-items-center flex-wrap flex-lg-nowrap">
                                 {photoList.value.map( (file: any) =>
                                     <Picture onClickHandler={() => deleteLoadedImage(file.name)} className={"createAnnouncement__params-photos-files-file col-lg-4 mr-lg-2"} photo={file}/> )}
                                 {photoList.value.length < 5 &&
                                 <ImagePicker className={"col-lg-4 p-0 my-3"} onLoadHandler={onLoadImageHandler}/>}
                             </div>
-                            <span className={"mt-2"}>
-                                    Чтобы удалить фото - нажмите на него
-                                </span>
+                            <span className={"mt-2"}>Чтобы удалить фото - нажмите на него</span>
                         </div>
                     </div>
                 </div>
