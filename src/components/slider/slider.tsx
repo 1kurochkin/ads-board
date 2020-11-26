@@ -41,7 +41,7 @@ function Slider(props: SliderPropsTypes) {
                         { React.cloneElement(child) }
                     </div>)}
             {["prev", "next"].map( (el:any) => isNeedBtn(el) ?
-                <div onClick={() => changeSlide(el)} className={`carousel-control carousel-control-${el}`}>
+                <div style={{ cursor: "pointer", backgroundColor: "rgba(0,0,0,0.4)" }} onClick={() => changeSlide(el)} className={`carousel-control carousel-control-${el}`}>
                     <span className={`carousel-control-${el}-icon`}/>
                 </div> : null)}
         </div>

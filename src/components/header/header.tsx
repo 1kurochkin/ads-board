@@ -88,7 +88,7 @@ const Header = (props: any) => {
         <div className="navbar justify-content-center navbar-dark d-flex flex-column flex-lg-row align-items-center bg-info pl-5 pr-5">
             <div className={"d-flex col-sm-12 justify-content-between justify-content-md-center col-md-1 mb-md-3 mb-lg-0 align-items-center "}>
                 <Logo/>
-                <span onClick={() => setIsActiveMobileMenu(prevState => !prevState)}
+                <span style={{cursor: "pointer"}} onClick={() => setIsActiveMobileMenu(prevState => !prevState)}
                       className="navbar-toggler-icon mobile border rounded border-color-dark p-3"/>
             </div>
             <div className={`d-flex header__menu flex-column mobile flex-lg-row flex-fill col-sm-12 col-md-10 flex-md-column align-items-md-center flex-md-row p-0 justify-content-md-around ${isActiveMobileMenu && "header__show"}`}>

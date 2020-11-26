@@ -142,6 +142,7 @@ a {
 
     .header__menu {
         max-height: 0!important;
+        overflow: hidden!important;
     }
 
 }
@@ -158,11 +159,6 @@ a {
 
     .desktop {
         display: none!important;
-    }
-
-    .header__menu {
-        overflow: hidden!important;
-        max-height: 0!important;
     }
 
     /*.createAnnouncement__params-photos-files-file {*/

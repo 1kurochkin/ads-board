@@ -25,7 +25,7 @@ const Select = (props: any) => {
 
     return (
         <div ref={ref} className={`select dropdown ${className} p-0`}>
-                <input onClick={() => toggleIsActive()} onBlur={onBlurHandler} readOnly={true} onChange={onChangeHandler}
+                <input style={{cursor: "pointer"}} onClick={() => toggleIsActive()} onBlur={onBlurHandler} readOnly={true} onChange={onChangeHandler}
                        placeholder={placeHolder}
                        className={"select__current form-control dropdown-toggle w-100"}
                        value={value} type="text"/>
