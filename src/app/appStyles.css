@@ -35,7 +35,7 @@ h1, h2, h3, h4, span {
 }
 
 .mobile {
-    display: none;
+    display: none!important;
 }
 
 .desktop {
@@ -136,7 +136,7 @@ a {
 
 @media (max-width: 768px) {
     .mobile {
-        display: block;
+        display: block!important;
     }
 
     .header__authMenu-menu.dropdown-menu {
@@ -158,7 +158,7 @@ a {
     }
 
     .mobile {
-        display: block;
+        display: block!important;
     }
 
     .desktop {
