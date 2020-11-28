@@ -24,9 +24,7 @@ const Announcement = (props: AnnouncementPropsType) => {
   return (
       <NavLink className={`announcement border cursor-pointer text-center d-flex flex-column flex-md-row text-white border-dark mb-3 mr-3 p-0 ${className}`} to={`${GET_PATH_SEARCH(categoryName)}/${id}`}>
           <div className="col-lg-4 col-md-5 p-0 card-header">
-              {!photos[0] ? <div className="h-100 w-100 d-flex align-items-center justify-content-center bg-light border-right">
-                  <h6 className="card-text text-dark">{`Метро: ${station}`}</h6>
-              </div> : <Image photo={photos[0]}/>}
+              <Image photo={photos[0]}/>
           </div>
               <div className={"card-inner-wrapper d-flex flex-column justify-content-between"}>
                   <div className="card-body d-flex flex-column justify-content-between">
