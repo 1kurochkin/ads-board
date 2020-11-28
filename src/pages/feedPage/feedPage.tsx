@@ -48,7 +48,7 @@ const FeedPage = (props: any) => {
                                 <Announcement className={"horizontalCard"} {...lastAnnouncement}/>)}
                         </WithBadFetchingCasesWrapper>
                         <CategoryNavigationButton category={"all"} configCategory={initialStateCategory}>
-                            <Button className={"btn-success col-md-12 mt-4"} label={"Посмотерть все объявления"}/>
+                            <Button svgIconName={"arrowRight"} className={"btn-success col-md-12 mt-4"} label={"Посмотерть все объявления"}/>
                         </CategoryNavigationButton>
                     </div>
                     <hr className="my-4"/>

@@ -13,8 +13,8 @@ type NavBarPropsType = {
 const NavBar = (props: NavBarPropsType) => {
 
     const linkConfigs = [
-        {path: PATH_COOPERATION, label: "Сотрудничество"},
-        {path: PATH_SUPPORT, label: "Поддержка"}
+        {path: PATH_COOPERATION, label: "Сотрудничество", svgIconName: "cooperation"},
+        {path: PATH_SUPPORT, label: "Поддержка" , svgIconName: "setting"}
     ]
 
 
@@ -23,11 +23,11 @@ const NavBar = (props: NavBarPropsType) => {
   return (
       <div className={`navbar-nav my-4 my-md-0 d-flex  justify-content-md-center flex-fill flex-md-row p-0 ${className}`}>
           <CategoryNavigationButton className={"nav-link p-md-0"} category={"all"} configCategory={initialStateCategory}>
-              <Button className={"btn-light w-100"} label={"Объявления"}/>
+              <Button svgIconName={"announcements"} className={"btn-light w-100"} label={"Объявления"}/>
           </CategoryNavigationButton>
-          {linkConfigs.map( ({path, label}) =>
+          {linkConfigs.map( ({path, label, svgIconName}) =>
               <NavLink className="nav-link ml-md-2 p-md-0 " to={path}>
-                  <Button className={"btn-light w-100"} label={label}/>
+                  <Button svgIconName={svgIconName} className={"btn-light w-100"} label={label}/>
               </NavLink> )}
       </div>
   )

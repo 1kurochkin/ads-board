@@ -58,7 +58,7 @@ const Header = (props: any) => {
     // ]
 
     const alertCreateAnnouncement = useCallback(() =>
-        <AlertModalWindow openBtnElement={<Button className={"btn-outline-light my-sm-2"} label={"Разместить объявление"}/>}
+        <AlertModalWindow openBtnElement={<Button svgIconName={"createAnnouncement"} className={"btn-outline-light createAnnouncement__link my-sm-2"} label={"Разместить объявление"}/>}
                           btnOneConfiguration={{btnOneLabel: "Позже", btnOneHandler:() => setIsActiveAuthModal(false) }}
                           btnTwoConfiguration={{btnTwoLabel: "Авторизироваться", btnTwoHandler:() => setIsActiveAuthModal(true) }}
                           alertText={"Для размещения объявления, необходимо авторизироваться!"}/>, [])
@@ -70,7 +70,7 @@ const Header = (props: any) => {
 
     const authMenu = <>
         <div ref={ref} onClick={toggleIsActiveAuthMenu} className="dropdown header__authMenu mr-md-4">
-            <Button className={"btn-warning dropdown-toggle w-100"} label={name}/>
+            <Button svgIconName={"profile"} className={"btn-warning dropdown-toggle w-100"} label={name}/>
             <div className={`header__authMenu-menu dropdown-menu ${isActiveAuthMenu && "header__show"}`}>
                 <Link to={PATH_MY_ANNOUNCEMENTS} className="dropdown-item">
                     Мои объявления
@@ -85,7 +85,7 @@ const Header = (props: any) => {
     </>
 
     return (
-        <div className="navbar justify-content-center navbar-dark d-flex flex-column flex-lg-row align-items-center bg-info pl-5 pr-5">
+        <div className="navbar justify-content-center navbar-dark d-flex flex-column flex-lg-row align-items-center bg-info">
             <div className={"d-flex col-sm-12 justify-content-between justify-content-md-center col-md-1 mb-md-3 mb-lg-0 align-items-center "}>
                 <Logo/>
                 <span style={{cursor: "pointer"}} onClick={() => setIsActiveMobileMenu(prevState => !prevState)}

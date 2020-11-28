@@ -17,6 +17,7 @@ import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import SupportPage from "../pages/supportPage/supportPage";
 import UnhandledRoutePage from "../pages/unhandledRoutePage/unhandledRoutePage";
+import getPicture from "../pictures/svgIcons";
 
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
@@ -30,8 +31,9 @@ export const PATH_SUPPORT = "/support"
 
 export const linkToCreateAnnouncement = (className: string) => <>
     <NavLink activeClassName={"active"}
-             className={`header__btn-link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-lg-0 ${className}`}
+             className={`createAnnouncement__link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-lg-0 ${className}`}
              to={PATH_CREATE_ANNOUNCEMENT}>
+        <span className={"mr-2"}>{getPicture("createAnnouncement")}</span>
         Разместить объявление
     </NavLink>
 </>

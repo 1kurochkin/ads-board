@@ -14,7 +14,7 @@ const AuthorizationModalWindow = (props: AuthorizationModalWindowType) => {
   return (
       <ModalWindow alertCloseHandler={alertCloseHandler} isActiveFromProps={isActiveFromProps} withOpenBtn={true} modal={<AuthorizationPopupBox/>}>{
           (openModalWindow:any) =>
-              <Button label="Вход и регистрация" onClickHandler={openModalWindow} className="btn-outline-light align-items-end mr-md-3 mb-3 mb-md-0"/>
+              <Button svgIconName={"login"} label="Вход и регистрация" onClickHandler={openModalWindow} className="btn-outline-light createAnnouncement__link align-items-end mr-md-3 mb-3 mb-md-0"/>
       }</ModalWindow>
   );
 }

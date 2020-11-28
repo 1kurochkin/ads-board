@@ -82,7 +82,7 @@ const SearchBox = (props: any) => {
               </div>
               <Select className={"col-lg-3 p-2 input-group-append"} onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("category", selectItem, handler)} value={searchConfigCategory.name} selectItems={categoriesData}/>
               <div className="input-group-append p-2 col-md-6 col-lg-2">
-                  <Button className={"btn-warning w-100"} onClickHandler={onClickFindBtnHandler} label={"Найти"} isDisabled={isFetching}/>
+                  <Button svgIconName={"search"} className={"btn-warning w-100"} onClickHandler={onClickFindBtnHandler} label={"Найти"} isDisabled={isFetching}/>
               </div>
           </div>
           <hr className={"my-4"}/>
