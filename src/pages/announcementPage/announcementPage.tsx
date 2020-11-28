@@ -84,7 +84,7 @@ const AnnouncementPage = (props: any) => {
             </div>
             <div className="announcementPage__description alert alert-primary">
                 <h5 className={"text-left"}>Описание:</h5>
-                <p>{description}</p>
+                <p style={{whiteSpace: "pre-line"}}>{description}</p>
             </div>
         </div>
     );
