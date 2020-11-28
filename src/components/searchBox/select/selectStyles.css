@@ -1,6 +1,20 @@
-/*.select {*/
-/*    position: relative;*/
-/*}*/
+.select {
+    position: relative;
+}
+
+.select:before {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    position: absolute;
+    content: "";
+    right: 20px;
+    top: 45%;
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
 
 /*.select__current {*/
 /*}*/
