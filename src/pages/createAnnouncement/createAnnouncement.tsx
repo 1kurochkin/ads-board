@@ -48,7 +48,7 @@ const CreateAnnouncement = (props: any) => {
     //------MAP-STATE-TO-PROPS-----//
     const subwayStationsData = useSelector(getSubwayStationsDataSelector)
     const [defaultCategory, ...categoriesData] = useSelector( (state) =>
-        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "bg-info text-warning no-cursor font-weight-bold text-center"))
+        getTheSubCategoriesSelector(getCategoriesDataSelector(state), "bg-info text-white no-cursor font-weight-bold text-center"))
     const phoneRedux = useSelector( (state) => getSettingsFieldValueByFieldSelector(state, "phone"))
     const formState = useSelector((state) => getFieldsByPageFormReducerSelector(state, "createAnnouncement"))
     const {
@@ -195,7 +195,7 @@ const CreateAnnouncement = (props: any) => {
                 </div>
                 <hr className="my-4"/>
                 <div className="createAnnouncement__location d-flex">
-                    <h4 className={`createAnnouncement__location-title col-lg-3 text-left p-0 ${getErrorClassName("stationId")}`}>Место сделки</h4>
+                    <h4 className={`createAnnouncement__location-title col-lg-3 text-left p-0 ${getErrorClassName("stationId")}`}>Станция метро</h4>
                     <Select className={"col-lg-4 p-0"} onBlurHandler={() => setIsValidFormReducer("stationId")}
                         onChangeHandlerSelectItem={(selectItem: any, handler: any) => selectItemOnChangeHandler("stationId", selectItem, handler)}
                         value={stationId.value.name} selectItems={subwayStationsData} placeHolder={"Выбор метро"}/>
