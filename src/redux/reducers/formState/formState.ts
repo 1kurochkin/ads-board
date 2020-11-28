@@ -52,7 +52,7 @@ const checkIsValid = (field: string, value: any) => {
         case "name" :
             return !!value.length
         case "password" :
-            return value.length <= 24 && value.length >= 3
+            return value.length <= 24 && value.length >= 6
         case "login" :
             return !!value.length
         case "stationId":
@@ -60,7 +60,9 @@ const checkIsValid = (field: string, value: any) => {
         case "price":
             return !!value.length
         case "phone":
-            return !!value.length
+            return value.match(/^(\+7|7|8)?[\s\-]?\(?[0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/)
+        case "sellerPhone":
+            return value.match(/^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}}$/)
         case "category":
             console.log(JSON.stringify(value), JSON.stringify(initialStateCategory))
             return JSON.stringify(value) !== JSON.stringify(initialStateCategory)
