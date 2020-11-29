@@ -35,7 +35,7 @@ const ModalWindow = (props: propsTypes) => {
 
         <>
             <div className={`modalWindow ${isActive && "modalWindow__active"} `}>
-                <div ref={ref} className="p-lg-5 p-4 bg-light position-relative">
+                <div ref={ref} className="p-lg-5 p-4 bg-light position-relative pt-5">
                     {React.cloneElement(modal, {closeModalWindow})}
                     <span onClick={() => closeModalWindow()} className={"popup__close"}>&times;</span>
                 </div>
