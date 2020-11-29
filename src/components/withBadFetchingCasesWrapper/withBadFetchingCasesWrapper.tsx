@@ -1,12 +1,7 @@
 import React from 'react';
 import Preloader from "../preloader/preloader";
 import AlertEmptyResponse from "../alertEmptyResponse/alertEmptyResponse";
-import AlertErrorFetching from "../alertErrorFetching/alertErrorFetching";
-import {useSelector} from "react-redux";
-import {
-    getIsEmptyResponseMainStateSelector, getIsErrorFetchMainStateSelector,
-    getIsFetchingMainStateSelector
-} from "../../redux/reducers/mainState/mainStateSelectors";
+import useFetchState from '../../hooks/useFetchState';
 
 type AnnouncementsMappedListType = {
     preloader?: JSX.Element
@@ -20,15 +15,10 @@ type AnnouncementsMappedListType = {
 
 const WithBadFetchingCasesWrapper = (props: AnnouncementsMappedListType) => {
 
-    const isFetchingRedux = useSelector(getIsFetchingMainStateSelector)
-    const isEmptyResponseRedux = useSelector(getIsEmptyResponseMainStateSelector)
-    const isErrorFetchingRedux = useSelector(getIsErrorFetchMainStateSelector)
-
+    const {isFetching:isFetchingRedux, isEmptyResponse:isEmptyResponseRedux, isErrorFetching:isErrorFetchingRedux} = useFetchState()
     const {
         preloader = <Preloader/>,
         alertEmptyResponse = <AlertEmptyResponse/>,
-        alertErrorFetching = <AlertErrorFetching/>,
-        isErrorFetching = isErrorFetchingRedux,
         isFetching = isFetchingRedux,
         isEmptyResponse = isEmptyResponseRedux,
         children = null
@@ -37,8 +27,6 @@ const WithBadFetchingCasesWrapper = (props: AnnouncementsMappedListType) => {
   return (
       isFetching ?
           <>{children}{preloader}</> :
-          isErrorFetching ?
-              alertErrorFetching :
               isEmptyResponse ?
                   alertEmptyResponse :
                   children
