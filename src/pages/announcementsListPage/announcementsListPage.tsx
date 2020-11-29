@@ -1,23 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import "./announcementsListPageStyles.css"
 import {useDispatch, useSelector} from "react-redux";
-import {getAnnouncementsByFiltersThunk, getAnnouncementsListThunk} from "../../redux/thunks/thunks";
+import {getAnnouncementsByFiltersThunk} from "../../redux/thunks/thunks";
 import Announcement from "../../components/announcement/announcement";
 import useInfinityScroll from "../../hooks/useInfinityScroll";
-import {
-    getAnnouncementsListSelector,
-    getCurrentPageAnnouncementsListReducerSelector,
-    getTotalNumOfPagesAnnouncementsListReducerSelector
-} from "../../redux/reducers/announcementsListState/announcementsListStateSelectors";
-import {
-    getIsEmptyResponseMainStateSelector,
-    getIsErrorFetchMainStateSelector,
-    getIsFetchingMainStateSelector
-} from "../../redux/reducers/mainState/mainStateSelectors";
-import {
-    resetToInitialStateAnnouncementsListReducerAC,
-    setCurrentPageAnnouncementsListReducerAC
-} from "../../redux/reducers/announcementsListState/announcementsListStateActionCreators";
 import {useHistory} from 'react-router-dom';
 import {
     getCurrentPageSearchReducerSelector,
@@ -43,7 +29,6 @@ const AnnouncementsListPage = (props: any) => {
 
     //------USE-HISTORY-----//
     const {location: {pathname}} = useHistory()
-    const category = pathname.substr(1)
 
     //------MAP-STATE-TO-PROPS-----//
 
@@ -69,9 +54,9 @@ const AnnouncementsListPage = (props: any) => {
     // const totalNumOfPages = useSelector(getTotalNumOfPagesAnnouncementsListReducerSelector)
     // const isEqualsCurrAndTotalPage = currentPage === totalNumOfPages
     //---MAIN-STATE---//
-    const isFetchingMainState = useSelector(getIsFetchingMainStateSelector)
-    const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
-    const isEmptyResponseMainState = useSelector(getIsEmptyResponseMainStateSelector)
+    // const isFetchingMainState = useSelector(getIsFetchingMainStateSelector)
+    // const isErrorFetchMainState = useSelector(getIsErrorFetchMainStateSelector)
+    // const isEmptyResponseMainState = useSelector(getIsEmptyResponseMainStateSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
@@ -106,7 +91,7 @@ const AnnouncementsListPage = (props: any) => {
         // resetToInitialStateAnnouncementsList()
         resetToInitialStateSearchReducer()
         !isFetchingSearchState && getAnnouncementsByFilters(false)
-    }, [category])
+    }, [pathname])
 
     //----COMPONENT-DID-UPDATE-LIFECYCLE----//
     useEffect(() => {
@@ -115,9 +100,9 @@ const AnnouncementsListPage = (props: any) => {
 
     //------INFINITY-SCROLL------//
     const infinityScrollHandler = (event?: any) => {
-        if (!isEqualsCurrAndTotalPage && !isFetchingMainState) {
-            !isErrorFetchMainState && !isEmptyResponseMainState && setCurrentPageSearchBox()
-            !isEmptyResponseMainState && getAnnouncementsByFilters(true)
+        if (!isEqualsCurrAndTotalPage) {
+            setCurrentPageSearchBox()
+            getAnnouncementsByFilters(true)
         }
     }
     useInfinityScroll(infinityScrollHandler)
@@ -132,13 +117,13 @@ const AnnouncementsListPage = (props: any) => {
                         <span className={"font-weight-bold"}>Поиск по : </span>
                         {state.currentSubway}> {state.currentCategory}
                     </h3>
-                    <WithBadFetchingCasesWrapper isFetching={isFetchingSearchState}>
+                    <WithBadFetchingCasesWrapper>
                         {searchedData.map(({id, ...restMyAnnouncement}: any) =>
                             <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>)}
                     </WithBadFetchingCasesWrapper>
                     <ButtonUp/>
                 </div>
-                {!isEqualsCurrAndTotalPage && !isEmptyResponseMainState &&
+                {!isEqualsCurrAndTotalPage &&
                 <Button className={"btn-success w-100 my-4 mobile"} onClickHandler={infinityScrollHandler}
                         label={"Загрузить еще объявления"}/>}
             </div>
