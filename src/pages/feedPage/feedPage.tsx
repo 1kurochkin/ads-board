@@ -26,11 +26,11 @@ const FeedPage = (props: any) => {
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
-    const getLastAnnouncements = useCallback((page, withConcat = false) => dispatch(getLastAnnouncementsThunk(page, withConcat)), [dispatch])
+    const getLastAnnouncements = useCallback(() => dispatch(getLastAnnouncementsThunk()), [dispatch])
 
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
-        getLastAnnouncements(0)
+        getLastAnnouncements()
         // getLastAnnouncements(1, true)
     }, [])
 
