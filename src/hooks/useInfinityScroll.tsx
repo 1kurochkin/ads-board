@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
+import useFetchState from "./useFetchState";
 
 const useInfinityScroll = (handler: Function) => {
+
+    const {isFetching, isEmptyResponse, isErrorFetching} = useFetchState()
 
     const scrollHandler = (event: any) => {
 
@@ -12,7 +15,7 @@ const useInfinityScroll = (handler: Function) => {
         )
 
         if(currentHeight >= allHeight) {
-            handler(event)
+            !isFetching && !isEmptyResponse && !isErrorFetching && handler(event)
         }
     }
 
