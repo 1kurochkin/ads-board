@@ -5,10 +5,9 @@ import {postNewAnnouncementThunk} from "../../redux/thunks/thunks";
 import TextInput from "../../components/textInput/textInput";
 import Select from "../../components/searchBox/select/select";
 import Button from "../../components/button/button";
-import Image from "../../components/picture/picture";
+import Picture from "../../components/picture/picture";
 import {
     getCategoriesDataSelector,
-    getIsFetchingMainStateSelector,
     getSubwayStationsDataSelector,
     getTheSubCategoriesSelector
 } from "../../redux/reducers/mainState/mainStateSelectors";
@@ -19,14 +18,12 @@ import {
     seValueFormReducerAC
 } from "../../redux/reducers/formState/formStateActionCreators";
 import {getFieldsByPageFormReducerSelector} from "../../redux/reducers/formState/formStateSelectors";
-import {prepareFormStateByPageForSend} from "../../redux/reducers/formState/formState";
 import {getSettingsFieldValueByFieldSelector} from "../../redux/reducers/settingsState/settingsStateSelectors";
 import withAuthRedirectHoc from "../../hocs/withAuthRedirectHoc";
 import ImagePicker, {MAX_FILE_SIZE} from "../../components/imagePicker/imagePicker";
 import AlertModalWindow from "../../components/modalWindow/alertModalWindow/alertModalWindow";
-import Picture from "../../components/picture/picture";
 import useSetMetaTitleAndDescription from "../../hooks/useSetMetaTitleAndDescription";
-import AlertErrorFetching from "../../components/alertErrorFetching/alertErrorFetching";
+import {getIsFetchingSelector} from '../../redux/reducers/fetchingState/fetchingStateSelectors';
 
 type CreateAnnouncementFieldsType =
     "photos"
@@ -58,11 +55,12 @@ const CreateAnnouncement = (props: any) => {
         sellerPhone, stationId,
         isReadyToSend
     } = formState
-    const isFetching = useSelector(getIsFetchingMainStateSelector)
+
+    const isFetching = useSelector((state) => getIsFetchingSelector(state, "createAnnouncement"))
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
-    const postNewAnnouncement = useCallback((data) => dispatch(postNewAnnouncementThunk(data)), [dispatch])
+    const postNewAnnouncement = useCallback(() => dispatch(postNewAnnouncementThunk()), [dispatch])
     const setValueFormReducer = useCallback((value, field) => dispatch(seValueFormReducerAC(value, field, "createAnnouncement")), [dispatch])
     const setIsValidFormReducer = useCallback((field) => dispatch(setIsValidFormReducerAC(field, "createAnnouncement")), [dispatch])
     const checkIsReadyToSend = useCallback(() => dispatch(checkIsReadyToSendByPageFormReducerAC("createAnnouncement")), [dispatch])
@@ -82,14 +80,14 @@ const CreateAnnouncement = (props: any) => {
     //------DID-UPDATE-LIFE-CYCLE-----//
     useEffect(() => {
         if(isReadyToSend) {
-            const condition = (postData: any, key: any, value: any) => {
-                postData[key] = value
-                if(key === "category") postData[key] = value.category
-                if(key === "stationId") postData[key] = value.id
-                return postData
-            }
-            const postData = prepareFormStateByPageForSend(formState)(condition)
-            postNewAnnouncement(postData)
+            // const condition = (postData: any, key: any, value: any) => {
+            //     postData[key] = value
+            //     if(key === "category") postData[key] = value.category
+            //     if(key === "stationId") postData[key] = value.id
+            //     return postData
+            // }
+            // const postData = prepareFormStateByPageForSend(formState)(condition)
+            postNewAnnouncement()
         }
     }, [isReadyToSend])
 
