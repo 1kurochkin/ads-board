@@ -4,11 +4,11 @@ import Button from "../../button/button";
 
 export type AlertPopupBoxType = {
     closeModalWindow?: (boolean:boolean | any) => void
-    btnOneConfiguration : {
+    btnOneConfiguration? : {
         btnOneClassName? : string
         btnOneLabel : string
     }
-    btnTwoConfiguration : {
+    btnTwoConfiguration? : {
         btnTwoHandler?: Function
         btnTwoLabel : string
         btnTwoClassName? : string
@@ -22,9 +22,12 @@ const AlertPopupBox = (props: AlertPopupBoxType) => {
     const {
         closeModalWindow = () => null,
         alertText,
-        btnOneConfiguration : {btnOneLabel},
-        btnTwoConfiguration : {btnTwoHandler = () => null, btnTwoLabel}
+        btnOneConfiguration,
+        btnTwoConfiguration
     } = props
+
+    const {btnOneLabel = ""} = btnOneConfiguration || {}
+    const {btnTwoHandler = () => null, btnTwoLabel = ""} = btnTwoConfiguration || {}
 
     const onClickBtnTwoHandler = () => {
         btnTwoHandler()
@@ -36,8 +39,9 @@ const AlertPopupBox = (props: AlertPopupBoxType) => {
             <h3 className={"alertPopupBox__title"}>{alertText}</h3>
             <hr className={"my-4"}/>
             <div className="d-lg-flex justify-content-between">
-                <Button className={"btn-success col-lg-5"} onClickHandler={closeModalWindow} label={btnOneLabel}/>
-                <Button className={"btn-danger my-4 my-lg-0 col-lg-5"} onClickHandler={onClickBtnTwoHandler} label={btnTwoLabel}/>
+                {btnOneConfiguration && <Button className={"btn-success col-lg-5"} onClickHandler={closeModalWindow} label={btnOneLabel}/>}
+                {btnTwoConfiguration && <Button className={"btn-danger my-4 my-lg-0 col-lg-5"} onClickHandler={onClickBtnTwoHandler}
+                         label={btnTwoLabel}/>}
             </div>
         </div>
     );

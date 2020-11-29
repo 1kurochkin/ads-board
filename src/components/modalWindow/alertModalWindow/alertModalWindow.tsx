@@ -3,12 +3,12 @@ import ModalWindow from "../modalWindow";
 import AlertPopupBox from "./alertPopupBox";
 
 export type AlertModalType = {
-  btnOneConfiguration : {
+  btnOneConfiguration? : {
     btnOneHandler?: Function
     btnOneClassName? : string
     btnOneLabel : string
   }
-  btnTwoConfiguration : {
+  btnTwoConfiguration ?: {
     btnTwoHandler?: Function
     btnTwoLabel : string
     btnTwoClassName? : string
@@ -20,7 +20,7 @@ export type AlertModalType = {
 }
 
 const AlertModalWindow = (props: AlertModalType) => {
-  const {openBtnElement, btnOneConfiguration: {btnOneHandler}, isActiveFromProps} = props
+  const {openBtnElement, btnOneConfiguration: {btnOneHandler = undefined} = {}, isActiveFromProps} = props
   return (
       <ModalWindow isActiveFromProps={isActiveFromProps} alertCloseHandler={btnOneHandler} withOpenBtn={true} modal={<AlertPopupBox {...props}/>}>{ (openModalWindow:any) =>
           openBtnElement && React.cloneElement(openBtnElement, {onClickHandler: openModalWindow})
