@@ -20,7 +20,7 @@ h1, h2, h3, h4, span {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color:#E9ECEF;
+    background-color: darkgray;
 }
 
 .opacity-0 {
