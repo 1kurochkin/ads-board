@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import "./appStyles.css"
-import {Switch, Route, Redirect, NavLink} from 'react-router-dom';
+import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
 import FeedPage from "../pages/feedPage/feedPage";
 import SettingsPage from "../pages/settingsPage/settingsPage";
 import AnnouncementPage from '../pages/announcementPage/announcementPage';
@@ -18,6 +18,7 @@ import Footer from "../components/footer/footer";
 import SupportPage from "../pages/supportPage/supportPage";
 import UnhandledRoutePage from "../pages/unhandledRoutePage/unhandledRoutePage";
 import getPicture from "../pictures/svgIcons";
+import ErrorFetchModalWindow from "../components/modalWindow/errorFetchModalWindow/errorFetchModalWindow";
 
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
@@ -57,6 +58,7 @@ const App = () => {
 
     return (
         <div className="App bg-light fullHeightContent">
+            <ErrorFetchModalWindow/>
             <Header/>
             <Switch>
                 <Route exact path={"/"} component={() => <Redirect to={PATH_FEED}/>}/>
