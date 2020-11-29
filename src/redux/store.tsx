@@ -13,6 +13,7 @@ import {announcementStateReducer} from "./reducers/announcementState/announcemen
 import {myAnnouncementsStateReducer} from "./reducers/myAnnouncementState/myAnnouncementState";
 import {announcementsListStateReducer} from "./reducers/announcementsListState/announcementsListState";
 import formStateReducer from "./reducers/formState/formState";
+import {fetchingStateReducer} from "./reducers/fetchingState/fetchingState";
 
 export const history = createBrowserHistory()
 
@@ -21,6 +22,7 @@ const reducers = () => combineReducers({
     mainState: mainStateReducer,
     announcementsListState: announcementsListStateReducer,
     formState: formStateReducer,
+    fetchingState: fetchingStateReducer,
     feedState: feedStateReducer,
     searchBoxState: searchBoxStateReducer,
     announcementState: announcementStateReducer,

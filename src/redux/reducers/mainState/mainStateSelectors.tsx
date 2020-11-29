@@ -1,10 +1,5 @@
-
-export const getIsFetchingMainStateSelector = (state: any) => state.mainState.isFetching
-export const getIsEmptyResponseMainStateSelector = (state: any) => state.mainState.isEmptyResponse
-export const getIsErrorFetchMainStateSelector = (state: any) => state.mainState.isErrorFetch
 export const getSubwayStationsDataSelector = (state: any) => state.mainState.subwayStationsData
 export const getCategoriesDataSelector = (state: any) => state.mainState.categoriesData
-
 export const getTheSubCategoriesSelector = (categoriesData: Array<any>, activeClassName?: string) => {
     //Проверка содержит ли объект с категорией подкатегории
     const isIncludesSubCategory = (categoryData: Object) => "subCategories" in categoryData
