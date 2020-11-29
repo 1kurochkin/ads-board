@@ -8,23 +8,22 @@ import {
     setIsRegistrationAC,
 } from "../../../redux/reducers/authorizationState/authorizationStateActionCreators";
 import {
-    getIsCorrectAuthDataSelector, getIsExistUserSelector,
-    getIsRegistrationSelector,
-    getIsFetchingAuthStateSelector, getIsErrorFetchingAuthStateSelector
+    getIsCorrectAuthDataSelector,
+    getIsExistUserSelector,
+    getIsFetchingAuthStateSelector,
+    getIsRegistrationSelector
 } from "../../../redux/reducers/authorizationState/authorizationStateSelectors";
-import {
-    getIsErrorFetchMainStateSelector,
-    getIsFetchingMainStateSelector
-} from "../../../redux/reducers/mainState/mainStateSelectors";
 import Button from "../../button/button";
 import {
-    checkIsReadyToSendByPageFormReducerAC, resetToInitialByPageFormReducerAC,
+    checkIsReadyToSendByPageFormReducerAC,
+    resetToInitialByPageFormReducerAC,
     setIsValidFormReducerAC,
     seValueFormReducerAC
 } from "../../../redux/reducers/formState/formStateActionCreators";
 import {getFieldsByPageFormReducerSelector} from "../../../redux/reducers/formState/formStateSelectors";
 import {prepareFormStateByPageForSend} from "../../../redux/reducers/formState/formState";
 import AlertErrorFetching from "../../alertErrorFetching/alertErrorFetching";
+import useFetchState from "../../../hooks/useFetchState";
 
 
 type fieldTypes = "password" | "login" | "name" | string
@@ -38,7 +37,6 @@ const AuthorizationPopupBox = (props: PropsType) => {
     //------MAP-STATE-TO-PROPS-----//
     const isRegistration = useSelector(getIsRegistrationSelector)
     const isExistUser = useSelector(getIsExistUserSelector)
-    const isErrorFetchingAuthState = useSelector(getIsErrorFetchingAuthStateSelector)
     const isCorrectAuthData = useSelector(getIsCorrectAuthDataSelector)
     const isFetching = useSelector(getIsFetchingAuthStateSelector)
     const authFormState: any = useSelector((state) => getFieldsByPageFormReducerSelector(state, "authorization"))
@@ -84,7 +82,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
 
     //Функция возращает массив с конфигурацией для полей ввода
     const getInputsConfig = () => {
-        const {name = {}, login = {}, password = {}, phoneNumber = {}} = currentFormState
+        const {name = {}, login = {}, password = {}, phone = {}} = currentFormState
         return [
             {
                 field: "name",
@@ -103,8 +101,8 @@ const AuthorizationPopupBox = (props: PropsType) => {
                 label: "Номер телефона",
                 inputType: "number",
                 placeholder: "Введите ваш телефон",
-                value: phoneNumber.value,
-                isValid: phoneNumber.isValid,
+                value: phone.value,
+                isValid: phone.isValid,
                 className: "mb-4",
                 onBlurHandler: () => setIsValidFormReducer("phone"),
                 onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => onChangeHandler(event, "phone")
@@ -144,7 +142,6 @@ const AuthorizationPopupBox = (props: PropsType) => {
     return (
         <div className="authorization-popupBox position-relative">
             <h1 className={"authorization-popupBox__title"}>{!isRegistration ? "Вход" : "Регистрация"}</h1>
-            {isErrorFetchingAuthState && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Возникла ошибка!"}/>}
             {isExistUser && isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Такой логин уже используется!"}/>}
             {!isCorrectAuthData && !isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Введённые данные не верны!"}/>}
             <hr className={"my-3"}/>

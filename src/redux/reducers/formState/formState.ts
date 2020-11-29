@@ -60,9 +60,9 @@ const checkIsValid = (field: string, value: any) => {
         case "price":
             return !!value.length
         case "phone":
-            return value.match(/^(\+7|7|8)?[\s\-]?\(?[0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/)
+            return !!value.match(/^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/)
         case "sellerPhone":
-            return value.match(/^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}}$/)
+            return !!value.match(/^(\+7|7|8)?[\s\-]?\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/)
         case "category":
             console.log(JSON.stringify(value), JSON.stringify(initialStateCategory))
             return JSON.stringify(value) !== JSON.stringify(initialStateCategory)
@@ -97,7 +97,7 @@ const formStateReducer = (state = initialState, action: any) => {
         case SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER :
             const isValid = value !== null ? value : checkIsValid(field, stateByField.value)
             console.log("SET_IS_VALID_BY_PAGE_AND_FIELD_FORM_REDUCER", field, page, value)
-            return {...state, [page] : {...stateByPage, [field] : {...stateByField, isValid, isReadyToSend:false}} }
+            return {...state, [page] : {...stateByPage, [field] : {...stateByField, isValid}, isReadyToSend:false} }
         case SET_IS_READY_TO_SEND :
             console.log("SET_IS_READY_TO_SEND", page, value)
             return {...state, [page] : {...stateByPage, isReadyToSend:value} }
@@ -108,7 +108,7 @@ const formStateReducer = (state = initialState, action: any) => {
                 const {value} = stateByPage[field]
                 const isValid = checkIsValid(field, value)
                 if(!isValid) {
-                    console.log("ISVALID FALSE")
+                    console.log("ISVALID FALSE", value, field)
                     newState.isReadyToSend = false
                     newState[field].isValid = false
                 }
