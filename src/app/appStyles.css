@@ -135,6 +135,9 @@ a {
 }
 
 @media (max-width: 768px) {
+    .card-header {
+        height: 182px;
+    }
     .mobile {
         display: block!important;
     }
