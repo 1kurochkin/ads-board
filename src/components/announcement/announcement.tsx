@@ -8,7 +8,8 @@ type AnnouncementPropsType = {
     photos: Array<string>
     id: number
     name: string
-    categoryName: string
+    categoryName: string,
+    description:string,
     price: number
     creationDate: string
     station: string
@@ -18,7 +19,7 @@ type AnnouncementPropsType = {
 
 const Announcement = (props: AnnouncementPropsType) => {
 
-    const {photos = [], name, creationDate, categoryName, className, price, station, id} = props
+    const {photos = [], description, name, creationDate, categoryName, className, price, station, id} = props
 
 
   return (
@@ -29,6 +30,7 @@ const Announcement = (props: AnnouncementPropsType) => {
               <div className={"card-inner-wrapper d-flex flex-column justify-content-between"}>
                   <div className="card-body d-flex flex-column justify-content-between">
                       <h5 className="card-title text-primary">{name}</h5>
+                      <span className="text-dark mb-2">{description.length > 60 ? `${description.substr(0, 60)}...`: description}</span>
                       {price !== 0 && <h6 className="card-text text-dark">{`Цена: ${price} руб.`}</h6>}
                       <h6 className="card-text text-dark">{`Метро: ${station}`}</h6>
                   </div>
