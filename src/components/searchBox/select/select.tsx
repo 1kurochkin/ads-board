@@ -30,7 +30,7 @@ const Select = (props: any) => {
                        className={"select__current form-control dropdown-toggle w-100"}
                        value={value} type="text"/>
                 {/*<div className={"select__current-arrow"}>&darr;</div>*/}
-            <div style={{height:300, padding: 0}} className={`select__items dropdown-menu w-100 ${isActive && "show"} overflow-auto`}>
+            <div style={{height:300, padding: 0, overflowX: "hidden", overflowY: "scroll"}} className={`select__items dropdown-menu w-100 ${isActive && "show"}`}>
                 {selectItems.map((selectItem: any) =>
                     <SelectItem {...selectItem} isActive={selectItem["name"] === value}  onChangeHandler={(event:any) => onChangeHandlerSelectItem(selectItem, toggleIsActive)}/>)}
             </div>
