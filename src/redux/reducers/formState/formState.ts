@@ -35,6 +35,7 @@ const initialState = {
         description: defaultInitialStateForFormField,
         sellerPhone: defaultInitialStateForFormField,
         stationId: {value: initialStateSubway, isValid: true},
+        addedByUser: {value: true, isValid: true},
         isReadyToSend: false
     },
     settings : {
