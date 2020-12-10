@@ -45,7 +45,7 @@ const FeedPage = (props: any) => {
                         <h2 className="jumbotron p-2 pl-0">Последние объявления</h2>
                         <WithBadFetchingCasesWrapper>
                             {lastAnnouncements.map((lastAnnouncement: any) =>
-                                <Announcement className={"horizontalCard"} {...lastAnnouncement}/>)}
+                                <Announcement key={lastAnnouncement.id} className={"horizontalCard"} {...lastAnnouncement}/>)}
                         </WithBadFetchingCasesWrapper>
                         <CategoryNavigationButton category={"all"} configCategory={initialStateCategory}>
                             <Button svgIconName={"arrowRight"} className={"btn-success col-md-12 mt-4"} label={"Посмотерть все объявления"}/>

@@ -119,7 +119,7 @@ const AnnouncementsListPage = (props: any) => {
                     </h3>
                     <WithBadFetchingCasesWrapper>
                         {searchedData.map(({id, ...restMyAnnouncement}: any) =>
-                            <Announcement className={"horizontalCard"} id={id} {...restMyAnnouncement}/>)}
+                            <Announcement key={id} className={"horizontalCard"} id={id} {...restMyAnnouncement}/>)}
                     </WithBadFetchingCasesWrapper>
                     <ButtonUp/>
                 </div>

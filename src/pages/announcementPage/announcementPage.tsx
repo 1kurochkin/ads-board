@@ -45,6 +45,7 @@ const AnnouncementPage = (props: any) => {
     //----COMPONENT-DID-MOUNT-LIFECYCLE----//
     useEffect(() => {
         getAnnouncementById()
+        window.scrollTo(50, 50)
         return () => {
             resetToInitialAnnouncementState()
         }
