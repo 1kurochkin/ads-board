@@ -140,7 +140,7 @@ const AuthorizationPopupBox = (props: PropsType) => {
     }
 
     return (
-        <div className="authorization-popupBox position-relative">
+        <div className="authorization-popupBox modalWindow__popupBox position-relative overflow-auto">
             <h1 className={"authorization-popupBox__title"}>{!isRegistration ? "Вход" : "Регистрация"}</h1>
             {isExistUser && isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Такой логин уже используется!"}/>}
             {!isCorrectAuthData && !isRegistration && <AlertErrorFetching className={"p-1 pr-0"} alertText={"Введённые данные не верны!"}/>}

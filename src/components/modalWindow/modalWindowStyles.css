@@ -18,12 +18,12 @@
     visibility: visible;
 }
 
-.modalWindow__popupBox {
-    border-radius: 5px;
-    position: relative;
-    background-color: white;
-    padding: 30px 60px;
-}
+/*.modalWindow__popupBox {*/
+/*    border-radius: 5px;*/
+/*    position: relative;*/
+/*    background-color: white;*/
+/*    padding: 30px 60px;*/
+/*}*/
 
 .popup__close {
     position: absolute;

@@ -167,7 +167,6 @@ a {
     .desktop {
         display: none!important;
     }
-
     /*.createAnnouncement__params-photos-files-file {*/
     /*    height: 150px!important;*/
     /*    width: 46%!important;*/
@@ -182,4 +181,27 @@ a {
         height: 277px!important;
     }
 
+}
+@media (min-device-height: 738px) {
+    .modalWindow__popupBox {
+        height: 500px!important;
+    }
+}
+
+@media (max-device-height: 736px) {
+    .modalWindow__popupBox {
+        height: 600px!important;
+    }
+}
+
+@media (max-device-height: 668px) {
+    .modalWindow__popupBox {
+        height: 500px!important;
+    }
+}
+
+@media (max-device-height: 568px) {
+    .modalWindow__popupBox {
+        height: 400px!important;
+    }
 }
