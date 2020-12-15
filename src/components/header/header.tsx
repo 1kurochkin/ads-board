@@ -85,14 +85,14 @@ const Header = (props: any) => {
     </>
 
     return (
-        <div className="navbar justify-content-center navbar-dark d-flex flex-column flex-lg-row align-items-center bg-info">
-            <div className={"d-flex col-sm-12 justify-content-between justify-content-md-center col-md-1 mb-md-3 mb-lg-0 align-items-center "}>
+        <div className="navbar justify-content-center justify-content-xl-between navbar-dark d-flex flex-column flex-xl-row align-items-center bg-info">
+            <div className={"d-flex col-sm-12 justify-content-xl-start justify-content-between col-md-1 p-0 mb-md-3 mb-xl-0 align-items-center "}>
                 <Logo/>
                 <span style={{cursor: "pointer"}} onClick={() => setIsActiveMobileMenu(prevState => !prevState)}
                       className="navbar-toggler-icon mobile border rounded border-color-dark p-3"/>
             </div>
-            <div className={`d-flex header__menu flex-column flex-lg-row flex-fill col-sm-12 col-md-10 flex-md-column align-items-md-center flex-md-row p-0 justify-content-md-around ${isActiveMobileMenu && "header__show"}`}>
-                <NavBar className={"mb-md-3 mb-lg-0"}/>
+            <div className={`d-flex header__menu flex-column flex-xl-row flex-fill col-sm-12 col-md-11 flex-md-column align-items-md-center flex-md-row p-0 justify-content-md-around ${isActiveMobileMenu && "header__show"}`}>
+                <NavBar className={"mb-md-3 mb-xl-0"}/>
             <div className="d-flex align-items-md-center flex-column flex-md-row flex-grow-1 flex-md-grow-0">
                 {isAuth ? authMenu : <AuthorizationModalWindow alertCloseHandler={() => setIsActiveAuthModal(false)} isActiveFromProps={isActiveAuthModal}/>}
                 {isAuth ? linkToCreateAnnouncement("") : alertCreateAnnouncement()}
