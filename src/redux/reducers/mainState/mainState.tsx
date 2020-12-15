@@ -8,6 +8,7 @@ export const setItemToLocalStorage = (feild:string, value:any) => localStorage.s
 export const clearLocalStorage = () => localStorage.clear()
 
 export const SET_SUBWAY_STATIONS_DATA = "SET_SUBWAY_STATIONS_DATA"
+export const SET_IS_VISIBLE_CONTEST_BANNER = "SET_IS_VISIBLE_CONTEST_BANNER"
 export const RESET_TO_DEFAULT_STATE_ALL_REDUCERS = "RESET_TO_DEFAULT_STATE_ALL_REDUCERS"
 
 export const initialStateSubway = {id: "", name: "Все станции метро"}
@@ -38,7 +39,8 @@ const initialState = {
         }
     ],
     // apiService: testAPI,
-    apiService: serverAPI
+    apiService: serverAPI,
+    isVisibleContestBanner: () => !getItemFromLocalStorage("isVisibleContestBanner")
 }
 
 export const mainStateReducer = (state = initialState, action : any): initialStateType => {
@@ -53,6 +55,10 @@ export const mainStateReducer = (state = initialState, action : any): initialSta
         case RESET_TO_DEFAULT_STATE_ALL_REDUCERS :
             console.log("RESET_TO_DEFAULT_STATE_ALL_REDUCERS", value)
             return initialState
+        case SET_IS_VISIBLE_CONTEST_BANNER :
+            console.log("SET_IS_VISIBLE_CONTEST_BANNER", value)
+            setItemToLocalStorage("isVisibleContestBanner", value)
+            return state
         case LOCATION_CHANGE :
             console.log("LOCATION_CHANGE", payload)
             !pathname.includes(PATH_SEARCH) &&  window.scrollTo(0,50)

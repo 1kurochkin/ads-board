@@ -1,5 +1,6 @@
 export const getSubwayStationsDataSelector = (state: any) => state.mainState.subwayStationsData
 export const getCategoriesDataSelector = (state: any) => state.mainState.categoriesData
+export const getIsVisibleContestBannerSelector = (state: any) => state.mainState.isVisibleContestBanner()
 export const getTheSubCategoriesSelector = (categoriesData: Array<any>, activeClassName?: string) => {
     //Проверка содержит ли объект с категорией подкатегории
     const isIncludesSubCategory = (categoryData: Object) => "subCategories" in categoryData
