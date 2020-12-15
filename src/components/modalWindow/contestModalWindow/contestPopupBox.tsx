@@ -9,32 +9,29 @@ import {getMyAnnouncementsSelector} from "../../../redux/reducers/myAnnouncement
 import AuthorizationModalWindow from "../authorizationModalWindow/authorizationModalWindow";
 import AlertCreateAnnouncement from '../alertCreateAnnouncement/alertCreateAnnouncement';
 import {OKShareButton, OKIcon,  VKShareButton, FacebookShareButton, FacebookIcon, VKIcon} from "react-share";
-import giftPicture from "../../../pictures/gift.jpg"
 
 export type ContestPopupBoxTypes = {
     closeModalWindow?: (boolean:boolean | any) => void
 }
 
+const giftPicture = "https://salamkg.ru/api/photo/D4771AE61CCAB62E285BC8BBBE1E127C5E52C6C8962F061B48D41A5D11697E1B"
+
+console.log(giftPicture, "PICTUREEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 const ContestPopupBox = (props: ContestPopupBoxTypes) => {
 
     //------MAP-STATE-TO-PROPS-----//
     const isAuth = useSelector(getIsAuthSelector)
     const myAnnouncements = useSelector(getMyAnnouncementsSelector)
 
-    const onClickShare = () => {
-        console.log("onClickShare", "share" in navigator)
-        const shareData = {title: 'salamkg.ru - Доска объявлений', url: API_URL.substr(0, API_URL.length - 4)};
-    }
-
     const url = API_URL.substr(0, API_URL.length - 4)
     const shareComponents = [
-        <OKShareButton className={"ml-3"} url={url}>
+        <OKShareButton title={"Доска объявлений - salamkg.ru"} image={giftPicture} description={"Salam.ru – доска объявлений, на которой, есть возможность разместить объявления, либо найти себе жильё или работу."} className={"ml-3"} url={url}>
             <OKIcon size={36} />
         </OKShareButton>,
-        <VKShareButton className={"ml-3"} url={url}>
+        <VKShareButton title={"Доска объявлений - salamkg.ru"} image={giftPicture} className={"ml-3"} url={url}>
             <VKIcon size={36} />
         </VKShareButton>,
-        <FacebookShareButton className={"ml-3"} url={url}>
+        <FacebookShareButton title={"Доска объявлений - salamkg.ru"} className={"ml-3"} url={url}>
             <FacebookIcon size={36} />
         </FacebookShareButton>,
     ]
