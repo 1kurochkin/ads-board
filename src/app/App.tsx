@@ -8,9 +8,13 @@ import MyAnnouncementsPage from "../pages/myAnnouncementsPage/myAnnouncementsPag
 import CreateAnnouncement from "../pages/createAnnouncement/createAnnouncement";
 
 import {useDispatch, useSelector} from "react-redux";
-import {getSubwayStationsThunk, getUserInfoThunk} from "../redux/thunks/thunks";
+import {getMyAnnouncementsThunk, getSubwayStationsThunk, getUserInfoThunk} from "../redux/thunks/thunks";
 import AnnouncementsListPage from "../pages/announcementsListPage/announcementsListPage";
-import {getCategoriesDataSelector, getTheSubCategoriesSelector} from "../redux/reducers/mainState/mainStateSelectors";
+import {
+    getCategoriesDataSelector,
+    getIsVisibleContestBannerSelector,
+    getTheSubCategoriesSelector
+} from "../redux/reducers/mainState/mainStateSelectors";
 import {getIsAuthSelector} from "../redux/reducers/authorizationState/authorizationStateSelectors";
 import CooperationPage from "../pages/cooperationPage/cooperationPage";
 import Header from "../components/header/header";
@@ -19,6 +23,7 @@ import SupportPage from "../pages/supportPage/supportPage";
 import UnhandledRoutePage from "../pages/unhandledRoutePage/unhandledRoutePage";
 import getPicture from "../pictures/svgIcons";
 import ErrorFetchModalWindow from "../components/modalWindow/errorFetchModalWindow/errorFetchModalWindow";
+import ContestModalWindow from "../components/modalWindow/contestModalWindow/contestModalWindow";
 
 export const PATH_FEED = "/feed"
 export const PATH_MY_ANNOUNCEMENTS = "/myAnnouncements"
@@ -30,9 +35,9 @@ export const PATH_CONTACTS = "/contacts"
 export const PATH_COOPERATION = "/cooperation"
 export const PATH_SUPPORT = "/support"
 
-export const linkToCreateAnnouncement = (className: string) => <>
+export const linkToCreateAnnouncement = (className?: string) => <>
     <NavLink activeClassName={"active"}
-             className={`createAnnouncement__link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-lg-0 ${className}`}
+             className={`createAnnouncement__link btn btn-outline-light flex-grow-1 flex-shrink-03 flex-md-grow-0 my-3 my-xl-0 ${className}`}
              to={PATH_CREATE_ANNOUNCEMENT}>
         <span className={"mr-2"}>{getPicture("createAnnouncement")}</span>
         Разместить объявление
@@ -45,19 +50,26 @@ const App = () => {
     const categoriesData = useSelector((state) =>
         getTheSubCategoriesSelector(getCategoriesDataSelector(state)))
     const isAuth = useSelector(getIsAuthSelector)
+    const isVisibleContestBanner = useSelector(getIsVisibleContestBannerSelector)
 
     //-----MAP-DISPATCH-TO-PROPS----//
     const dispatch = useDispatch()
     const getSubwayStations = useCallback(() => dispatch(getSubwayStationsThunk()), [dispatch])
     const getUserData = useCallback(() => dispatch(getUserInfoThunk()), [dispatch])
+    const getMyAnnouncements = useCallback(() => dispatch(getMyAnnouncementsThunk()), [dispatch])
 
     useEffect(() => {
         getSubwayStations()
         isAuth && getUserData()
     }, [])
 
+    useEffect(() => {
+        isAuth && getMyAnnouncements()
+    }, [isAuth])
+
     return (
         <div className="App bg-light fullHeightContent">
+            <ContestModalWindow isActiveFromProps={isVisibleContestBanner}/>
             <ErrorFetchModalWindow/>
             <Header/>
             <Switch>
