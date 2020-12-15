@@ -28,8 +28,8 @@ const AnnouncementPage = (props: any) => {
     } = useSelector(getAnnouncementSelector)
 
     useSetMetaTitleAndDescription(
-        name,
-        `Страница объявления ${name} на Salam.ru`
+        `${name} на ${station} от ${contactName}`,
+        `${description}`
     )
 
     //------CATCH-PARAMS-FROM-URL-----//
@@ -72,7 +72,8 @@ const AnnouncementPage = (props: any) => {
                     {price !== 0 &&
                     <h3 className="announcementPage__info-price bg-warning p-2 m-0 text-left">{`Цена: ${price} руб.`}</h3>}
                     <hr className="my-lg-4 my-3"/>
-                    <h5 className="announcementPage__info-location text-left alert alert-warning">{`Метро: ${station}`}</h5>
+                    {station &&
+                    <h5 className="announcementPage__info-location text-left alert alert-warning">{`Метро: ${station}`}</h5>}
                     <hr className="my-lg-4 my-3"/>
                     <div className="announcementPage__info-inner-wrapper alert alert-success">
                         <h5 className="announcementPage__info-name text-left">Продавец: {contactName}</h5>
