@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import "./appStyles.css"
 import {NavLink, Redirect, Route, Switch} from 'react-router-dom';
 import FeedPage from "../pages/feedPage/feedPage";
@@ -58,6 +58,13 @@ const App = () => {
     const getUserData = useCallback(() => dispatch(getUserInfoThunk()), [dispatch])
     const getMyAnnouncements = useCallback(() => dispatch(getMyAnnouncementsThunk()), [dispatch])
 
+    //-----LOCAL-STATE----//
+    const [isVisibleContestBannerLocalState, setIsVisibleContestBanner] = useState(false)
+
+    useEffect(() => {
+        setTimeout(() => setIsVisibleContestBanner(isVisibleContestBanner), 4000)
+    }, [isVisibleContestBanner])
+
     useEffect(() => {
         getSubwayStations()
         isAuth && getUserData()
@@ -69,7 +76,7 @@ const App = () => {
 
     return (
         <div className="App bg-light fullHeightContent">
-            <ContestModalWindow isActiveFromProps={isVisibleContestBanner}/>
+            <ContestModalWindow isActiveFromProps={isVisibleContestBannerLocalState}/>
             <ErrorFetchModalWindow/>
             <Header/>
             <Switch>
