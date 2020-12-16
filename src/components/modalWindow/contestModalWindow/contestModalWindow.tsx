@@ -1,11 +1,8 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import ModalWindow from "../modalWindow";
 import ContestPopupBox from "./contestPopupBox";
-import {useDispatch, useSelector} from "react-redux";
-import {getMyAnnouncementsThunk, getSubwayStationsThunk} from "../../../redux/thunks/thunks";
+import {useDispatch} from "react-redux";
 import {setIsVisibleContestBannerAC} from "../../../redux/reducers/mainState/mainStateActionCreators";
-import {getIsAuthSelector} from "../../../redux/reducers/authorizationState/authorizationStateSelectors";
-import {getMyAnnouncementsSelector} from "../../../redux/reducers/myAnnouncementState/myAnnouncementStateSelectors";
 
 export type ContestModalWindowTypes = {
   openBtnElement?: any

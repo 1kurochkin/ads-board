@@ -9,6 +9,8 @@ import {getMyAnnouncementsSelector} from "../../../redux/reducers/myAnnouncement
 import AuthorizationModalWindow from "../authorizationModalWindow/authorizationModalWindow";
 import AlertCreateAnnouncement from '../alertCreateAnnouncement/alertCreateAnnouncement';
 import {OKShareButton, OKIcon,  VKShareButton, FacebookShareButton, FacebookIcon, VKIcon} from "react-share";
+import giftPictureStatic from "../../../pictures/gift.jpg"
+
 
 export type ContestPopupBoxTypes = {
     closeModalWindow?: (boolean:boolean | any) => void
@@ -16,7 +18,6 @@ export type ContestPopupBoxTypes = {
 
 const giftPicture = "https://salamkg.ru/api/photo/D4771AE61CCAB62E285BC8BBBE1E127C5E52C6C8962F061B48D41A5D11697E1B"
 
-console.log(giftPicture, "PICTUREEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 const ContestPopupBox = (props: ContestPopupBoxTypes) => {
 
     //------MAP-STATE-TO-PROPS-----//
@@ -58,7 +59,7 @@ const ContestPopupBox = (props: ContestPopupBoxTypes) => {
                     </span><br/>
                     Победитель определится случайным образом 31 декабря в 20:00 по Московскому времени
                 </p>
-                <Picture className={"mb-4"} styles={{height: "200px"}} photo={giftPicture}/>
+                <Picture className={"mb-4"} styles={{height: "200px"}} photo={giftPictureStatic}/>
                 <NavLink onClick={() => closeModalWindow(true)} className={"btn btn-success"} to={PATH_CREATE_ANNOUNCEMENT}>
                     Разместить объявление
                 </NavLink>
