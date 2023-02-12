@@ -1,1 +1,1 @@
-# Follow to https://flexwappa.github.io/ads-board/
+# Follow to https://1kurochkin.github.io/ads-board/
